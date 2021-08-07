@@ -2,7 +2,7 @@ from django.db import models
 
 class TaxonomyBaseInfo(models.Model):
     name = models.CharField(max_length=100, help_text='Enter the scientific name')
-    common_name = models.CharField(max_length=100, help_text='Enter the common name')
+    common_name = models.CharField(max_length=100, null=True, blank=True, help_text='Enter the common name')
     authority = models.CharField(max_length=100, help_text='Enter the authority')
 
     class Meta:
