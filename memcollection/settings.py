@@ -39,8 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'rest-framework',
-    'django_filters'
+    'rest-framework',
+    'django_filters',
+    'taxonomy.apps.TaxonomyConfig'
 ]
 
 MIDDLEWARE = [
