@@ -55,7 +55,7 @@ class Species(TaxonomyBaseInfo):
     genus = models.ForeignKey(Genus, on_delete=models.CASCADE,
         help_text='Select the genus to which this species belongs')
     mona = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True,
-        help_text='Enter the MONA (Hodges) # for the species (Lepidoptera only')
+        help_text='Enter the MONA (Hodges) # for the species (Lepidoptera only)')
     p3 = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True,
         help_text='Enter the P3 (Pohl, Patterson, Pelham 2016) # for the species (Lepidoptera only)')
     
