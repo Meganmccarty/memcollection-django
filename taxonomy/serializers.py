@@ -14,7 +14,7 @@ class FamilySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Family
-        fields = ('id', 'order', 'name', 'common_name', 'authority', 'subfamilies')
+        fields = ('id', 'name', 'common_name', 'authority', 'order', 'subfamilies')
 
 class SubfamilySerializer(serializers.ModelSerializer):
     family = serializers.CharField(source='family.name')
@@ -22,7 +22,7 @@ class SubfamilySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Subfamily
-        fields = ('id', 'family', 'name', 'common_name', 'authority', 'tribes')
+        fields = ('id', 'name', 'common_name', 'authority', 'family', 'tribes')
 
 class TribeSerializer(serializers.ModelSerializer):
     subfamily = serializers.CharField(source='subfamily.name')
@@ -30,7 +30,7 @@ class TribeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tribe
-        fields = ('id', 'subfamily', 'name', 'common_name', 'authority', 'genera')
+        fields = ('id', 'name', 'common_name', 'authority', 'subfamily', 'genera')
 
 class GenusSerializer(serializers.ModelSerializer):
     tribe = serializers.CharField(source='tribe.name')
@@ -38,7 +38,7 @@ class GenusSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Genus
-        fields = ('id', 'tribe', 'name', 'common_name', 'authority', 'species')
+        fields = ('id', 'name', 'common_name', 'authority', 'tribe', 'species')
 
 class SpeciesSerializer(serializers.ModelSerializer):
     genus = serializers.CharField(source='genus.name')
@@ -46,11 +46,11 @@ class SpeciesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Species
-        fields = ('id', 'genus', 'name', 'common_name', 'authority', 'mona', 'p3', 'subspecies')
+        fields = ('id', 'name', 'common_name', 'authority', 'mona', 'p3', 'genus', 'subspecies')
 
 class SubspeciesSerializer(serializers.ModelSerializer):
     species = serializers.CharField(source='species.name')
 
     class Meta:
         model = Subspecies
-        fields = ('id', 'species', 'name', 'common_name', 'authority', 'mona', 'p3')
+        fields = ('id', 'name', 'common_name', 'authority', 'mona', 'p3', 'species')
