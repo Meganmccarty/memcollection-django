@@ -38,6 +38,12 @@ class TestTaxonomyModels(TestCase):
             common_name='Test Species Common Name',
             authority='Test Species Authority'
         )
+        Subspecies.objects.create(
+            species=species,
+            name='Test Subspecies Name',
+            common_name='Test Subspecies Common Name',
+            authority='Test Subspecies Authority'
+        )
     def test_subclasses_order_model_base(self):
         self.assertTrue(issubclass(Order, TaxonomyBaseInfo))
     
@@ -55,6 +61,9 @@ class TestTaxonomyModels(TestCase):
     
     def test_subclasses_species_model_base(self):
         self.assertTrue(issubclass(Species, TaxonomyBaseInfo))
+    
+    def test_subclasses_subspecies_model_base(self):
+        self.assertTrue(issubclass(Subspecies, TaxonomyBaseInfo))
     
     def test_order_model_str(self):
         order = Order.objects.get(id=1)
@@ -79,3 +88,7 @@ class TestTaxonomyModels(TestCase):
     def test_species_model_str(self):
         species = Species.objects.get(id=1)
         self.assertEqual(str(species), 'Test Species Name')
+    
+    def test_subspecies_model_str(self):
+        subspecies = Subspecies.objects.get(id=1)
+        self.assertEqual(str(subspecies), 'Test Subspecies Name')
