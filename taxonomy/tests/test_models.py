@@ -1,14 +1,29 @@
 from django.test import TestCase
 from taxonomy.models import *
 
-class OrderTest(TestCase):
-    @classmethod
+class TestTaxonomyModels(TestCase):
     def setUp(self):
-        Order.objects.create(name='Test Order', common_name='Test Common Name', authority='Test Authority')
-    
-    def test_subclasses_model_base(self):
+        order = Order.objects.create(
+            name='Test Order Name',
+            common_name='Test Order Common Name',
+            authority='Test Order Authority'
+        )
+        family = Family.objects.create(
+            order=order,
+            name='Test Family Name',
+            common_name='Test Family Common Name',
+            authority='Test Family Authority'
+        )
+    def test_subclasses_order_model_base(self):
         self.assertTrue(issubclass(Order, TaxonomyBaseInfo))
     
-    def test_model_str(self):
-        taxon = Order.objects.get(id=1)
-        self.assertEqual(str(taxon), 'Test Order')
+    def test_subclasses_family_model_base(self):
+        self.assertTrue(issubclass(Family, TaxonomyBaseInfo))
+    
+    def test_order_model_str(self):
+        order = Order.objects.get(id=1)
+        self.assertEqual(str(order), 'Test Order Name')
+    
+    def test_family_model_str(self):
+        family = Family.objects.get(id=1)
+        self.assertEqual(str(family), 'Test Family Name')
