@@ -26,6 +26,12 @@ class TestTaxonomyModels(TestCase):
             common_name='Test Tribe Common Name',
             authority='Test Tribe Authority'
         )
+        genus = Genus.objects.create(
+            tribe=tribe,
+            name='Test Genus Name',
+            common_name='Test Genus Common Name',
+            authority='Test Genus Authority'
+        )
     def test_subclasses_order_model_base(self):
         self.assertTrue(issubclass(Order, TaxonomyBaseInfo))
     
@@ -37,6 +43,9 @@ class TestTaxonomyModels(TestCase):
     
     def test_subclasses_tribe_model_base(self):
         self.assertTrue(issubclass(Tribe, TaxonomyBaseInfo))
+    
+    def test_subclasses_genus_model_base(self):
+        self.assertTrue(issubclass(Genus, TaxonomyBaseInfo))
     
     def test_order_model_str(self):
         order = Order.objects.get(id=1)
@@ -53,3 +62,7 @@ class TestTaxonomyModels(TestCase):
     def test_tribe_model_str(self):
         tribe = Tribe.objects.get(id=1)
         self.assertEqual(str(tribe), 'Test Tribe Name')
+    
+    def test_genus_model_str(self):
+        genus = Genus.objects.get(id=1)
+        self.assertEqual(str(genus), 'Test Genus Name')
