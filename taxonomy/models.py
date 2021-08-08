@@ -16,6 +16,7 @@ class Order(TaxonomyBaseInfo):
 
 class Family(TaxonomyBaseInfo):
     order = models.ForeignKey(Order, on_delete=models.CASCADE,
+        related_name='families',
         help_text='Select the order to which this family belongs')
     
     class Meta:
@@ -26,6 +27,7 @@ class Family(TaxonomyBaseInfo):
 
 class Subfamily(TaxonomyBaseInfo):
     family = models.ForeignKey(Family, on_delete=models.CASCADE,
+        related_name='subfamilies',
         help_text='Select the family to which this subfamily belongs')
     
     class Meta:
@@ -36,6 +38,7 @@ class Subfamily(TaxonomyBaseInfo):
 
 class Tribe(TaxonomyBaseInfo):
     subfamily = models.ForeignKey(Subfamily, on_delete=models.CASCADE,
+        related_name='tribes',
         help_text='Select the subfamily to which this tribe belongs')
     
     def __str__(self):
@@ -43,6 +46,7 @@ class Tribe(TaxonomyBaseInfo):
 
 class Genus(TaxonomyBaseInfo):
     tribe = models.ForeignKey(Tribe, on_delete=models.CASCADE,
+        related_name='genera',
         help_text='Select the tribe to which this genus belongs')
     
     class Meta:
@@ -53,6 +57,7 @@ class Genus(TaxonomyBaseInfo):
 
 class Species(TaxonomyBaseInfo):
     genus = models.ForeignKey(Genus, on_delete=models.CASCADE,
+        related_name='species',
         help_text='Select the genus to which this species belongs')
     mona = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True,
         help_text='Enter the MONA (Hodges) # for the species (Lepidoptera only)')
@@ -67,6 +72,7 @@ class Species(TaxonomyBaseInfo):
 
 class Subspecies(TaxonomyBaseInfo):
     species = models.ForeignKey(Species, on_delete=models.CASCADE,
+        related_name='subspecies',
         help_text='Select the species to which this subspecies belongs')
     mona = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True,
         help_text='Enter the MONA (Hodges) # for the subspecies (Lepidoptera only). ' \
