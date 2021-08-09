@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'django_filters',
-    'taxonomy.apps.TaxonomyConfig'
+    'taxonomy.apps.TaxonomyConfig',
+    'geography.apps.GeographyConfig'
 ]
 
 MIDDLEWARE = [
