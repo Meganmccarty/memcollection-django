@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.db.models.fields import DecimalField
 
 class Country(models.Model):
@@ -45,15 +47,14 @@ class County(models.Model):
         return f'{self.name}'
 
 class Locality(models.Model):
-    country = models.ForeignKey(Country, on_delete=models.CASCADE,
-        related_name='localities', null=True, blank=True, 
-        help_text='Select the locality\'s country')
-    state = models.ForeignKey(State, on_delete=models.CASCADE,
-        related_name='states', null=True, blank=True,
-        help_text='Select the locality\'s state')
-    county = models.ForeignKey(County, on_delete=models.CASCADE,
-        related_name='counties', null=True, blank=True,
-        help_text='Select the locality\'s county')
+    content_type = models.ForeignKey(ContentType, limit_choices_to={
+        'model__in': (
+            'country',
+            'state',
+            'county')
+        }, on_delete=models.CASCADE, default='')
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
     name = models.CharField(max_length=100, help_text='Enter the locality\'s name')
     range = models.CharField(max_length=10, blank=True,
         help_text='Enter the distance and direction of this locality from the nearest town')
@@ -63,12 +64,18 @@ class Locality(models.Model):
         ordering = ['name']
         verbose_name_plural = 'Localities'
     
+    def range_and_town(self):
+        if self.range:
+            return f'{self.range} {self.town}'
+        else:
+            return f'{self.town}'
+
     def __str__(self):
         return f'{self.name}'
 
 class GPS(models.Model):
     locality = models.ForeignKey(Locality, on_delete=models.CASCADE,
-        related_name='GPS_coordinates', help_text='Select the locality for this set of coordinates')
+        related_name='places_collected', help_text='Select the locality for this set of coordinates')
     latitude = models.DecimalField(max_digits=10, decimal_places=8, help_text='Enter the latitude')
     longitude = models.DecimalField(max_digits=11, decimal_places=8, help_text='Enter the longitude')
     elevation = models.DecimalField(max_digits=6, decimal_places=2, help_text='Enter the elevation in meters')
@@ -94,7 +101,7 @@ class GPS(models.Model):
 
 class CollectingTrip(models.Model):
     name = models.CharField(max_length=50, help_text='Enter a name for the trip')
-    states = models.ManyToManyField(State)
+    states = models.ManyToManyField(State, related_name='collecting_trips')
     start_date = models.DateField()
     end_date = models.DateField()
     notes = models.TextField(blank=True)
