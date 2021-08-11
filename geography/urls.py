@@ -11,5 +11,6 @@ urlpatterns = [
     path('api/geography/states', views.StateList.as_view()),
     path('api/geography/counties', views.CountyList.as_view()),
     path('api/geography/localities', views.LocalityList.as_view()),
-    path('api/geography/gps-coordinates', views.GPSList.as_view())
+    path('api/geography/gps-coordinates', views.GPSList.as_view()),
+    path('api/geography/collecting-trips', views.CollectingTripList.as_view())
 ]
