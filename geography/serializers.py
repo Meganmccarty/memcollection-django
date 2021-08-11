@@ -24,14 +24,16 @@ class CountySerializer(serializers.ModelSerializer):
 
 class StateSerializer(serializers.ModelSerializer):
     counties = CountySerializer(many=True)
+    localities = LocalitySerializer(many=True)
 
     class Meta:
         model = State
-        fields = ('id', 'name', 'abbr', 'counties')
+        fields = ('id', 'name', 'abbr', 'counties', 'localities')
 
 class CountrySerializer(serializers.ModelSerializer):
     states = StateSerializer(many=True)
+    localities = LocalitySerializer(many=True)
 
     class Meta:
         model = Country
-        fields = ('id', 'name', 'abbr', 'states')
+        fields = ('id', 'name', 'abbr', 'states', 'localities')
