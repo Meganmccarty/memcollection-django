@@ -19,6 +19,6 @@ from django.conf.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('taxonomy.urls')),
-    path('', include('geography.urls'))
+    path('api/taxonomy/', include('taxonomy.urls')),
+    path('api/geography/', include('geography.urls'))
 ]
