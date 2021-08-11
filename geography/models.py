@@ -1,11 +1,11 @@
 from django.db import models
-from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
-from django.db.models.fields import DecimalField
 
 class Country(models.Model):
     name = models.CharField(max_length=50, help_text='Enter the name of the country')
     abbr = models.CharField(max_length=10, help_text='Enter the country\'s abbreviation')
+    localities = GenericRelation('Locality')
 
     class Meta:
         ordering = ['name']
@@ -19,6 +19,7 @@ class State(models.Model):
         related_name='states', help_text='Select the state\'s country')
     name = models.CharField(max_length=50, help_text='Enter the name of the state')
     abbr = models.CharField(max_length=10, help_text='Enter the state\'s abbrevation')
+    localities = GenericRelation('Locality')
 
     class Meta:
         ordering = ['name']
@@ -30,6 +31,7 @@ class County(models.Model):
     state = models.ForeignKey(State, on_delete=models.CASCADE,
         related_name='counties', help_text='Select the county\'s state')
     name = models.CharField(max_length=50, help_text='Enter the name of the county')
+    localities = GenericRelation('Locality')
     
     class Meta:
         ordering = ['name']
@@ -55,7 +57,7 @@ class Locality(models.Model):
         }, on_delete=models.CASCADE, default='')
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
-    name = models.CharField(max_length=100, help_text='Enter the locality\'s name')
+    name = models.CharField(max_length=100, help_text='Enter the locality\'s name', blank=True)
     range = models.CharField(max_length=10, blank=True,
         help_text='Enter the distance and direction of this locality from the nearest town')
     town = models.CharField(max_length=50, blank=True, help_text='Enter the nearest town')
@@ -71,7 +73,10 @@ class Locality(models.Model):
             return f'{self.town}'
 
     def __str__(self):
-        return f'{self.name}'
+        if self.name:
+            return f'{self.name}'
+        else:
+            return f'{self.town}'
 
 class GPS(models.Model):
     locality = models.ForeignKey(Locality, on_delete=models.CASCADE,
