@@ -18,8 +18,8 @@ class CountyAdmin(admin.ModelAdmin):
 
 @admin.register(Locality)
 class LocalityAdmin(admin.ModelAdmin):
-    list_display = ('name', 'range', 'town', 'county', 'state', 'country')
-    fields = ('country', 'state', 'county', 'name', 'range', 'town')
+    list_display = ('name', 'range', 'town')
+    fields = ('content_type', 'object_id', 'name', 'range', 'town')
 
 @admin.register(GPS)
 class GPSAdmin(admin.ModelAdmin):
