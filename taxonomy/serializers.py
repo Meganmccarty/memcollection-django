@@ -1,56 +1,50 @@
 from rest_framework import serializers
 from taxonomy.models import *
 
+class SubspeciesSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Subspecies
+        fields = ('id', 'name', 'common_name', 'authority', 'mona', 'p3')
+
+class SpeciesSerializer(serializers.ModelSerializer):
+    subspecies = SubspeciesSerializer(many=True)
+
+    class Meta:
+        model = Species
+        fields = ('id', 'name', 'common_name', 'authority', 'mona', 'p3', 'subspecies')
+
+class GenusSerializer(serializers.ModelSerializer):
+    species = SpeciesSerializer(many=True)
+
+    class Meta:
+        model = Genus
+        fields = ('id', 'name', 'common_name', 'authority', 'species')
+
+class TribeSerializer(serializers.ModelSerializer):
+    genera = GenusSerializer(many=True)
+
+    class Meta:
+        model = Tribe
+        fields = ('id', 'name', 'common_name', 'authority', 'genera')
+
+class SubfamilySerializer(serializers.ModelSerializer):
+    tribes = TribeSerializer(many=True)
+
+    class Meta:
+        model = Subfamily
+        fields = ('id', 'name', 'common_name', 'authority', 'tribes')
+
+class FamilySerializer(serializers.ModelSerializer):
+    subfamilies = SubfamilySerializer(many=True)
+
+    class Meta:
+        model = Family
+        fields = ('id', 'name', 'common_name', 'authority', 'subfamilies')
+
 class OrderSerializer(serializers.ModelSerializer):
-    families = serializers.StringRelatedField(many=True)
+    families = FamilySerializer(many=True)
 
     class Meta:
         model = Order
         fields = ('id', 'name', 'common_name', 'authority', 'families')
-
-class FamilySerializer(serializers.ModelSerializer):
-    order = serializers.CharField(source='order.name')
-    subfamilies = serializers.StringRelatedField(many=True)
-
-    class Meta:
-        model = Family
-        fields = ('id', 'name', 'common_name', 'authority', 'order', 'subfamilies')
-
-class SubfamilySerializer(serializers.ModelSerializer):
-    family = serializers.CharField(source='family.name')
-    tribes = serializers.StringRelatedField(many=True)
-
-    class Meta:
-        model = Subfamily
-        fields = ('id', 'name', 'common_name', 'authority', 'family', 'tribes')
-
-class TribeSerializer(serializers.ModelSerializer):
-    subfamily = serializers.CharField(source='subfamily.name')
-    genera = serializers.StringRelatedField(many=True)
-
-    class Meta:
-        model = Tribe
-        fields = ('id', 'name', 'common_name', 'authority', 'subfamily', 'genera')
-
-class GenusSerializer(serializers.ModelSerializer):
-    tribe = serializers.CharField(source='tribe.name')
-    species = serializers.StringRelatedField(many=True)
-
-    class Meta:
-        model = Genus
-        fields = ('id', 'name', 'common_name', 'authority', 'tribe', 'species')
-
-class SpeciesSerializer(serializers.ModelSerializer):
-    genus = serializers.CharField(source='genus.name')
-    subspecies = serializers.StringRelatedField(many=True)
-
-    class Meta:
-        model = Species
-        fields = ('id', 'name', 'common_name', 'authority', 'mona', 'p3', 'genus', 'subspecies')
-
-class SubspeciesSerializer(serializers.ModelSerializer):
-    species = serializers.CharField(source='species.name')
-
-    class Meta:
-        model = Subspecies
-        fields = ('id', 'name', 'common_name', 'authority', 'mona', 'p3', 'species')
