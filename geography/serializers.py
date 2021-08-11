@@ -37,3 +37,10 @@ class CountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Country
         fields = ('id', 'name', 'abbr', 'states', 'localities')
+
+class CollectingTripSerializer(serializers.ModelSerializer):
+    states = serializers.StringRelatedField(many=True)
+
+    class Meta:
+        model = CollectingTrip
+        fields = ('id', 'name', 'states', 'start_date', 'end_date', 'notes')
