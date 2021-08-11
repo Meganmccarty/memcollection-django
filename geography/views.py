@@ -22,3 +22,8 @@ class LocalityList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Locality.objects.all()
     serializer_class = LocalitySerializer
+
+class GPSList(generics.ListCreateAPIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    queryset = GPS.objects.all()
+    serializer_class = GPSSerializer
