@@ -27,3 +27,8 @@ class GPSList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = GPS.objects.all()
     serializer_class = GPSSerializer
+
+class CollectingTripList(generics.ListCreateAPIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    queryset = CollectingTrip.objects.all()
+    serializer_class = CollectingTripSerializer
