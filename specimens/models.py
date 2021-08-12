@@ -157,5 +157,13 @@ class SpecimenRecord(models.Model):
     def get_not_null_field(self, field):
         return self.field if self.field else ''
     
+    DEGREE_SIGN= u'\N{DEGREE SIGN}'
+    def temp_F(self):
+        return f'{self.temperature}{self.DEGREE_SIGN}F'
+
+    def temp_C(self):
+        celsius = (self.temperature - 32) * 5/9
+        return f'{celsius}{self.DEGREE_SIGN}C'
+
     def __str__(self):
         return f'{self.usi}'
