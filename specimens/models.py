@@ -23,6 +23,10 @@ class Person(models.Model):
     def full_name(self):
         return f'{self.first_name} {self.get_middle_initial()} {self.last_name}{self.get_suffix()}'
 
+    def collector_name(self):
+        first_initial = self.first_name[0]
+        return f'{first_initial}. {self.get_middle_initial()} {self.last_name}{self.get_suffix()}'
+
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
 
@@ -160,7 +164,7 @@ class SpecimenRecord(models.Model):
         return self.field if self.field else ''
     
     def display_collectors(self):
-        return ', '.join([str(collector) for collector in self.collector.all()])
+        return ', '.join([str(collector.collector_name()) for collector in self.collector.all()])
 
     DEGREE_SIGN= u'\N{DEGREE SIGN}'
     def temp_F(self):
