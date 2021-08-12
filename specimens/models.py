@@ -53,9 +53,9 @@ class SpecimenRecord(models.Model):
     
     # Specimen details
     SEX = (
-        ('M', 'male'),
-        ('F', 'female'),
-        ('U', 'unknown'),
+        ('male', 'male'),
+        ('female', 'female'),
+        ('unknown', 'unknown'),
     )
     STAGE = (
         ('egg', 'egg'),
@@ -78,7 +78,7 @@ class SpecimenRecord(models.Model):
     determiner = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='specimen_determiners',
         help_text='Select the person who determined the specimen')
     determined_year = models.IntegerField()
-    sex = models.CharField(max_length=1, choices=SEX, default='U',
+    sex = models.CharField(max_length=10, choices=SEX, default='unknown',
         help_text='Select the specimen\'s sex')
     stage = models.CharField(max_length=10, choices=STAGE, default='adult',
         help_text='Select the specimen\'s stage')
