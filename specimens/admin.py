@@ -8,7 +8,7 @@ class PersonAdmin(admin.ModelAdmin):
 
 @admin.register(SpecimenRecord)
 class SpecimenRecordAdmin(admin.ModelAdmin):
-    list_display = ('usi', 'species', 'locality', 'year', 'display_collectors', 'temp_C', 'temp_F')
+    list_display = ('usi', 'taxon', 'authority', 'common_name', 'mona', 'p3', 'locality', 'year', 'display_collectors', 'temp_C', 'temp_F')
     fieldsets = (
         ('Specimen Details', {
             'fields': [
