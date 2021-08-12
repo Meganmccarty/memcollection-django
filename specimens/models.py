@@ -163,6 +163,85 @@ class SpecimenRecord(models.Model):
     def get_not_null_field(self, field):
         return self.field if self.field else ''
     
+    def get_taxon(self, field):
+        return field
+    
+    def get_authority(self, field):
+        return field.authority
+    
+    def get_common_name(self, field):
+        return field.common_name
+    
+    def get_mona(self, field):
+        return field.mona
+    
+    def get_p3(self, field):
+        return field.p3
+    
+    def taxon(self):
+        if self.subspecies:
+            return f'{self.get_taxon(self.genus)} {self.get_taxon(self.species)} {self.get_taxon(self.subspecies)}'
+        elif self.species:
+            return f'{self.get_taxon(self.genus)} {self.get_taxon(self.species)}'
+        elif self.genus:
+            return self.get_taxon(self.genus)
+        elif self.tribe:
+            return self.get_taxon(self.tribe)
+        elif self.subfamily:
+            return self.get_taxon(self.subfamily)
+        elif self.family:
+            return self.get_taxon(self.family)
+        else:
+            return self.get_taxon(self.order)
+    
+    def authority(self):
+        if self.subspecies:
+            return self.get_authority(self.subspecies)
+        elif self.species:
+            return self.get_authority(self.species)
+        elif self.genus:
+            return self.get_authority(self.genus)
+        elif self.tribe:
+            return self.get_authority(self.tribe)
+        elif self.subfamily:
+            return self.get_authority(self.subfamily)
+        elif self.family:
+            return self.get_authority(self.family)
+        else:
+            return self.get_authority(self.order)
+    
+    def common_name(self):
+        if self.subspecies:
+            return self.get_common_name(self.subspecies)
+        elif self.species:
+            return self.get_common_name(self.species)
+        elif self.genus:
+            return self.get_common_name(self.genus)
+        elif self.tribe:
+            return self.get_common_name(self.tribe)
+        elif self.subfamily:
+            return self.get_common_name(self.subfamily)
+        elif self.family:
+            return self.get_common_name(self.family)
+        else:
+            return self.get_common_name(self.order)
+    
+    def mona(self):
+        if self.subspecies:
+            return self.get_mona(self.subspecies)
+        elif self.species:
+            return self.get_mona(self.species)
+        else:
+            return ''
+    
+    def p3(self):
+        if self.subspecies:
+            return self.get_p3(self.subspecies)
+        elif self.species:
+            return self.get_p3(self.species)
+        else:
+            return ''
+    
     def display_collectors(self):
         return ', '.join([str(collector.collector_name()) for collector in self.collector.all()])
 
