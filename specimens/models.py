@@ -150,3 +150,12 @@ class SpecimenRecord(models.Model):
     habitat = models.TextField(null=True, blank=True,
         help_text='Enter habitat details where the specimen was collected')
     notes = models.TextField(null=True, blank=True, help_text='Enter any other notes about the specimen')
+
+    class Meta:
+        ordering = ['usi']
+    
+    def get_not_null_field(self, field):
+        return self.field if self.field else ''
+    
+    def __str__(self):
+        return f'{self.usi}'
