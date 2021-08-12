@@ -139,6 +139,8 @@ class SpecimenRecord(models.Model):
         help_text='Select the month the specimen was collected, if known')
     year = models.IntegerField(null=True, blank=True,
         help_text='Enter the year the specimen was collected, if known')
+    collector = models.ManyToManyField(Person, verbose_name='Collector(s)', related_name='specimen_collectors',
+        help_text='Select the specimen\'s collector(s)')
     method = models.CharField(max_length=20, null=True, blank=True,
         help_text='Select the method used to collected the specimen')
     weather = models.CharField(max_length=100, null=True, blank=True,
@@ -157,6 +159,9 @@ class SpecimenRecord(models.Model):
     def get_not_null_field(self, field):
         return self.field if self.field else ''
     
+    def display_collectors(self):
+        return ', '.join([str(collector) for collector in self.collector.all()])
+
     DEGREE_SIGN= u'\N{DEGREE SIGN}'
     def temp_F(self):
         return f'{self.temperature}{self.DEGREE_SIGN}F'
