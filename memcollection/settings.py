@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'taxonomy.apps.TaxonomyConfig',
-    'geography.apps.GeographyConfig'
+    'geography.apps.GeographyConfig',
+    'specimens.apps.SpecimensConfig'
 ]
 
 MIDDLEWARE = [
