@@ -265,3 +265,21 @@ class SpecimenRecord(models.Model):
 
     def __str__(self):
         return f'{self.usi}'
+
+class SpecimenRecordImage(models.Model):
+    image = models.FileField(upload_to='specimen-photos')
+    usi = models.ForeignKey(SpecimenRecord, on_delete=models.CASCADE,
+        help_text='Select the specimen in the image')
+    
+    POSITION = (
+        ('dorsal', 'dorsal'),
+        ('ventral', 'ventral'),
+        ('lateral', 'lateral'),
+    )
+
+    position = models.CharField(max_length=10, choices=POSITION, default='dorsal',
+        help_text='Select the view of the specimen in the image')
+    date = models.DateField(help_text='Enter the date the image was taken')
+
+    def __str__(self):
+        return f'{self.usi}'
