@@ -20,15 +20,12 @@ class Person(models.Model):
     def get_suffix(self):
         return f', {self.suffix}' if self.suffix else ''
 
-    def full_name(self):
-        return f'{self.first_name} {self.get_middle_initial()} {self.last_name}{self.get_suffix()}'
-
     def collector_name(self):
         first_initial = self.first_name[0]
         return f'{first_initial}. {self.get_middle_initial()} {self.last_name}{self.get_suffix()}'
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.first_name} {self.get_middle_initial()} {self.last_name}{self.get_suffix()}'
 
 class SpecimenRecord(models.Model):
     # MEM number
