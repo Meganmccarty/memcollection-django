@@ -99,7 +99,7 @@ class GPS(models.Model):
         return self.elevation.normalize()
 
     def elevation_and_meters(self):
-        return f'{self.elevation}m'
+        return f'{self.normalize_elevation()}m'
 
     def __str__(self):
         return f'{self.normalize_latitude()} {self.normalize_longitude()}'
