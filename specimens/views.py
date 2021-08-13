@@ -7,3 +7,8 @@ class SpecimenRecordList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = SpecimenRecord.objects.all()
     serializer_class = SpecimenRecordSerializer
+
+class SpecimenRecordImageList(generics.ListCreateAPIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    queryset = SpecimenRecordImage.objects.all()
+    serializer_class = SpecimenRecordImageSerializer
