@@ -2,6 +2,14 @@ from rest_framework import serializers
 from specimens.models import *
 
 class SpecimenRecordSerializer(serializers.ModelSerializer):
+    order = serializers.StringRelatedField(source='order.name')
+    family = serializers.StringRelatedField(source='family.name')
+    subfamily = serializers.StringRelatedField(source='subfamily.name')
+    tribe = serializers.StringRelatedField(source='tribe.name')
+    genus = serializers.StringRelatedField(source='genus.name')
+    species = serializers.StringRelatedField(source='species.name')
+    subspecies = serializers.StringRelatedField(source='subspecies.name')
+
     determiner = serializers.StringRelatedField(source='determiner.__str__')
     preparer = serializers.StringRelatedField(source='preparer.__str__')
     collector = serializers.StringRelatedField(many=True)
@@ -10,6 +18,13 @@ class SpecimenRecordSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'usi',
+            'order',
+            'family',
+            'subfamily',
+            'tribe',
+            'genus',
+            'species',
+            'subspecies',
             'taxon',
             'authority',
             'common_name',
