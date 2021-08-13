@@ -161,19 +161,19 @@ class SpecimenRecord(models.Model):
         return field if field else ''
     
     def get_taxon(self, field):
-        return field
+        return f'{self.get_not_null_field(field)}'
     
     def get_authority(self, field):
-        return field.authority
+        return f'{self.get_not_null_field(field.authority)}'
     
     def get_common_name(self, field):
-        return field.common_name
+        return f'{self.get_not_null_field(field.common_name)}'
     
     def get_mona(self, field):
-        return field.mona
+        return f'{self.get_not_null_field(field.mona)}'
     
     def get_p3(self, field):
-        return field.p3
+        return f'{self.get_not_null_field(field.p3)}'
     
     def taxon(self):
         if self.subspecies:
@@ -255,11 +255,13 @@ class SpecimenRecord(models.Model):
 
     DEGREE_SIGN= u'\N{DEGREE SIGN}'
     def temp_F(self):
-        return f'{self.temperature}{self.DEGREE_SIGN}F'
+        if self.temperature:
+            return f'{self.temperature}{self.DEGREE_SIGN}F'
 
     def temp_C(self):
-        celsius = (self.temperature - 32) * 5/9
-        return f'{celsius}{self.DEGREE_SIGN}C'
+        if self.temperature:
+            celsius = (self.temperature - 32) * 5/9
+            return f'{celsius}{self.DEGREE_SIGN}C'
 
     def __str__(self):
         return f'{self.usi}'
