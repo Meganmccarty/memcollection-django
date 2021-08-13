@@ -13,6 +13,15 @@ class SpecimenRecordSerializer(serializers.ModelSerializer):
     determiner = serializers.StringRelatedField(source='determiner.__str__')
     preparer = serializers.StringRelatedField(source='preparer.__str__')
     collector = serializers.StringRelatedField(many=True)
+
+    country = serializers.StringRelatedField(source='country.name')
+    state = serializers.StringRelatedField(source='state.name')
+    county = serializers.StringRelatedField(source='county.name')
+    locality = serializers.StringRelatedField(source='locality.name')
+    latitude = serializers.StringRelatedField(source='gps.normalize_latitude')
+    longitude = serializers.StringRelatedField(source='gps.normalize_longitude')
+    elevation = serializers.StringRelatedField(source='gps.elevation_and_meters')
+
     class Meta:
         model = SpecimenRecord
         fields = (
@@ -46,7 +55,9 @@ class SpecimenRecordSerializer(serializers.ModelSerializer):
             'state',
             'county',
             'locality',
-            'gps',
+            'latitude',
+            'longitude',
+            'elevation',
             'collected_date',
             'full_date',
             'display_collectors',
