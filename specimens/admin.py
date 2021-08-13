@@ -25,3 +25,7 @@ class SpecimenRecordAdmin(admin.ModelAdmin):
             ]
         }),
     )
+
+@admin.register(SpecimenRecordImage)
+class SpecimenRecordImageAdmin(admin.ModelAdmin):
+    list_display = ('usi', 'image')
