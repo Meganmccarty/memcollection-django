@@ -161,7 +161,7 @@ class SpecimenRecord(models.Model):
         ordering = ['usi']
     
     def get_not_null_field(self, field):
-        return self.field if self.field else ''
+        return field if field else ''
     
     def get_taxon(self, field):
         return field
@@ -242,6 +242,17 @@ class SpecimenRecord(models.Model):
         else:
             return ''
     
+    def collected_date(self):
+        if self.day:
+            return f'{self.day}-{self.month[0:3]}-{self.year}'
+        elif self.month:
+            return f'{self.month} {self.year}'
+        else:
+            return f'{self.year}'
+    
+    def full_date(self):
+        return f'{self.get_not_null_field(self.day)} {self.get_not_null_field(self.month)} {self.get_not_null_field(self.year)}'
+
     def display_collectors(self):
         return ', '.join([str(collector.collector_name()) for collector in self.collector.all()])
 
