@@ -70,3 +70,16 @@ class SpecimenRecordSerializer(serializers.ModelSerializer):
             'habitat',
             'notes'
         )
+
+class SpecimenRecordImageSerializer(serializers.ModelSerializer):
+    usi = serializers.StringRelatedField(source='usi.usi')
+
+    class Meta:
+        model = SpecimenRecordImage
+        fields = (
+            'id',
+            'usi',
+            'image',
+            'position',
+            'date'
+        )
