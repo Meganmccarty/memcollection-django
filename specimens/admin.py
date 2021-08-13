@@ -3,12 +3,13 @@ from specimens.models import *
 
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
-    list_display = ['full_name']
+    list_display = ['last_name', 'first_name']
     fields = ('first_name', 'middle_initial', 'last_name', 'suffix')
 
 @admin.register(SpecimenRecord)
 class SpecimenRecordAdmin(admin.ModelAdmin):
-    list_display = ('usi', 'taxon', 'authority', 'common_name', 'mona', 'p3', 'locality', 'year', 'display_collectors', 'temp_C', 'temp_F')
+    list_display = ('usi', 'taxon', 'common_name', 'collecting_trip', 'country', 'state', 'county',
+        'locality', 'collected_date', 'display_collectors')
     fieldsets = (
         ('Specimen Details', {
             'fields': [
