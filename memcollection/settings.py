@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'storages',
     'taxonomy.apps.TaxonomyConfig',
     'geography.apps.GeographyConfig',
-    'specimens.apps.SpecimensConfig'
+    'specimens.apps.SpecimensConfig',
+    'pages.apps.PagesConfig'
 ]
 
 MIDDLEWARE = [
