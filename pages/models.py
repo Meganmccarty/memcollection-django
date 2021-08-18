@@ -18,6 +18,12 @@ class SpeciesPage(models.Model):
     class Meta:
         ordering = ['species']
     
+    def get_binomial(self):
+        return f'{self.species.genus.name} {self.species.name}'
+    
+    def display_refs(self):
+        return ', '.join([str(references.title) for references in self.references.all()])
+    
     def __str__(self):
         return f'{self.species} page'
 
@@ -26,4 +32,4 @@ class Reference(models.Model):
     citation = RichTextField()
 
     def __str__(self):
-        return f'{self.title}'
+        return f'{self.citation}'
