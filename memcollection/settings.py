@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'storages',
+    'ckeditor',
     'taxonomy.apps.TaxonomyConfig',
     'geography.apps.GeographyConfig',
     'specimens.apps.SpecimensConfig',
