@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from rest_framework import generics, permissions
+from pages.models import SpeciesPage
+from pages.serializers import SpeciesPageSerializer
 
-# Create your views here.
+class SpeciesPageList(generics.ListCreateAPIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    queryset = SpeciesPage.objects.all()
+    serializer_class = SpeciesPageSerializer
