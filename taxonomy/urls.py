@@ -1,12 +1,13 @@
-from django.urls import path
-from taxonomy import views
+from rest_framework import routers
+from taxonomy.views import *
 
-urlpatterns = [
-    path('orders/', views.OrderList.as_view()),
-    path('families/', views.FamilyList.as_view()),
-    path('subfamilies/', views.SubfamilyList.as_view()),
-    path('tribes/', views.TribeList.as_view()),
-    path('genera/', views.GenusList.as_view()),
-    path('species/', views.SpeciesList.as_view()),
-    path('subspecies/', views.SubspeciesList.as_view())
-]
+router = routers.DefaultRouter()
+router.register(r'orders', OrderViewSet)
+router.register(r'families', FamilyViewSet)
+router.register(r'subfamilies', SubfamilyViewSet)
+router.register(r'tribes', TribeViewSet)
+router.register(r'genera', GenusViewSet)
+router.register(r'species', SpeciesViewSet)
+router.register(r'subspecies', SubspeciesViewSet)
+
+urlpatterns = router.urls
