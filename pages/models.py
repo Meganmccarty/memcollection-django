@@ -25,7 +25,7 @@ class SpeciesPage(models.Model):
         return ', '.join([str(references.title) for references in self.references.all()])
     
     def __str__(self):
-        return f'{self.species} page'
+        return f'{self.species.genus.name} {self.species} page'
 
 class Reference(models.Model):
     title = models.CharField(max_length=50)
