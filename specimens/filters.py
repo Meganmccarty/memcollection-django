@@ -1,5 +1,5 @@
 from django_filters import rest_framework as filters
-from specimens.models import SpecimenRecord
+from specimens.models import SpecimenRecord, SpecimenRecordImage
 
 class SpecimenRecordFilter(filters.FilterSet):
     order = filters.CharFilter(field_name='order__name', lookup_expr='icontains')
@@ -69,4 +69,14 @@ class SpecimenRecordFilter(filters.FilterSet):
             'time_of_day',
             'habitat',
             'notes'
+        ]
+
+class SpecimenRecordImageFilter(filters.FilterSet):
+    usi = filters.CharFilter(field_name='usi__usi', lookup_expr='icontains')
+
+    class Meta:
+        model = SpecimenRecordImage
+        fields = [
+            'usi',
+            'position'
         ]
