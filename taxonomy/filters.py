@@ -48,7 +48,7 @@ class SpeciesFilter(filters.FilterSet):
     p3 = filters.CharFilter(field_name='p3', lookup_expr='icontains')
 
     class Meta:
-        model = Order
+        model = Species
         fields = ['name', 'common_name', 'mona', 'p3']
 
 class SubspeciesFilter(filters.FilterSet):
