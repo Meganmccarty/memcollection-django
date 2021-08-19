@@ -22,5 +22,6 @@ urlpatterns = [
     path('api/taxonomy/', include('taxonomy.urls')),
     path('api/geography/', include('geography.urls')),
     path('api/specimens/', include('specimens.urls')),
-    path('api/pages/', include('pages.urls'))
+    path('api/pages/', include('pages.urls')),
+    path('api/images/', include('images.urls'))
 ]
