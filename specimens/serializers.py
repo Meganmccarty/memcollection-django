@@ -14,6 +14,7 @@ class SpecimenRecordSerializer(serializers.ModelSerializer):
     preparer = serializers.StringRelatedField(source='preparer.__str__')
     collector = serializers.StringRelatedField(many=True)
 
+    collecting_trip = serializers.StringRelatedField(source='collecting_trip.name')
     country = serializers.StringRelatedField(source='country.name')
     state = serializers.StringRelatedField(source='state.name')
     county = serializers.StringRelatedField(source='county.name')
