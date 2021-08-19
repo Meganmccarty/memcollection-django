@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from images.serializers import InsectImageSerializer
 from taxonomy.models import *
 
 class SubspeciesSerializer(serializers.ModelSerializer):
@@ -9,10 +10,11 @@ class SubspeciesSerializer(serializers.ModelSerializer):
 
 class SpeciesSerializer(serializers.ModelSerializer):
     subspecies = SubspeciesSerializer(many=True)
+    insect_images = InsectImageSerializer(many=True)
 
     class Meta:
         model = Species
-        fields = ('id', 'name', 'common_name', 'authority', 'mona', 'p3', 'subspecies')
+        fields = ('id', 'name', 'common_name', 'authority', 'mona', 'p3', 'subspecies', 'insect_images')
 
 class GenusSerializer(serializers.ModelSerializer):
     species = SpeciesSerializer(many=True)
