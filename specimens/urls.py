@@ -1,7 +1,8 @@
-from django.urls import path
-from specimens import views
+from rest_framework import routers
+from specimens.views import *
 
-urlpatterns = [
-    path('specimen-records/', views.SpecimenRecordList.as_view()),
-    path('specimen-record-images/', views.SpecimenRecordImageList.as_view())
-]
+router = routers.DefaultRouter()
+router.register(r'specimen-records', SpecimenRecordViewSet)
+router.register(r'specimen-record-images', SpecimenRecordImageViewSet)
+
+urlpatterns = router.urls
