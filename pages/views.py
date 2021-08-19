@@ -1,8 +1,7 @@
-from rest_framework import generics, permissions
+from rest_framework import viewsets
 from pages.models import SpeciesPage
 from pages.serializers import SpeciesPageSerializer
 
-class SpeciesPageList(generics.ListCreateAPIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+class SpeciesPageViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = SpeciesPage.objects.all()
     serializer_class = SpeciesPageSerializer

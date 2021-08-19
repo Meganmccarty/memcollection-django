@@ -1,6 +1,7 @@
-from django.urls import path
-from pages import views
+from rest_framework import routers
+from pages.views import *
 
-urlpatterns = [
-    path('species-pages/', views.SpeciesPageList.as_view())
-]
+router = routers.DefaultRouter()
+router.register(r'species-pages', SpeciesPageViewSet)
+
+urlpatterns = router.urls
