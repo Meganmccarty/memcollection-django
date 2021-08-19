@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'taxonomy.apps.TaxonomyConfig',
     'geography.apps.GeographyConfig',
     'specimens.apps.SpecimensConfig',
-    'pages.apps.PagesConfig'
+    'pages.apps.PagesConfig',
+    'images.apps.ImagesConfig'
 ]
 
 REST_FRAMEWORK = {
