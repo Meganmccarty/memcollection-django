@@ -1,11 +1,12 @@
-from django.urls import path
-from geography import views
+from rest_framework import routers
+from geography.views import *
 
-urlpatterns = [
-    path('countries/', views.CountryList.as_view()),
-    path('states/', views.StateList.as_view()),
-    path('counties/', views.CountyList.as_view()),
-    path('localities/', views.LocalityList.as_view()),
-    path('places-collected/', views.GPSList.as_view()),
-    path('collecting-trips/', views.CollectingTripList.as_view())
-]
+router = routers.DefaultRouter()
+router.register(r'countries', CountryViewSet)
+router.register(r'states', StateViewSet)
+router.register(r'counties', CountyViewSet)
+router.register(r'localities', LocalityViewSet)
+router.register(r'gps-coordinates', GPSViewSet)
+router.register(r'collecting-trips', CollectingTripViewSet)
+
+urlpatterns = router.urls
