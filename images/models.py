@@ -63,7 +63,7 @@ class InsectImage(BaseImage):
         ordering = ['name']
 
     def __str__(self):
-        return f'{self.title}'
+        return f'{self.name}'
     
 class PlantImage(BaseImage):
     image = models.FileField(upload_to='plant-photos')
