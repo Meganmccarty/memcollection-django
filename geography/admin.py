@@ -18,12 +18,12 @@ class CountyAdmin(admin.ModelAdmin):
 
 @admin.register(Locality)
 class LocalityAdmin(admin.ModelAdmin):
-    list_display = ('name', 'range', 'town')
+    list_display = ('name', 'range', 'town', 'content_type')
     fields = ('content_type', 'object_id', 'name', 'range', 'town')
 
 @admin.register(GPS)
 class GPSAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'locality', 'normalize_elevation')
+    list_display = ('__str__', 'locality', 'elevation_and_meters')
     fields = ('locality', 'latitude', 'longitude', 'elevation')
 
 @admin.register(CollectingTrip)
