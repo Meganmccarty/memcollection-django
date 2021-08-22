@@ -4,10 +4,10 @@ from taxonomy.models import *
 
 class Person(models.Model):
     first_name = models.CharField(max_length=50, help_text='Enter the person\'s first name')
-    middle_initial = models.CharField(max_length=1, blank=True,
+    middle_initial = models.CharField(max_length=1, null=True, blank=True,
         help_text='Enter the person\'s middle initial')
     last_name = models.CharField(max_length=50, help_text='Enter the person\'s last name')
-    suffix = models.CharField(max_length=5, blank=True,
+    suffix = models.CharField(max_length=5, null=True, blank=True,
         help_text='Enter a suffix, if the person has one')
     
     class Meta:
@@ -73,21 +73,21 @@ class SpecimenRecord(models.Model):
 
     # Specimen fields
     determiner = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='specimen_determiners',
-        help_text='Select the person who determined the specimen')
-    determined_year = models.IntegerField()
-    sex = models.CharField(max_length=10, choices=SEX, default='unknown',
+        null=True, help_text='Select the person who determined the specimen')
+    determined_year = models.IntegerField(null=True, help_text='Enter the year the determination was made')
+    sex = models.CharField(max_length=10, null=True, choices=SEX, default='unknown',
         help_text='Select the specimen\'s sex')
-    stage = models.CharField(max_length=10, choices=STAGE, default='adult',
+    stage = models.CharField(max_length=10, null=True, choices=STAGE, default='adult',
         help_text='Select the specimen\'s stage')
     preparer = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='specimen_preparers',
-        help_text='Select the person who prepared the specimen')
-    preparation = models.CharField(max_length=15, choices=PREPARATION_TYPE, default='spread',
+        null=True, help_text='Select the person who prepared the specimen')
+    preparation = models.CharField(null=True, max_length=15, choices=PREPARATION_TYPE, default='spread',
         help_text='Select the specimen\'s preparation type')
     preparation_date = models.DateField(null=True, blank=True, help_text='Enter the preparation date')
-    labels_printed = models.BooleanField(help_text='Are labels printed for the specimen?')
-    labeled = models.BooleanField(help_text='Is the specimen labeled?')
-    photographed = models.BooleanField(help_text='Is the specimen photographed?')
-    identified = models.BooleanField(help_text='Is the specimen identified to at least species?')
+    labels_printed = models.BooleanField(null=True, help_text='Are labels printed for the specimen?')
+    labeled = models.BooleanField(null=True, help_text='Is the specimen labeled?')
+    photographed = models.BooleanField(null=True, help_text='Is the specimen photographed?')
+    identified = models.BooleanField(null=True, help_text='Is the specimen identified to at least species?')
 
     # Geography fields
     collecting_trip = models.ForeignKey(CollectingTrip, on_delete=models.SET_NULL, related_name='specimens',
@@ -129,6 +129,7 @@ class SpecimenRecord(models.Model):
         ('UV light', 'UV light'),
         ('UV light sheet', 'UV light sheet'),
         ('UV/MV light sheet', 'UV/MV light sheet'),
+        ('UV/MV/LED light sheet', 'UV/MV/LED light sheet'),
         ('bait', 'bait'),
         ('by hand', 'by hand'),
         ('sweep', 'sweep'),
@@ -142,7 +143,7 @@ class SpecimenRecord(models.Model):
         help_text='Enter the year the specimen was collected, if known')
     collector = models.ManyToManyField(Person, verbose_name='Collector(s)', related_name='specimen_collectors',
         help_text='Select the specimen\'s collector(s)')
-    method = models.CharField(max_length=20, null=True, blank=True,
+    method = models.CharField(max_length=50, null=True, blank=True,
         help_text='Select the method used to collected the specimen')
     weather = models.CharField(max_length=100, null=True, blank=True,
         help_text='Enter the weather conditions during the specimen\'s collection')
@@ -188,8 +189,10 @@ class SpecimenRecord(models.Model):
             return f'{self.get_taxon(self.subfamily)}'
         elif self.family:
             return f'{self.get_taxon(self.family)}'
-        else:
+        elif self.order:
             return f'{self.get_taxon(self.order)}'
+        else:
+            return ''
     
     def authority(self):
         if self.subspecies:
@@ -204,8 +207,10 @@ class SpecimenRecord(models.Model):
             return f'{self.get_authority(self.subfamily)}'
         elif self.family:
             return f'{self.get_authority(self.family)}'
-        else:
+        elif self.order:
             return f'{self.get_authority(self.order)}'
+        else:
+            return ''
     
     def common_name(self):
         if self.subspecies:
@@ -220,8 +225,10 @@ class SpecimenRecord(models.Model):
             return f'{self.get_common_name(self.subfamily)}'
         elif self.family:
             return f'{self.get_common_name(self.family)}'
-        else:
+        elif self.order:
             return f'{self.get_common_name(self.order)}'
+        else:
+            return ''
     
     def mona(self):
         if self.subspecies:
