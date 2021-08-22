@@ -57,10 +57,10 @@ class Locality(models.Model):
         }, on_delete=models.CASCADE, default='')
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
-    name = models.CharField(max_length=100, help_text='Enter the locality\'s name', blank=True)
-    range = models.CharField(max_length=10, blank=True,
+    name = models.CharField(max_length=100, help_text='Enter the locality\'s name', null=True, blank=True)
+    range = models.CharField(max_length=10, null=True, blank=True,
         help_text='Enter the distance and direction of this locality from the nearest town')
-    town = models.CharField(max_length=50, blank=True, help_text='Enter the nearest town')
+    town = models.CharField(max_length=50, null=True, blank=True, help_text='Enter the nearest town')
 
     class Meta:
         ordering = ['name']
@@ -81,25 +81,27 @@ class Locality(models.Model):
 class GPS(models.Model):
     locality = models.ForeignKey(Locality, on_delete=models.CASCADE,
         related_name='places_collected', help_text='Select the locality for this set of coordinates')
-    latitude = models.DecimalField(max_digits=10, decimal_places=8, help_text='Enter the latitude')
-    longitude = models.DecimalField(max_digits=11, decimal_places=8, help_text='Enter the longitude')
-    elevation = models.DecimalField(max_digits=6, decimal_places=2, help_text='Enter the elevation in meters')
+    latitude = models.DecimalField(max_digits=10, decimal_places=8, null=True,
+        blank=True, help_text='Enter the latitude')
+    longitude = models.DecimalField(max_digits=11, decimal_places=8, null=True,
+        blank=True, help_text='Enter the longitude')
+    elevation = models.CharField(max_length=15, help_text='Enter the elevation in meters')
 
     class Meta:
         ordering = ['latitude', 'longitude']
         verbose_name_plural = 'GPS coordinates'
     
     def normalize_latitude(self):
-        return self.latitude.normalize()
+        if self.latitude:
+            return self.latitude.normalize()
     
     def normalize_longitude(self):
-        return self.longitude.normalize()
-
-    def normalize_elevation(self):
-        return self.elevation.normalize()
+        if self.longitude:
+            return self.longitude.normalize()
 
     def elevation_and_meters(self):
-        return f'{self.normalize_elevation()}m'
+        if self.elevation:
+            return f'{self.elevation}m'
 
     def __str__(self):
         return f'{self.normalize_latitude()} {self.normalize_longitude()}'
@@ -109,7 +111,7 @@ class CollectingTrip(models.Model):
     states = models.ManyToManyField(State, related_name='collecting_trips')
     start_date = models.DateField()
     end_date = models.DateField()
-    notes = models.TextField(blank=True)
+    notes = models.TextField(null=True, blank=True)
 
     class Meta:
         ordering = ['name']
