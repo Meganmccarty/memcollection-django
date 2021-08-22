@@ -7,9 +7,11 @@ class TaxonomyBaseInfo(models.Model):
 
     class Meta:
         abstract = True
-        ordering = ['name']
 
 class Order(TaxonomyBaseInfo):
+
+    class Meta:
+        ordering = ['name']
 
     def __str__(self):
         return f'{self.name}'
@@ -20,6 +22,7 @@ class Family(TaxonomyBaseInfo):
         help_text='Select the order to which this family belongs')
     
     class Meta:
+        ordering = ['name']
         verbose_name_plural = 'Families'
 
     def __str__(self):
@@ -31,6 +34,7 @@ class Subfamily(TaxonomyBaseInfo):
         help_text='Select the family to which this subfamily belongs')
     
     class Meta:
+        ordering = ['name']
         verbose_name_plural = 'Subfamilies'
     
     def __str__(self):
@@ -41,6 +45,9 @@ class Tribe(TaxonomyBaseInfo):
         related_name='tribes',
         help_text='Select the subfamily to which this tribe belongs')
     
+    class Meta:
+        ordering = ['name']
+
     def __str__(self):
         return f'{self.name}'
 
@@ -50,6 +57,7 @@ class Genus(TaxonomyBaseInfo):
         help_text='Select the tribe to which this genus belongs')
     
     class Meta:
+        ordering = ['name']
         verbose_name_plural = 'Genera'
     
     def __str__(self):
@@ -65,8 +73,12 @@ class Species(TaxonomyBaseInfo):
         help_text='Enter the P3 (Pohl, Patterson, Pelham 2016) # for the species (Lepidoptera only)')
     
     class Meta:
+        ordering = ['name']
         verbose_name_plural = 'Species'
     
+    def get_binomial(self):
+        return f'{self.genus.name} {self.name}'
+
     def __str__(self):
         return f'{self.name}'
 
@@ -82,7 +94,11 @@ class Subspecies(TaxonomyBaseInfo):
         'If it lacks its own P3 #, use the nominate species\' #')
     
     class Meta:
+        ordering = ['name']
         verbose_name_plural = 'Subspecies'
     
+    def get_trinomial(self):
+        return f'{self.species.genus.name} {self.species.name} {self.name}'
+
     def __str__(self):
         return f'{self.name}'
