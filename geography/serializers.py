@@ -1,46 +1,35 @@
-from rest_framework import serializers
-from geography.models import *
+from serpy import Serializer, IntField, StrField, FloatField, Field
 
-class GPSSerializer(serializers.ModelSerializer):
-    locality = serializers.CharField(source='locality.name')
+class GPSSerializer(Serializer):
+    id = IntField()
+    latitude = FloatField(required=False)
+    longitude = FloatField(required=False)
+    elevation = StrField()
 
-    class Meta:
-        model = GPS
-        fields = ('id', 'locality', 'latitude', 'longitude', 'elevation')
+class LocalitySerializer(Serializer):
+    id = IntField()
+    name = StrField()
+    range_and_town = Field(call=True, required=False)
+    # places_collected = GPSSerializer(many=True, attr="places_collected.all", call=True, required=False)
 
-class LocalitySerializer(serializers.ModelSerializer):
-    places_collected = GPSSerializer(many=True)
-    
-    class Meta:
-        model = Locality
-        fields = ('id', 'name', 'range_and_town', 'places_collected')
+class CountySerializer(Serializer):
+    id = IntField()
+    name = StrField()
 
-class CountySerializer(serializers.ModelSerializer):
-    localities = LocalitySerializer(many=True)
+class StateSerializer(Serializer):
+    id = IntField()
+    name = StrField()
+    abbr = StrField()
 
-    class Meta:
-        model = County
-        fields = ('id', 'name', 'localities')
+class CountrySerializer(Serializer):
+    id = IntField()
+    name = StrField()
+    abbr = StrField()
 
-class StateSerializer(serializers.ModelSerializer):
-    counties = CountySerializer(many=True)
-    localities = LocalitySerializer(many=True)
-
-    class Meta:
-        model = State
-        fields = ('id', 'name', 'abbr', 'counties', 'localities')
-
-class CountrySerializer(serializers.ModelSerializer):
-    states = StateSerializer(many=True)
-    localities = LocalitySerializer(many=True)
-
-    class Meta:
-        model = Country
-        fields = ('id', 'name', 'abbr', 'states', 'localities')
-
-class CollectingTripSerializer(serializers.ModelSerializer):
-    states = serializers.StringRelatedField(many=True)
-
-    class Meta:
-        model = CollectingTrip
-        fields = ('id', 'name', 'states', 'start_date', 'end_date', 'notes')
+class CollectingTripSerializer(Serializer):
+    id = IntField()
+    name = StrField()
+    states = StateSerializer(many=True, attr="states.all", call=True)
+    start_date = StrField()
+    end_date = StrField()
+    notes = StrField()
