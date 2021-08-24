@@ -5,7 +5,10 @@ from specimens.filters import *
 from specimens.serializers import *
 
 class SpecimenRecordViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = SpecimenRecord.objects.all()
+    queryset = SpecimenRecord.objects.prefetch_related(
+        'order', 'family', 'subfamily', 'tribe', 'genus', 'species', 'subspecies',
+        'collecting_trip', 'country', 'state', 'county', 'locality', 'gps',
+        'determiner', 'preparer', 'collector').all()
     serializer_class = SpecimenRecordSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = SpecimenRecordFilter
