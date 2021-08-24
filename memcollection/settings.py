@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django_filters',
     'storages',
     'ckeditor',
+    'django_extensions',
     'taxonomy.apps.TaxonomyConfig',
     'geography.apps.GeographyConfig',
     'specimens.apps.SpecimensConfig',
