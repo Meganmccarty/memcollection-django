@@ -1,4 +1,5 @@
 from django.db import models
+from ckeditor.fields import RichTextField
 from geography.models import *
 from taxonomy.models import *
 
@@ -151,9 +152,9 @@ class SpecimenRecord(models.Model):
         help_text='Enter the temperature (F) during the specimen\'s collection if outdoors')
     time_of_day = models.CharField(max_length=50, null=True, blank=True,
         help_text='Enter the approximate time of the specimen\'s collection')
-    habitat = models.TextField(null=True, blank=True,
+    habitat = RichTextField(null=True, blank=True,
         help_text='Enter habitat details where the specimen was collected')
-    notes = models.TextField(null=True, blank=True, help_text='Enter any other notes about the specimen')
+    notes = RichTextField(null=True, blank=True, help_text='Enter any other notes about the specimen')
 
     class Meta:
         ordering = ['usi']
