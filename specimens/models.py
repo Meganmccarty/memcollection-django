@@ -263,12 +263,12 @@ class SpecimenRecord(models.Model):
     DEGREE_SIGN= u'\N{DEGREE SIGN}'
     def temp_F(self):
         if self.temperature:
-            return f'{self.temperature}{self.DEGREE_SIGN}F'
+            return f'{round(self.temperature, 1)}{self.DEGREE_SIGN}F'
 
     def temp_C(self):
         if self.temperature:
             celsius = (self.temperature - 32) * 5/9
-            return f'{celsius}{self.DEGREE_SIGN}C'
+            return f'{round(celsius, 1)}{self.DEGREE_SIGN}C'
 
     def __str__(self):
         return f'{self.usi}'
@@ -276,7 +276,7 @@ class SpecimenRecord(models.Model):
 class SpecimenRecordImage(models.Model):
     image = models.FileField(upload_to='specimen-photos')
     usi = models.ForeignKey(SpecimenRecord, on_delete=models.CASCADE,
-        help_text='Select the specimen in the image')
+        related_name='specimen_images', help_text='Select the specimen in the image')
     
     POSITION = (
         ('dorsal', 'dorsal'),
@@ -287,6 +287,10 @@ class SpecimenRecordImage(models.Model):
     position = models.CharField(max_length=10, choices=POSITION, default='dorsal',
         help_text='Select the view of the specimen in the image')
     date = models.DateField(help_text='Enter the date the image was taken')
+
+    def get_image_url(self):
+        image = self.image
+        return f'{image.url}'
 
     def __str__(self):
         return f'{self.usi}'
