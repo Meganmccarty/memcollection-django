@@ -1,4 +1,5 @@
 from django.db import models
+from ckeditor.fields import RichTextField
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 
@@ -111,7 +112,7 @@ class CollectingTrip(models.Model):
     states = models.ManyToManyField(State, related_name='collecting_trips')
     start_date = models.DateField()
     end_date = models.DateField()
-    notes = models.TextField(null=True, blank=True)
+    notes = RichTextField(null=True, blank=True)
 
     class Meta:
         ordering = ['name']
