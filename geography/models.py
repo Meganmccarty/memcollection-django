@@ -2,6 +2,7 @@ from django.db import models
 from ckeditor.fields import RichTextField
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
+from django.template.defaultfilters import slugify
 
 class Country(models.Model):
     name = models.CharField(max_length=50, help_text='Enter the name of the country')
@@ -110,6 +111,7 @@ class GPS(models.Model):
 class CollectingTrip(models.Model):
     name = models.CharField(max_length=50, help_text='Enter a name for the trip')
     states = models.ManyToManyField(State, related_name='collecting_trips')
+    slug = models.SlugField(default='', null=True, blank=True)
     start_date = models.DateField()
     end_date = models.DateField()
     notes = RichTextField(null=True, blank=True)
@@ -123,3 +125,7 @@ class CollectingTrip(models.Model):
     
     def __str__(self):
         return f'{self.name}'
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(CollectingTrip, self).save(*args, **kwargs)
