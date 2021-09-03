@@ -23,7 +23,7 @@ class Person(models.Model):
 
     def collector_name(self):
         first_initial = self.first_name[0]
-        return f'{first_initial}. {self.get_middle_initial()} {self.last_name}{self.get_suffix()}'
+        return f'{first_initial}. {self.last_name}{self.get_suffix()}'
 
     def __str__(self):
         return f'{self.first_name} {self.get_middle_initial()} {self.last_name}{self.get_suffix()}'
@@ -67,15 +67,15 @@ class SpecimenRecord(models.Model):
         ('pinned', 'pinned'),
         ('minuten', 'minuten'),
         ('pointed', 'pointed'),
-        ('envelope.', 'envelope'),
+        ('envelope', 'envelope'),
         ('container', 'container'),
         ('alcohol', 'alcohol'),
     )
 
     # Specimen fields
     determiner = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='specimen_determiners',
-        null=True, help_text='Select the person who determined the specimen')
-    determined_year = models.IntegerField(null=True, help_text='Enter the year the determination was made')
+        null=True, blank=True, help_text='Select the person who determined the specimen')
+    determined_year = models.IntegerField(null=True, blank=True, help_text='Enter the year the determination was made')
     sex = models.CharField(max_length=10, null=True, choices=SEX, default='unknown',
         help_text='Select the specimen\'s sex')
     stage = models.CharField(max_length=10, null=True, choices=STAGE, default='adult',
@@ -144,7 +144,7 @@ class SpecimenRecord(models.Model):
         help_text='Enter the year the specimen was collected, if known')
     collector = models.ManyToManyField(Person, verbose_name='Collector(s)', related_name='specimen_collectors',
         help_text='Select the specimen\'s collector(s)')
-    method = models.CharField(max_length=50, null=True, blank=True,
+    method = models.CharField(max_length=50, choices=METHOD, null=True, blank=True,
         help_text='Select the method used to collected the specimen')
     weather = models.CharField(max_length=100, null=True, blank=True,
         help_text='Enter the weather conditions during the specimen\'s collection')
@@ -260,6 +260,14 @@ class SpecimenRecord(models.Model):
 
     def display_collectors(self):
         return ', '.join([str(collector.collector_name()) for collector in self.collector.all()])
+    
+    def display_preparer(self):
+        if self.preparer:
+            return f'{self.preparer.first_name} {self.preparer.last_name}{self.preparer.get_suffix()}'
+    
+    def display_determiner(self):
+        if self.determiner:
+            return f'{self.determiner.first_name} {self.determiner.last_name}{self.determiner.get_suffix()}'
 
     DEGREE_SIGN= u'\N{DEGREE SIGN}'
     def temp_F(self):
