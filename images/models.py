@@ -56,7 +56,7 @@ class InsectImage(BaseImage):
         null=True, blank=True, help_text='Select the locality at which the image was taken')
     gps = models.ForeignKey(GPS, on_delete=models.CASCADE, related_name='insect_images',
         null=True, blank=True, help_text='Select the GPS coordinates at which the image was taken')
-    collecting_trip = models.ForeignKey(CollectingTrip, on_delete=models.CASCADE, related_name='insect_mages',
+    collecting_trip = models.ForeignKey(CollectingTrip, on_delete=models.CASCADE, related_name='insect_images',
         null=True, blank=True, help_text='Select the collecting trip during which the image was taken')
 
     class Meta:
