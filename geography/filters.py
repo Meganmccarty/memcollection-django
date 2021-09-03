@@ -49,10 +49,11 @@ class GPSFilter(filters.FilterSet):
 
 class CollectingTripFilter(filters.FilterSet):
     name = filters.CharFilter(field_name='name', lookup_expr='icontains')
+    slug = filters.CharFilter(field_name='slug', lookup_expr='icontains')
     start_date = filters.DateFilter(field_name='start_date', lookup_expr='icontains')
     end_date = filters.DateFilter(field_name='end_date', lookup_expr='icontains')
     notes = filters.CharFilter(field_name='notes', lookup_expr='icontains')
 
     class Meta:
         model = CollectingTrip
-        fields = ['name', 'start_date', 'end_date', 'notes']
+        fields = ['name', 'slug', 'start_date', 'end_date', 'notes']
