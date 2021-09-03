@@ -29,6 +29,7 @@ class CountrySerializer(Serializer):
 class CollectingTripSerializer(Serializer):
     id = IntField()
     name = StrField()
+    slug = StrField()
     states = StateSerializer(many=True, attr="states.all", call=True)
     start_date = StrField()
     end_date = StrField()
