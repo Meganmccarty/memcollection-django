@@ -29,4 +29,4 @@ class GPSAdmin(admin.ModelAdmin):
 @admin.register(CollectingTrip)
 class CollectingTripAdmin(admin.ModelAdmin):
     list_display = ('name', 'states_collected', 'start_date', 'end_date', 'notes')
-    fields = ('name', 'states', 'start_date', 'end_date', 'notes')
+    fields = ('name', 'slug', 'states', 'start_date', 'end_date', 'notes')
