@@ -12,7 +12,7 @@ class SpeciesPage(models.Model):
     habitat = RichTextField(null=True, blank=True, help_text='Enter the species\' habitat')
     food = RichTextField(null=True, blank=True, help_text='Enter info larval and adult food sources')
     life_cycle = RichTextField(null=True, blank=True, help_text='Enter details about the life cycle')
-    references = models.ManyToManyField('Reference', related_name='species_pages',
+    references = models.ManyToManyField('Reference', blank=True, related_name='species_pages',
         help_text='Enter citations used to write the info in the preciding fields')
 
     class Meta:
