@@ -7,7 +7,7 @@ class BaseImage(models.Model):
     name = models.CharField(max_length=100, help_text='Enter a short title for the image')
     caption = models.TextField(help_text='Enter a caption for the image')
     alt_text = models.TextField(help_text='Enter alternative text for the image')
-    datetime = models.DateTimeField(help_text='Enter the date and time the image was taken')
+    date = models.DateField(help_text='Enter the date the image was taken')
     other_notes = models.TextField(blank=True, help_text='Enter any other notes about this image')
 
     class Meta:
