@@ -1,6 +1,6 @@
 from serpy import Serializer, IntField, StrField, BoolField, Field
 from geography.serializers import *
-from taxonomy.serializers import GenusSerializer, SpeciesSerializer
+from taxonomy.serializers import SpeciesSerializer
 
 class InsectImageSerializer(Serializer):
     id = IntField()
@@ -8,10 +8,9 @@ class InsectImageSerializer(Serializer):
     name = StrField()
     caption = StrField()
     alt_text = StrField()
-    datetime = StrField()
+    date = StrField()
     other_notes = StrField()
 
-    genus = GenusSerializer(required=True)
     species = SpeciesSerializer(required=True)
     identified = BoolField()
     sex = StrField()
@@ -31,12 +30,12 @@ class PlantImageSerializer(Serializer):
     name = StrField()
     caption = StrField()
     alt_text = StrField()
-    datetime = StrField()
+    date = StrField()
     other_notes = StrField()
 
     latin_name = StrField()
     common_name = StrField()
-    
+
     country = CountrySerializer(required=False)
     state = StateSerializer(required=False)
     county = CountySerializer(required=False)
@@ -50,7 +49,7 @@ class HabitatImageSerializer(Serializer):
     name = StrField()
     caption = StrField()
     alt_text = StrField()
-    datetime = StrField()
+    date = StrField()
     other_notes = StrField()
 
     country = CountrySerializer(required=False)
