@@ -1,105 +1,61 @@
-from rest_framework import serializers
-from images.models import InsectImage, PlantImage, HabitatImage
+from serpy import Serializer, IntField, StrField, BoolField, Field
+from geography.serializers import *
+from taxonomy.serializers import GenusSerializer, SpeciesSerializer
 
-class InsectImageSerializer(serializers.ModelSerializer):
-    genus = serializers.StringRelatedField(source='species.genus.name')
-    species = serializers.StringRelatedField(source='species.name')
-    species_page = serializers.StringRelatedField()
+class InsectImageSerializer(Serializer):
+    id = IntField()
+    get_image_url = Field(call=True)
+    name = StrField()
+    caption = StrField()
+    alt_text = StrField()
+    datetime = StrField()
+    other_notes = StrField()
 
-    country = serializers.StringRelatedField(source='country.name')
-    state = serializers.StringRelatedField(source='state.name')
-    county = serializers.StringRelatedField(source='county.name')
-    locality = serializers.StringRelatedField(source='locality.name')
-    gps_lat = serializers.StringRelatedField(source='gps.latitude')
-    gps_long = serializers.StringRelatedField(source='gps.longitude')
-    collecting_trip = serializers.StringRelatedField(source='collecting_trip.name')
+    genus = GenusSerializer(required=True)
+    species = SpeciesSerializer(required=True)
+    identified = BoolField()
+    sex = StrField()
+    stage = StrField()
+    status = StrField()
 
-    class Meta:
-        model = InsectImage
-        fields = (
-            'id',
-            'image',
-            'name',
-            'caption',
-            'alt_text',
-            'datetime',
-            'other_notes',
-            'genus',
-            'species',
-            'species_page',
-            'identified',
-            'sex',
-            'stage',
-            'status',
-            'country',
-            'state',
-            'county',
-            'locality',
-            'gps_lat',
-            'gps_long',
-            'collecting_trip'
-        )
+    country = CountrySerializer(required=False)
+    state = StateSerializer(required=False)
+    county = CountySerializer(required=False)
+    locality = LocalitySerializer(required=False)
+    gps = GPSSerializer(required=False)
+    collecting_trip = CollectingTripSerializer(required=False)
 
-class PlantImageSerializer(serializers.ModelSerializer):
-    species_page = serializers.StringRelatedField(many=True)
+class PlantImageSerializer(Serializer):
+    id = IntField()
+    get_image_url = Field(call=True)
+    name = StrField()
+    caption = StrField()
+    alt_text = StrField()
+    datetime = StrField()
+    other_notes = StrField()
 
-    country = serializers.StringRelatedField(source='country.name')
-    state = serializers.StringRelatedField(source='state.name')
-    county = serializers.StringRelatedField(source='county.name')
-    locality = serializers.StringRelatedField(source='locality.name')
-    gps_lat = serializers.StringRelatedField(source='gps.latitude')
-    gps_long = serializers.StringRelatedField(source='gps.longitude')
-    collecting_trip = serializers.StringRelatedField(source='collecting_trip.name')
+    latin_name = StrField()
+    common_name = StrField()
+    
+    country = CountrySerializer(required=False)
+    state = StateSerializer(required=False)
+    county = CountySerializer(required=False)
+    locality = LocalitySerializer(required=False)
+    gps = GPSSerializer(required=False)
+    collecting_trip = CollectingTripSerializer(required=False)
 
-    class Meta:
-        model = PlantImage
-        fields = (
-            'id',
-            'image',
-            'name',
-            'caption',
-            'alt_text',
-            'datetime',
-            'other_notes',
-            'latin_name'
-            'common_name',
-            'species_page',
-            'country',
-            'state',
-            'county',
-            'locality',
-            'gps_lat',
-            'gps_long',
-            'collecting_trip'
-        )
+class HabitatImageSerializer(Serializer):
+    id = IntField()
+    get_image_url = Field(call=True)
+    name = StrField()
+    caption = StrField()
+    alt_text = StrField()
+    datetime = StrField()
+    other_notes = StrField()
 
-class HabitatImageSerializer(serializers.ModelSerializer):
-    species_page = serializers.StringRelatedField(many=True)
-
-    country = serializers.StringRelatedField(source='country.name')
-    state = serializers.StringRelatedField(source='state.name')
-    county = serializers.StringRelatedField(source='county.name')
-    locality = serializers.StringRelatedField(source='locality.name')
-    gps_lat = serializers.StringRelatedField(source='gps.latitude')
-    gps_long = serializers.StringRelatedField(source='gps.longitude')
-    collecting_trip = serializers.StringRelatedField(source='collecting_trip.name')
-
-    class Meta:
-        model = PlantImage
-        fields = (
-            'id',
-            'image',
-            'name',
-            'caption',
-            'alt_text',
-            'datetime',
-            'other_notes',
-            'species_page',
-            'country',
-            'state',
-            'county',
-            'locality',
-            'gps_lat',
-            'gps_long',
-            'collecting_trip'
-        )
+    country = CountrySerializer(required=False)
+    state = StateSerializer(required=False)
+    county = CountySerializer(required=False)
+    locality = LocalitySerializer(required=False)
+    gps = GPSSerializer(required=False)
+    collecting_trip = CollectingTripSerializer(required=False)
