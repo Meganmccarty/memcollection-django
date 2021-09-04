@@ -1,10 +1,12 @@
 from django.db import models
 from ckeditor.fields import RichTextField
+from django.template.defaultfilters import slugify
 from taxonomy.models import Species
 
 class SpeciesPage(models.Model):
     species = models.OneToOneField(Species, on_delete=models.SET_NULL, null=True,
         related_name='species_page', help_text='Select the species for this page')
+    title = models.SlugField(default='', null=True, blank=True, max_length=100)
     taxonomy = RichTextField(null=True, blank=True, help_text='Enter taxonomy details')
     description = RichTextField(null=True, blank=True, help_text='Enter species description')
     distribution = RichTextField(null=True, blank=True, help_text='Enter distribution details')
@@ -26,6 +28,10 @@ class SpeciesPage(models.Model):
     
     def __str__(self):
         return f'{self.species.genus.name} {self.species} page'
+    
+    def save(self, *args, **kwargs):
+        self.title = slugify(self.get_binomial())
+        super(SpeciesPage, self).save(*args, **kwargs)
 
 class Reference(models.Model):
     title = models.CharField(max_length=50)
