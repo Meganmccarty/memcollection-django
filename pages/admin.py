@@ -3,7 +3,7 @@ from pages.models import *
 
 @admin.register(SpeciesPage)
 class SpeciesPage(admin.ModelAdmin):
-    list_display = ['species', 'display_refs']
+    list_display = ['get_binomial', 'display_refs']
 
 @admin.register(Reference)
 class Reference(admin.ModelAdmin):
