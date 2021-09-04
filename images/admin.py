@@ -5,7 +5,7 @@ from images.models import InsectImage, PlantImage, HabitatImage
 class InsectImageAdmin(admin.ModelAdmin):
     list_display = ('name', 'image')
     fields = [
-        'image', 'name', 'caption', 'alt_text', 'datetime', 'other_notes', 'species', 'species_page',
+        'image', 'name', 'caption', 'alt_text', 'date', 'other_notes', 'species', 'species_page',
         'identified', 'sex', 'stage', 'status', 'country', 'state', 'county', 'locality', 'gps', 'collecting_trip'
     ]
 
@@ -13,7 +13,7 @@ class InsectImageAdmin(admin.ModelAdmin):
 class PlantImageAdmin(admin.ModelAdmin):
     list_display = ('name', 'image')
     fields = [
-        'image', 'name', 'caption', 'alt_text', 'datetime', 'other_notes', 'species_page', 'latin_name',
+        'image', 'name', 'caption', 'alt_text', 'date', 'other_notes', 'species_page', 'latin_name',
         'common_name', 'country', 'state', 'county', 'locality', 'gps', 'collecting_trip'
     ]
 
@@ -21,7 +21,7 @@ class PlantImageAdmin(admin.ModelAdmin):
 class HabitatImageAdmin(admin.ModelAdmin):
     list_display = ('name', 'image')
     fields = [
-        'image', 'name', 'caption', 'alt_text', 'datetime', 'other_notes', 'species_page',
+        'image', 'name', 'caption', 'alt_text', 'date', 'other_notes', 'species_page',
         'country', 'state', 'county', 'locality', 'gps', 'collecting_trip'
     ]
 
