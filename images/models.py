@@ -61,6 +61,10 @@ class InsectImage(BaseImage):
 
     class Meta:
         ordering = ['name']
+    
+    def get_image_url(self):
+        image = self.image
+        return f'{image.url}'
 
     def __str__(self):
         return f'{self.name}'
@@ -90,6 +94,10 @@ class PlantImage(BaseImage):
     class Meta:
         ordering = ['name']
     
+    def get_image_url(self):
+        image = self.image
+        return f'{image.url}'
+    
     def __str__(self):
         return f'{self.name}'
 
@@ -113,6 +121,10 @@ class HabitatImage(BaseImage):
 
     class Meta:
         ordering = ['name']
+    
+    def get_image_url(self):
+        image = self.image
+        return f'{image.url}'
     
     def __str__(self):
         return f'{self.name}'
