@@ -8,7 +8,7 @@ class SpecimenRecordViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = SpecimenRecord.objects.select_related(
         'order', 'family', 'subfamily', 'tribe', 'genus', 'species', 'subspecies',
         'collecting_trip', 'country', 'state', 'county', 'locality', 'gps',
-        'determiner', 'preparer').prefetch_related('collector', 'specimen_images').all()
+        'determiner', 'preparer').prefetch_related('collecting_trip__states', 'collector', 'specimen_images').all()
     serializer_class = SpecimenRecordSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = SpecimenRecordFilter

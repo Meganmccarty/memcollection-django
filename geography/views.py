@@ -35,7 +35,7 @@ class GPSViewSet(viewsets.ReadOnlyModelViewSet):
     filterset_class = GPSFilter
 
 class CollectingTripViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = CollectingTrip.objects.all()
+    queryset = CollectingTrip.objects.prefetch_related('states').all()
     serializer_class = CollectingTripSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = CollectingTripFilter
