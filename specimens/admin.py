@@ -8,7 +8,7 @@ class PersonAdmin(admin.ModelAdmin):
 
 @admin.register(SpecimenRecord)
 class SpecimenRecordAdmin(admin.ModelAdmin):
-    list_display = ('usi', 'taxon', 'common_name', 'collecting_trip', 'country', 'state', 'county',
+    list_display = ('usi', 'order', 'family', 'genus', 'species', 'sex', 'stage', 'preparation', 'method', 'collecting_trip', 'country', 'state', 'county',
         'locality', 'collected_date', 'display_collectors')
     fieldsets = (
         ('Specimen Details', {
@@ -25,6 +25,13 @@ class SpecimenRecordAdmin(admin.ModelAdmin):
             ]
         }),
     )
+
+    def get_queryset(self, request):
+        qs = super(SpecimenRecordAdmin, self).get_queryset(request)
+        return qs.select_related(
+            'order', 'family', 'subfamily', 'tribe', 'genus', 'species', 'subspecies',
+            'collecting_trip', 'country', 'state', 'county', 'locality', 'gps',
+            'determiner', 'preparer').prefetch_related('collector', 'specimen_images')
 
 @admin.register(SpecimenRecordImage)
 class SpecimenRecordImageAdmin(admin.ModelAdmin):
