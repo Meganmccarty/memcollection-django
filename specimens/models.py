@@ -160,93 +160,58 @@ class SpecimenRecord(models.Model):
     class Meta:
         ordering = ['usi']
     
-    def get_not_null_field(self, field):
-        return field if field else ''
-    
-    def get_taxon(self, field):
-        return f'{self.get_not_null_field(field)}'
-    
-    def get_authority(self, field):
-        return f'{self.get_not_null_field(field.authority)}'
-    
-    def get_common_name(self, field):
-        return f'{self.get_not_null_field(field.common_name)}'
-    
-    def get_mona(self, field):
-        return f'{self.get_not_null_field(field.mona)}'
-    
-    def get_p3(self, field):
-        return f'{self.get_not_null_field(field.p3)}'
-    
     def taxon(self):
         if self.subspecies:
-            return f'{self.get_taxon(self.genus)} {self.get_taxon(self.species)} {self.get_taxon(self.subspecies)}'
+            return {
+                "name": f'{self.genus} {self.species}',
+                "authority": f'{self.subspecies.authority}',
+                "common_name": f'{self.subspecies.common_name}',
+                "mona": self.subspecies.mona,
+                "p3": self.subspecies.p3
+            }
         elif self.species:
-            return f'{self.get_taxon(self.genus)} {self.get_taxon(self.species)}'
+            return {
+                "name": f'{self.genus} {self.species}',
+                "authority": f'{self.species.authority}',
+                "common_name": f'{self.species.common_name}',
+                "mona": self.species.mona,
+                "p3": self.species.p3
+            }
         elif self.genus:
-            return f'{self.get_taxon(self.genus)}'
+            return {
+                "name": f'{self.genus}',
+                "authority": f'{self.genus.authority}',
+                "common_name": f'{self.genus.common_name}'
+            }
         elif self.tribe:
-            return f'{self.get_taxon(self.tribe)}'
+            return {
+                "name": f'{self.tribe}',
+                "authority": f'{self.tribe.authority}',
+                "common_name": f'{self.tribe.common_name}'
+            }
         elif self.subfamily:
-            return f'{self.get_taxon(self.subfamily)}'
+            return {
+                "name": f'{self.subfamily}',
+                "authority": f'{self.subfamily.authority}',
+                "common_name": f'{self.subfamily.common_name}'
+            }
         elif self.family:
-            return f'{self.get_taxon(self.family)}'
+            return {
+                "name": f'{self.family}',
+                "authority": f'{self.family.authority}',
+                "common_name": f'{self.family.common_name}'
+            }
         elif self.order:
-            return f'{self.get_taxon(self.order)}'
+            return {
+                "name": f'{self.order}',
+                "authority": f'{self.order.authority}',
+                "common_name": f'{self.order.common_name}'
+            }
         else:
             return ''
     
-    def authority(self):
-        if self.subspecies:
-            return f'{self.get_authority(self.subspecies)}'
-        elif self.species:
-            return f'{self.get_authority(self.species)}'
-        elif self.genus:
-            return f'{self.get_authority(self.genus)}'
-        elif self.tribe:
-            return f'{self.get_authority(self.tribe)}'
-        elif self.subfamily:
-            return f'{self.get_authority(self.subfamily)}'
-        elif self.family:
-            return f'{self.get_authority(self.family)}'
-        elif self.order:
-            return f'{self.get_authority(self.order)}'
-        else:
-            return ''
-    
-    def common_name(self):
-        if self.subspecies:
-            return f'{self.get_common_name(self.subspecies)}'
-        elif self.species:
-            return f'{self.get_common_name(self.species)}'
-        elif self.genus:
-            return f'{self.get_common_name(self.genus)}'
-        elif self.tribe:
-            return f'{self.get_common_name(self.tribe)}'
-        elif self.subfamily:
-            return f'{self.get_common_name(self.subfamily)}'
-        elif self.family:
-            return f'{self.get_common_name(self.family)}'
-        elif self.order:
-            return f'{self.get_common_name(self.order)}'
-        else:
-            return ''
-    
-    def mona(self):
-        if self.subspecies:
-            return f'{self.get_mona(self.subspecies)}'
-        elif self.species:
-            return f'{self.get_mona(self.species)}'
-        else:
-            return ''
-    
-    def p3(self):
-        if self.subspecies:
-            return f'{self.get_p3(self.subspecies)}'
-        elif self.species:
-            return f'{self.get_p3(self.species)}'
-        else:
-            return ''
+    def get_not_null_field(self, field):
+        return field if field else ''
     
     def collected_date(self):
         if self.day:
