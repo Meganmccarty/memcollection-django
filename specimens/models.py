@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from ckeditor.fields import RichTextField
 from geography.models import *
@@ -257,6 +258,26 @@ class SpecimenRecord(models.Model):
     
     def full_date(self):
         return f'{self.get_not_null_field(self.day)} {self.get_not_null_field(self.month)} {self.get_not_null_field(self.year)}'
+    
+    def num_date(self):
+        month = self.month
+
+        if month:
+            datetime_object = datetime.datetime.strptime(month, "%B")
+            if datetime_object.month < 10:
+                month = f'0{datetime_object.month}'
+            else:
+                month = datetime_object.month
+
+        if self.day:
+            if self.day < 10:
+                return f'{self.year}-{month}-0{self.day}'
+            else:
+                return f'{self.year}-{month}-{self.day}'
+        elif month:
+            return f'{self.year}-{month}'
+        else:
+            return f'{self.year}'
 
     def display_collectors(self):
         return ', '.join([str(collector.collector_name()) for collector in self.collector.all()])
