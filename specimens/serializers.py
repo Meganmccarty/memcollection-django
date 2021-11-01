@@ -50,6 +50,7 @@ class SpecimenRecordSerializer(Serializer):
     gps = GPSSerializer(required=False)
     collected_date = Field(call=True)
     full_date = Field(call=True)
+    num_date = Field(call=True)
     display_collectors = Field(call=True)
     collector = PersonSerializer(many=True, attr="collector.all", call=True, required=False)
     method = StrField(required=False)
