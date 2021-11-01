@@ -119,7 +119,6 @@ class CollectingTrip(models.Model):
     class Meta:
         ordering = ['name']
     
-    @property
     def states_collected(self):
         return ', '.join([str(state) for state in self.states.all()])
     
