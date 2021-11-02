@@ -103,6 +103,13 @@ class SpecimenRecordTestCase(TestCase):
             state=indiana, county=switzerland, locality=boone_robinson, year=2020, method="net"
         )
         specimen3.collector.set([joe, tim])
+        specimen4 = SpecimenRecord.objects.create(
+            usi="MEM-Test-04", order=lepidoptera, determiner=tim, determined_year=2018, sex="male",
+            stage="adult", preparer=joe, preparation="spread", labels_printed=True,
+            labeled=True, photographed=True, identified=False, country=usa,
+            state=indiana, county=switzerland, locality=boone_robinson, day=24, month="November", year=2018, method="net"
+        )
+        specimen4.collector.set([joe])
     
     def test_taxon(self):
         specimen1 = SpecimenRecord.objects.get(usi="MEM-Test-01")
@@ -144,3 +151,14 @@ class SpecimenRecordTestCase(TestCase):
         self.assertEqual(specimen1.full_date(), "20 July 2015")
         self.assertEqual(specimen2.full_date(), "June 2017")
         self.assertEqual(specimen3.full_date(), "2020")
+    
+    def test_num_date(self):
+        specimen1 = SpecimenRecord.objects.get(usi="MEM-Test-01")
+        specimen2 = SpecimenRecord.objects.get(usi="MEM-Test-02")
+        specimen3 = SpecimenRecord.objects.get(usi="MEM-Test-03")
+        specimen4 = SpecimenRecord.objects.get(usi="MEM-Test-04")
+
+        self.assertEqual(specimen1.num_date(), "2015-07-20")
+        self.assertEqual(specimen2.num_date(), "2017-06")
+        self.assertEqual(specimen3.num_date(), "2020")
+        self.assertEqual(specimen4.num_date(), "2018-11-24")
