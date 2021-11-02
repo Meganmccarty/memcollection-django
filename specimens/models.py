@@ -17,7 +17,7 @@ class Person(models.Model):
         verbose_name_plural = 'People'
 
     def get_middle_initial(self):
-        return f'{self.middle_initial}.' if self.middle_initial else ''
+        return f' {self.middle_initial}.' if self.middle_initial else ''
     
     def get_suffix(self):
         return f', {self.suffix}' if self.suffix else ''
@@ -27,7 +27,7 @@ class Person(models.Model):
         return f'{first_initial}. {self.last_name}{self.get_suffix()}'
 
     def __str__(self):
-        return f'{self.first_name} {self.get_middle_initial()} {self.last_name}{self.get_suffix()}'
+        return f'{self.first_name}{self.get_middle_initial()} {self.last_name}{self.get_suffix()}'
 
 class SpecimenRecord(models.Model):
     # MEM number
