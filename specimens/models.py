@@ -210,9 +210,6 @@ class SpecimenRecord(models.Model):
         else:
             return ''
     
-    def get_not_null_field(self, field):
-        return field if field else ''
-    
     def collected_date(self):
         if self.day:
             return f'{self.day}-{self.month[0:3]}-{self.year}'
@@ -222,7 +219,12 @@ class SpecimenRecord(models.Model):
             return f'{self.year}'
     
     def full_date(self):
-        return f'{self.get_not_null_field(self.day)} {self.get_not_null_field(self.month)} {self.get_not_null_field(self.year)}'
+        if self.day:
+            return f'{self.day} {self.month} {self.year}'
+        elif self.month:
+            return f'{self.month} {self.year}'
+        else:
+            return f'{self.year}'
     
     def num_date(self):
         month = self.month
