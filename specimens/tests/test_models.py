@@ -92,7 +92,7 @@ class SpecimenRecordTestCase(TestCase):
             usi="MEM-Test-02", order=lepidoptera, family=papilionidae, subfamily=papilioninae, tribe=papilionini,
             genus=papilio, determiner=jane, determined_year=2017, sex="female", stage="adult", preparer=jane,
             preparation="spread", preparation_date="2017-06-05", labels_printed=False, labeled=False,
-            photographed=True, identified=False, country=usa, state=indiana, day=1, month="June", year=2017,
+            photographed=True, identified=False, country=usa, state=indiana, month="June", year=2017,
             method="net", weather="cloudy", temperature=80
         )
         specimen2.collector.set([jane])
@@ -100,8 +100,7 @@ class SpecimenRecordTestCase(TestCase):
             usi="MEM-Test-03", order=lepidoptera, determiner=tim, determined_year=2020, sex="female",
             stage="adult", preparer=tim, preparation="spread", labels_printed=True,
             labeled=True, photographed=True, identified=False, country=usa,
-            state=indiana, county=switzerland, locality=boone_robinson,
-            month="September", year=2020, method="net"
+            state=indiana, county=switzerland, locality=boone_robinson, year=2020, method="net"
         )
         specimen3.collector.set([joe, tim])
     
@@ -127,3 +126,21 @@ class SpecimenRecordTestCase(TestCase):
             "authority": "Linnaeus, 1758",
             "common_name": "Butterflies and Moths"
         })
+    
+    def test_collected_date(self):
+        specimen1 = SpecimenRecord.objects.get(usi="MEM-Test-01")
+        specimen2 = SpecimenRecord.objects.get(usi="MEM-Test-02")
+        specimen3 = SpecimenRecord.objects.get(usi="MEM-Test-03")
+
+        self.assertEqual(specimen1.collected_date(), "20-July-2015")
+        self.assertEqual(specimen2.collected_date(), "June 2017")
+        self.assertEqual(specimen3.collected_date(), 2020)
+    
+    def test_full_date(self):
+        specimen1 = SpecimenRecord.objects.get(usi="MEM-Test-01")
+        specimen2 = SpecimenRecord.objects.get(usi="MEM-Test-02")
+        specimen3 = SpecimenRecord.objects.get(usi="MEM-Test-03")
+
+        self.assertEqual(specimen1.full_date(), "20 July 2015")
+        self.assertEqual(specimen2.full_date(), "June 2017")
+        self.assertEqual(specimen3.full_date(), "2020")
