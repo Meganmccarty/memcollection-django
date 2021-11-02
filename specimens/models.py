@@ -265,11 +265,15 @@ class SpecimenRecord(models.Model):
     def temp_F(self):
         if self.temperature:
             return f'{round(self.temperature, 1)}{self.DEGREE_SIGN}F'
+        else:
+            return ''
 
     def temp_C(self):
         if self.temperature:
             celsius = (self.temperature - 32) * 5/9
             return f'{round(celsius, 1)}{self.DEGREE_SIGN}C'
+        else:
+            return ''
 
     def __str__(self):
         return f'{self.usi}'
