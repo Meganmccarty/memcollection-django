@@ -184,3 +184,30 @@ class SpecimenRecordTestCase(TestCase):
 
         self.assertEqual(specimen3.display_determiner(), "Tim Johnson")
         self.assertEqual(specimen4.display_determiner(), "")
+    
+    def test_temp_F(self):
+        specimen1 = SpecimenRecord.objects.get(usi="MEM-Test-01")
+        specimen2 = SpecimenRecord.objects.get(usi="MEM-Test-02")
+        specimen3 = SpecimenRecord.objects.get(usi="MEM-Test-03")
+        DEGREE_SIGN = u'\N{DEGREE SIGN}'
+
+        self.assertEqual(specimen1.temp_F(), f'85.0{DEGREE_SIGN}F')
+        self.assertEqual(specimen2.temp_F(), f'80.0{DEGREE_SIGN}F')
+        self.assertEqual(specimen3.temp_F(), "")
+    
+    def test_temp_C(self):
+        specimen1 = SpecimenRecord.objects.get(usi="MEM-Test-01")
+        specimen2 = SpecimenRecord.objects.get(usi="MEM-Test-02")
+        specimen3 = SpecimenRecord.objects.get(usi="MEM-Test-03")
+        DEGREE_SIGN = u'\N{DEGREE SIGN}'
+
+        self.assertEqual(specimen1.temp_C(), f'29.4{DEGREE_SIGN}C')
+        self.assertEqual(specimen2.temp_C(), f'26.7{DEGREE_SIGN}C')
+        self.assertEqual(specimen3.temp_C(), "")
+
+    def test__str__(self):
+        specimen1 = SpecimenRecord.objects.get(usi="MEM-Test-01")
+        specimen2 = SpecimenRecord.objects.get(usi="MEM-Test-02")
+
+        self.assertEqual(specimen1.__str__(), "MEM-Test-01")
+        self.assertEqual(specimen2.__str__(), "MEM-Test-02")
