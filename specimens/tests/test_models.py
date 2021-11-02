@@ -132,9 +132,9 @@ class SpecimenRecordTestCase(TestCase):
         specimen2 = SpecimenRecord.objects.get(usi="MEM-Test-02")
         specimen3 = SpecimenRecord.objects.get(usi="MEM-Test-03")
 
-        self.assertEqual(specimen1.collected_date(), "20-July-2015")
+        self.assertEqual(specimen1.collected_date(), "20-Jul-2015")
         self.assertEqual(specimen2.collected_date(), "June 2017")
-        self.assertEqual(specimen3.collected_date(), 2020)
+        self.assertEqual(specimen3.collected_date(), "2020")
     
     def test_full_date(self):
         specimen1 = SpecimenRecord.objects.get(usi="MEM-Test-01")
