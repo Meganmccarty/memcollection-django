@@ -104,8 +104,7 @@ class SpecimenRecordTestCase(TestCase):
         )
         specimen3.collector.set([joe, tim])
         specimen4 = SpecimenRecord.objects.create(
-            usi="MEM-Test-04", order=lepidoptera, determiner=tim, determined_year=2018, sex="male",
-            stage="adult", preparer=joe, preparation="spread", labels_printed=True,
+            usi="MEM-Test-04", order=lepidoptera, sex="male", stage="adult", labels_printed=True,
             labeled=True, photographed=True, identified=False, country=usa,
             state=indiana, county=switzerland, locality=boone_robinson, day=24, month="November", year=2018, method="net"
         )
@@ -162,3 +161,26 @@ class SpecimenRecordTestCase(TestCase):
         self.assertEqual(specimen2.num_date(), "2017-06")
         self.assertEqual(specimen3.num_date(), "2020")
         self.assertEqual(specimen4.num_date(), "2018-11-24")
+    
+    def test_display_collectors(self):
+        specimen1 = SpecimenRecord.objects.get(usi="MEM-Test-01")
+        specimen2 = SpecimenRecord.objects.get(usi="MEM-Test-02")
+        specimen3 = SpecimenRecord.objects.get(usi="MEM-Test-03")
+
+        self.assertEqual(specimen1.display_collectors(), "J. Doe, T. Johnson, J. Smith, Jr.")
+        self.assertEqual(specimen2.display_collectors(), "J. Doe")
+        self.assertEqual(specimen3.display_collectors(), "T. Johnson, J. Smith, Jr.")
+
+    def test_display_preparer(self):
+        specimen1 = SpecimenRecord.objects.get(usi="MEM-Test-01")
+        specimen4 = SpecimenRecord.objects.get(usi="MEM-Test-04")
+
+        self.assertEqual(specimen1.display_preparer(), "Joe Smith, Jr.")
+        self.assertEqual(specimen4.display_preparer(), "")
+    
+    def test_display_determiner(self):
+        specimen3 = SpecimenRecord.objects.get(usi="MEM-Test-03")
+        specimen4 = SpecimenRecord.objects.get(usi="MEM-Test-04")
+
+        self.assertEqual(specimen3.display_determiner(), "Tim Johnson")
+        self.assertEqual(specimen4.display_determiner(), "")
