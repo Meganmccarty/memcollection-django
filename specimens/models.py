@@ -252,10 +252,14 @@ class SpecimenRecord(models.Model):
     def display_preparer(self):
         if self.preparer:
             return f'{self.preparer.first_name} {self.preparer.last_name}{self.preparer.get_suffix()}'
+        else:
+            return ''
     
     def display_determiner(self):
         if self.determiner:
             return f'{self.determiner.first_name} {self.determiner.last_name}{self.determiner.get_suffix()}'
+        else:
+            return ''
 
     DEGREE_SIGN= u'\N{DEGREE SIGN}'
     def temp_F(self):
