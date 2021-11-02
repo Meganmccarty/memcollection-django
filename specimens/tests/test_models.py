@@ -12,8 +12,8 @@ class PersonTestCase(TestCase):
         jane = Person.objects.get(first_name="Jane")
         tim = Person.objects.get(first_name="Tim")
 
-        self.assertEqual(joe.get_middle_initial(), "M.")
-        self.assertEqual(jane.get_middle_initial(), "A.")
+        self.assertEqual(joe.get_middle_initial(), " M.")
+        self.assertEqual(jane.get_middle_initial(), " A.")
         self.assertEqual(tim.get_middle_initial(), "")
 
     def test_get_suffix(self):
