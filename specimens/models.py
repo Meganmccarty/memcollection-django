@@ -163,7 +163,7 @@ class SpecimenRecord(models.Model):
     def taxon(self):
         if self.subspecies:
             return {
-                "name": f'{self.genus} {self.species}',
+                "name": f'{self.genus} {self.species} {self.subspecies}',
                 "authority": f'{self.subspecies.authority}',
                 "common_name": f'{self.subspecies.common_name}',
                 "mona": self.subspecies.mona,
