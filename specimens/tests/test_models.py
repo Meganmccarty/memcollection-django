@@ -84,7 +84,7 @@ class SpecimenRecordTestCase(TestCase):
             stage="adult", preparer=joe, preparation="spread", preparation_date="2015-07-25", labels_printed=True,
             labeled=False, photographed=False, identified=True, collecting_trip=indiana_trip, country=usa,
             state=indiana, county=switzerland, locality=boone_robinson, gps=boone_robinson_gps,
-            day=20, month="July", year=2015, method="net", weather="sunny",
+            day=2, month="July", year=2015, method="net", weather="sunny",
             temperature=85, time_of_day="12:05 PM", habitat="Found in field", notes="Did not relax specimen"
         )
         specimen1.collector.set([joe, jane, tim])
@@ -138,7 +138,7 @@ class SpecimenRecordTestCase(TestCase):
         specimen2 = SpecimenRecord.objects.get(usi="MEM-Test-02")
         specimen3 = SpecimenRecord.objects.get(usi="MEM-Test-03")
 
-        self.assertEqual(specimen1.collected_date(), "20-Jul-2015")
+        self.assertEqual(specimen1.collected_date(), "2-Jul-2015")
         self.assertEqual(specimen2.collected_date(), "June 2017")
         self.assertEqual(specimen3.collected_date(), "2020")
     
@@ -147,7 +147,7 @@ class SpecimenRecordTestCase(TestCase):
         specimen2 = SpecimenRecord.objects.get(usi="MEM-Test-02")
         specimen3 = SpecimenRecord.objects.get(usi="MEM-Test-03")
 
-        self.assertEqual(specimen1.full_date(), "20 July 2015")
+        self.assertEqual(specimen1.full_date(), "2 July 2015")
         self.assertEqual(specimen2.full_date(), "June 2017")
         self.assertEqual(specimen3.full_date(), "2020")
     
@@ -157,7 +157,7 @@ class SpecimenRecordTestCase(TestCase):
         specimen3 = SpecimenRecord.objects.get(usi="MEM-Test-03")
         specimen4 = SpecimenRecord.objects.get(usi="MEM-Test-04")
 
-        self.assertEqual(specimen1.num_date(), "2015-07-20")
+        self.assertEqual(specimen1.num_date(), "2015-07-02")
         self.assertEqual(specimen2.num_date(), "2017-06")
         self.assertEqual(specimen3.num_date(), "2020")
         self.assertEqual(specimen4.num_date(), "2018-11-24")
