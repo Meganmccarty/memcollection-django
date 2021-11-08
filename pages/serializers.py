@@ -1,6 +1,6 @@
 from serpy import Serializer, IntField, StrField, Field
-from images.serializers import InsectImageSerializer, PlantImageSerializer, HabitatImageSerializer
-from taxonomy.serializers import SpeciesSerializer
+from images.serializers import ShortInsectImageSerializer, ShortPlantImageSerializer, ShortHabitatImageSerializer
+from taxonomy.serializers import NestedSpeciesSerializer
 
 class ReferencesSerializer(Serializer):
     id = IntField()
@@ -11,10 +11,10 @@ class SpeciesPageSerializer(Serializer):
     id = IntField()
     title = StrField()
     get_binomial = Field(call=True)
-    species = SpeciesSerializer(required=True)
-    insect_images = InsectImageSerializer(many=True, attr="insect_images.all", call=True, required=False)
-    plant_images = PlantImageSerializer(many=True, attr="plant_images.all", call=True, required=False)
-    habitat_images = HabitatImageSerializer(many=True, attr="habitat_images.all", call=True, required=False)
+    species = NestedSpeciesSerializer(required=True)
+    insect_images = ShortInsectImageSerializer(many=True, attr="insect_images.all", call=True, required=False)
+    plant_images = ShortPlantImageSerializer(many=True, attr="plant_images.all", call=True, required=False)
+    habitat_images = ShortHabitatImageSerializer(many=True, attr="habitat_images.all", call=True, required=False)
     taxonomy = StrField()
     description = StrField()
     distribution = StrField()
