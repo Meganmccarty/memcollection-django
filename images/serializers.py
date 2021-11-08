@@ -2,6 +2,42 @@ from serpy import Serializer, IntField, StrField, BoolField, Field
 from geography.serializers import *
 from taxonomy.serializers import SpeciesSerializer
 
+class ShortInsectImageSerializer(Serializer):
+    id = IntField()
+    get_image_url = Field(call=True)
+    name = StrField()
+    caption = StrField()
+    alt_text = StrField()
+    date = StrField()
+    other_notes = StrField()
+
+    species = SpeciesSerializer(required=True)
+    identified = BoolField()
+    sex = StrField()
+    stage = StrField()
+    status = StrField()
+
+class ShortPlantImageSerializer(Serializer):
+    id = IntField()
+    get_image_url = Field(call=True)
+    name = StrField()
+    caption = StrField()
+    alt_text = StrField()
+    date = StrField()
+    other_notes = StrField()
+
+    latin_name = StrField()
+    common_name = StrField()
+
+class ShortHabitatImageSerializer(Serializer):
+    id = IntField()
+    get_image_url = Field(call=True)
+    name = StrField()
+    caption = StrField()
+    alt_text = StrField()
+    date = StrField()
+    other_notes = StrField()    
+
 class InsectImageSerializer(Serializer):
     id = IntField()
     get_image_url = Field(call=True)
