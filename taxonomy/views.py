@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
+from serpy import serializer
 from taxonomy.models import *
 from taxonomy.filters import *
 from taxonomy.serializers import *
@@ -45,3 +46,7 @@ class SubspeciesViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = SubspeciesSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = SubspeciesFilter
+
+class NestedFamilyViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Family.objects.select_related('order')
+    serializer_class = NestedFamilySerializer
