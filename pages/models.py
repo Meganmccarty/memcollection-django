@@ -23,6 +23,41 @@ class SpeciesPage(models.Model):
     def get_binomial(self):
         return f'{self.species.genus.name} {self.species.name}'
     
+    def genus(self):
+        return {
+            "name": f'{self.species.genus.name}',
+            "common_name": f'{self.species.genus.common_name}',
+            "authority": f'{self.species.genus.authority}'
+        }
+    
+    def tribe(self):
+        return {
+            "name": f'{self.species.genus.tribe.name}',
+            "common_name": f'{self.species.genus.tribe.common_name}',
+            "authority": f'{self.species.genus.tribe.authority}'
+        }
+    
+    def subfamily(self):
+        return {
+            "name": f'{self.species.genus.tribe.subfamily.name}',
+            "common_name": f'{self.species.genus.tribe.subfamily.common_name}',
+            "authority": f'{self.species.genus.tribe.subfamily.authority}'
+        }
+    
+    def family(self):
+        return {
+            "name": f'{self.species.genus.tribe.subfamily.family.name}',
+            "common_name": f'{self.species.genus.tribe.subfamily.family.common_name}',
+            "authority": f'{self.species.genus.tribe.subfamily.family.authority}'
+        }
+    
+    def order(self):
+        return {
+            "name": f'{self.species.genus.tribe.subfamily.family.order.name}',
+            "common_name": f'{self.species.genus.tribe.subfamily.family.order.common_name}',
+            "authority": f'{self.species.genus.tribe.subfamily.family.order.authority}'
+        }
+    
     def display_refs(self):
         return ', '.join([str(references.title) for references in self.references.all()])
     
