@@ -50,3 +50,11 @@ class SubspeciesViewSet(viewsets.ReadOnlyModelViewSet):
 class NestedFamilyViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Family.objects.select_related('order')
     serializer_class = NestedFamilySerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = NestedFamilyFilter
+
+class NestedSubfamilyViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Subfamily.objects.select_related('family', 'family__order')
+    serializer_class = NestedSubfamilySerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = NestedSubfamilyFilter
