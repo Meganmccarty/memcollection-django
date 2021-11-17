@@ -60,3 +60,21 @@ class SubspeciesFilter(filters.FilterSet):
     class Meta:
         model = Subspecies
         fields = ['name', 'common_name', 'mona', 'p3']
+    
+class NestedFamilyFilter(filters.FilterSet):
+    name = filters.CharFilter(field_name='name', lookup_expr='icontains')
+    common_name = filters.CharFilter(field_name='common_name', lookup_expr='icontains')
+    order = filters.CharFilter(field_name='order__name', label='Order', lookup_expr='icontains')
+
+    class Meta:
+        model = Family
+        fields = ['name', 'common_name', 'order']
+
+class NestedSubfamilyFilter(filters.FilterSet):
+    name = filters.CharFilter(field_name='name', lookup_expr='icontains')
+    common_name = filters.CharFilter(field_name='common_name', lookup_expr='icontains')
+    family = filters.CharFilter(field_name='family__name', label='Family', lookup_expr='icontains')
+
+    class Meta:
+        model = Subfamily
+        fields = ['name', 'common_name', 'family']
