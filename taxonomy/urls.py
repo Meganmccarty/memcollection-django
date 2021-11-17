@@ -10,5 +10,6 @@ router.register(r'genera', GenusViewSet)
 router.register(r'species', SpeciesViewSet)
 router.register(r'subspecies', SubspeciesViewSet)
 router.register(r'nested-families', NestedFamilyViewSet)
+router.register(r'nested-subfamilies', NestedSubfamilyViewSet)
 
 urlpatterns = router.urls
