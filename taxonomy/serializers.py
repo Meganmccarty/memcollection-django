@@ -1,7 +1,7 @@
 from django.db.models import Max
 import random
 from images.models import InsectImage
-from serpy import Serializer, IntField, StrField, FloatField, MethodField
+from serpy import Serializer, IntField, StrField, FloatField, MethodField, Field
 
 class SubspeciesSerializer(Serializer):
     id = IntField()
@@ -55,7 +55,7 @@ class NestedFamilySerializer(Serializer):
     common_name = StrField(required=False)
     authority = StrField()
     order = OrderSerializer()
-    image = StrField()
+    get_image_url = Field(call=True)
     alt_text = StrField()
     # image = MethodField()
 
