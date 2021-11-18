@@ -20,6 +20,8 @@ class Family(TaxonomyBaseInfo):
     order = models.ForeignKey(Order, on_delete=models.CASCADE,
         related_name='families',
         help_text='Select the order to which this family belongs')
+    image = models.URLField(max_length=1000, blank=True, default='')
+    alt_text = models.TextField(blank=True, default='', help_text='Enter alternative text for the image')
     
     class Meta:
         ordering = ['name']
