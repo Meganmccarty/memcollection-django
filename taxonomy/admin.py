@@ -9,7 +9,7 @@ class OrderAdmin(admin.ModelAdmin):
 @admin.register(Family)
 class FamilyAdmin(admin.ModelAdmin):
     list_display = ('name', 'common_name', 'authority', 'order')
-    fields = ('order', 'name', 'common_name', 'authority')
+    fields = ('order', 'name', 'common_name', 'authority', 'image', 'alt_text')
 
 @admin.register(Subfamily)
 class SubfamilyAdmin(admin.ModelAdmin):
