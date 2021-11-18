@@ -1,4 +1,7 @@
-from serpy import Serializer, IntField, StrField, FloatField
+from django.db.models import Max
+import random
+from images.models import InsectImage
+from serpy import Serializer, IntField, StrField, FloatField, MethodField
 
 class SubspeciesSerializer(Serializer):
     id = IntField()
@@ -52,6 +55,19 @@ class NestedFamilySerializer(Serializer):
     common_name = StrField(required=False)
     authority = StrField()
     order = OrderSerializer()
+    image = MethodField()
+
+    def get_image(self, family_obj):
+        images = InsectImage.objects.filter(species__genus__tribe__subfamily__family__name=family_obj.name)
+        if images:
+            max_pk = images.aggregate(max_pk=Max('pk'))['max_pk']
+            object = images.filter(pk=random.randint(1, max_pk)).first()
+            if object:
+                return {
+                    'name': object.name,
+                    'url': object.get_image_url(),
+                    'alt_text': object.alt_text
+                }
 
 class NestedSubfamilySerializer(Serializer):
     id = IntField()
