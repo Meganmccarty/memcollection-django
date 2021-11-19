@@ -2,10 +2,14 @@ from django.contrib import admin
 from pages.models import *
 
 @admin.register(SpeciesPage)
-class SpeciesPage(admin.ModelAdmin):
-    list_display = ['get_binomial', 'display_refs']
+class SpeciesPageAdmin(admin.ModelAdmin):
+    list_display = ['title', 'display_refs']
+
+    def get_queryset(self, request):
+        qs = super(SpeciesPageAdmin, self).get_queryset(request)
+        return qs.prefetch_related('references')
 
 @admin.register(Reference)
-class Reference(admin.ModelAdmin):
+class ReferenceAdmin(admin.ModelAdmin):
     list_display = ['citation']
 
