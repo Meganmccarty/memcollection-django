@@ -6,8 +6,11 @@ from pages.views import *
 
 router = routers.DefaultRouter()
 router.register(r'species-pages', SpeciesPageViewSet)
+router.register(r'short-pages', ShortenedSpeciesPageViewSet)
 
-urlpatterns = [
-    path('', include(router.urls)),
-    path('species-pages', cache_page(60 * 15)(SpeciesPageViewSet))
-]
+urlpatterns = router.urls
+# urlpatterns = [
+    # path('', include(router.urls))
+    # path('', include(router.urls)),
+    # path('species-pages', cache_page(60 * 15)(SpeciesPageViewSet))
+# ]
