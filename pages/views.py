@@ -2,7 +2,7 @@ from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from pages.models import SpeciesPage
 from pages.filters import SpeciesPageFilter
-from pages.serializers import SpeciesPageSerializer
+from pages.serializers import SpeciesPageSerializer, ShortenedSpeciesPageSerializer
 
 class SpeciesPageViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = SpeciesPage.objects.select_related(
@@ -13,3 +13,10 @@ class SpeciesPageViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = SpeciesPageSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = SpeciesPageFilter
+
+class ShortenedSpeciesPageViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = SpeciesPage.objects.select_related(
+        'species', 'species__genus', 'species__genus__tribe', 'species__genus__tribe__subfamily',
+        'species__genus__tribe__subfamily__family', 'species__genus__tribe__subfamily__family__order'
+        ).prefetch_related('insect_images', 'insect_images__species')
+    serializer_class = ShortenedSpeciesPageSerializer
