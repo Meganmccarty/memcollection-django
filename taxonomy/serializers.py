@@ -99,5 +99,4 @@ class NestedSpeciesSerializer(Serializer):
     authority = StrField()
     mona = FloatField(required=False)
     p3 = FloatField(required=False)
-    genus = NestedGenusSerializer()
     subspecies = SubspeciesSerializer(many=True, attr="subspecies.all", call=True, required=False)
