@@ -60,7 +60,7 @@ class InsectImage(BaseImage):
         null=True, blank=True, help_text='Select the collecting trip during which the image was taken')
 
     class Meta:
-        ordering = ['name']
+        ordering = ['-date', 'name']
     
     def get_image_url(self):
         image = self.image
