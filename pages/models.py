@@ -58,6 +58,33 @@ class SpeciesPage(models.Model):
             "authority": f'{self.species.genus.tribe.subfamily.family.order.authority}'
         }
     
+    def get_not_none_field(self, field):
+        if field is None:
+            return ''
+        else:
+            return field
+    
+    def get_taxonomy(self):
+        return self.get_not_none_field(self.taxonomy)
+    
+    def get_description(self):
+        return self.get_not_none_field(self.description)
+    
+    def get_distribution(self):
+        return self.get_not_none_field(self.distribution)
+    
+    def get_seasonality(self):
+        return self.get_not_none_field(self.seasonality)
+    
+    def get_habitat(self):
+        return self.get_not_none_field(self.habitat)
+    
+    def get_food(self):
+        return self.get_not_none_field(self.food)
+    
+    def get_life_cycle(self):
+        return self.get_not_none_field(self.life_cycle)
+    
     def display_refs(self):
         return ', '.join([str(references.title) for references in self.references.all()])
     
