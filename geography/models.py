@@ -40,8 +40,10 @@ class County(models.Model):
         verbose_name_plural = 'Counties'
     
     def county_abbr(self):
-        if self.state.name == 'Alaska':
-            return f'{self.name} Bor.'
+        if self.state.name == 'Alaska' and 'Census' not in self.name:
+            return f'{self.name} Boro.'
+        elif self.state.name == 'Alaska' and 'Census' in self.name:
+            return f'{self.name}'
         elif self.state.name == 'Louisiana':
             return f'{self.name} Par.'
         else:
@@ -71,8 +73,16 @@ class Locality(models.Model):
     def range_and_town(self):
         if self.range:
             return f'{self.range} {self.town}'
-        else:
+        elif self.town:
             return f'{self.town}'
+        else:
+            return ''
+    
+    def get_locality(self):
+        if self.name == None:
+            return ''
+        else:
+            return f'{self.name}'
 
     def __str__(self):
         if self.name:
