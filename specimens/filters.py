@@ -26,7 +26,12 @@ class SpecimenRecordFilter(filters.FilterSet):
     gps_long = filters.CharFilter(field_name='gps__longitude', lookup_expr='icontains')
     elevation = filters.CharFilter(field_name='gps__elevation', lookup_expr='icontains')
 
+    method = filters.CharFilter(field_name='method', lookup_expr='icontains')
+    weather = filters.CharFilter(field_name='weather', lookup_expr='icontains')
+    temperature = filters.CharFilter(field_name='temperature', lookup_expr='icontains')
+    time_of_day = filters.CharFilter(field_name='time_of_day', lookup_expr='icontains')
     habitat = filters.CharFilter(field_name='habitat', lookup_expr='icontains')
+    notes = filters.CharFilter(field_name='notes', lookup_expr='icontains')
 
     class Meta:
         model = SpecimenRecord
