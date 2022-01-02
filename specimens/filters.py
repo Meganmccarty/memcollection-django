@@ -26,6 +26,8 @@ class SpecimenRecordFilter(filters.FilterSet):
     gps_long = filters.CharFilter(field_name='gps__longitude', lookup_expr='icontains')
     elevation = filters.CharFilter(field_name='gps__elevation', lookup_expr='icontains')
 
+    habitat = filters.CharFilter(field_name='habitat', lookup_expr='icontains')
+
     class Meta:
         model = SpecimenRecord
         fields = [
