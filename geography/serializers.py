@@ -8,8 +8,9 @@ class GPSSerializer(Serializer):
 
 class LocalitySerializer(Serializer):
     id = IntField()
-    get_locality = Field(call=True, required=False)
-    range_and_town = Field(call=True, required=False)
+    name = StrField()
+    range = StrField()
+    town = StrField()
     # places_collected = GPSSerializer(many=True, attr="places_collected.all", call=True, required=False)
 
 class CountySerializer(Serializer):
