@@ -15,7 +15,7 @@ class LocalitySerializer(Serializer):
 class CountySerializer(Serializer):
     id = IntField()
     name = StrField()
-    county_abbr = Field(call=True)
+    county_abbr = StrField()
 
 class StateSerializer(Serializer):
     id = IntField()

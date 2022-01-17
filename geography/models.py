@@ -33,13 +33,17 @@ class County(models.Model):
     state = models.ForeignKey(State, on_delete=models.CASCADE,
         related_name='counties', help_text='Select the county\'s state')
     name = models.CharField(max_length=50, help_text='Enter the name of the county')
+    county_abbr = models.CharField(default='', max_length=50)
     localities = GenericRelation('Locality')
     
     class Meta:
         ordering = ['name']
         verbose_name_plural = 'Counties'
+
+    def __str__(self):
+        return f'{self.name}'
     
-    def county_abbr(self):
+    def render_county_abbr(self):
         if self.state.name == 'Alaska' and 'Census' not in self.name:
             return f'{self.name} Boro.'
         elif self.state.name == 'Alaska' and 'Census' in self.name:
@@ -48,9 +52,10 @@ class County(models.Model):
             return f'{self.name} Par.'
         else:
             return f'{self.name} Co.'
-    
-    def __str__(self):
-        return f'{self.name}'
+
+    def save(self, *args, **kwargs):
+        self.county_abbr = self.render_county_abbr()
+        super(County, self).save(*args, **kwargs)
 
 class Locality(models.Model):
     content_type = models.ForeignKey(ContentType, limit_choices_to={
