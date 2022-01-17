@@ -66,34 +66,17 @@ class Locality(models.Model):
         }, on_delete=models.CASCADE, default='')
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
-    name = models.CharField(max_length=100, help_text='Enter the locality\'s name', null=True, blank=True)
-    range = models.CharField(max_length=10, null=True, blank=True,
+    name = models.CharField(max_length=100, default='', help_text='Enter the locality\'s name', blank=True)
+    range = models.CharField(max_length=10, default='', blank=True,
         help_text='Enter the distance and direction of this locality from the nearest town')
-    town = models.CharField(max_length=50, null=True, blank=True, help_text='Enter the nearest town')
+    town = models.CharField(max_length=50, default='', blank=True, help_text='Enter the nearest town')
 
     class Meta:
         ordering = ['name']
         verbose_name_plural = 'Localities'
-    
-    def range_and_town(self):
-        if self.range:
-            return f'{self.range} {self.town}'
-        elif self.town:
-            return f'{self.town}'
-        else:
-            return ''
-    
-    def get_locality(self):
-        if self.name == None:
-            return ''
-        else:
-            return f'{self.name}'
 
     def __str__(self):
-        if self.name:
-            return f'{self.name}'
-        else:
-            return f'{self.town}'
+        return self.name
 
 class GPS(models.Model):
     locality = models.ForeignKey(Locality, on_delete=models.CASCADE,
