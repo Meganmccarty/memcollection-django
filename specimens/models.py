@@ -121,20 +121,20 @@ class SpecimenRecord(models.Model):
         ('December', 'December'),
     )
     METHOD = (
-        ('net', 'net'),
-        ('reared', 'reared'),
-        ('trap', 'trap'),
+        ('Net', 'Net'),
+        ('Reared', 'Reared'),
+        ('Trap', 'Trap'),
         ('UV trap', 'UV trap'),
-        ('light', 'light'),
+        ('Light', 'Light'),
         ('MV light', 'MV light'),
         ('MV light sheet', 'MV light sheet'),
         ('UV light', 'UV light'),
         ('UV light sheet', 'UV light sheet'),
         ('UV/MV light sheet', 'UV/MV light sheet'),
         ('UV/MV/LED light sheet', 'UV/MV/LED light sheet'),
-        ('bait', 'bait'),
-        ('by hand', 'by hand'),
-        ('sweep', 'sweep'),
+        ('Bait', 'Bait'),
+        ('By hand', 'By hand'),
+        ('Sweep', 'Sweep'),
     )
 
     day = models.IntegerField(null=True, blank=True,
