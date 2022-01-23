@@ -6,10 +6,10 @@ from taxonomy.models import *
 
 class Person(models.Model):
     first_name = models.CharField(max_length=50, help_text='Enter the person\'s first name')
-    middle_initial = models.CharField(max_length=1, null=True, blank=True,
+    middle_initial = models.CharField(default='', max_length=1, blank=True,
         help_text='Enter the person\'s middle initial')
     last_name = models.CharField(max_length=50, help_text='Enter the person\'s last name')
-    suffix = models.CharField(max_length=5, null=True, blank=True,
+    suffix = models.CharField(default='', max_length=5, blank=True,
         help_text='Enter a suffix, if the person has one')
     
     class Meta:
@@ -151,6 +151,8 @@ class SpecimenRecord(models.Model):
         help_text='Enter the weather conditions during the specimen\'s collection')
     temperature = models.DecimalField(max_digits=4, decimal_places=1, null=True, blank=True,
         help_text='Enter the temperature (F) during the specimen\'s collection if outdoors')
+    temp_F = models.CharField(default='', max_length=10, blank=True)
+    temp_C = models.CharField(default='', max_length=10, blank=True)
     time_of_day = models.CharField(max_length=50, null=True, blank=True,
         help_text='Enter the approximate time of the specimen\'s collection')
     habitat = RichTextField(null=True, blank=True,
@@ -262,13 +264,13 @@ class SpecimenRecord(models.Model):
             return ''
 
     DEGREE_SIGN= u'\N{DEGREE SIGN}'
-    def temp_F(self):
+    def get_temp_F(self):
         if self.temperature:
             return f'{round(self.temperature, 1)}{self.DEGREE_SIGN}F'
         else:
             return ''
 
-    def temp_C(self):
+    def get_temp_C(self):
         if self.temperature:
             celsius = (self.temperature - 32) * 5/9
             return f'{round(celsius, 1)}{self.DEGREE_SIGN}C'
@@ -277,6 +279,11 @@ class SpecimenRecord(models.Model):
 
     def __str__(self):
         return f'{self.usi}'
+    
+    def save(self, *args, **kwargs):
+        self.temp_F = self.get_temp_F()
+        self.temp_C = self.get_temp_C()
+        super(SpecimenRecord, self).save(*args, **kwargs)
 
 class SpecimenRecordImage(models.Model):
     image = models.FileField(upload_to='specimen-photos')
