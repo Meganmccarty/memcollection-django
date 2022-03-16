@@ -143,6 +143,9 @@ class SpecimenRecord(models.Model):
         help_text='Select the month the specimen was collected, if known')
     year = models.IntegerField(null=True, blank=True,
         help_text='Enter the year the specimen was collected, if known')
+    collected_date = models.CharField(max_length=30, blank=True)
+    full_date = models.CharField(max_length=30, blank=True)
+    num_date = models.CharField(max_length=30, blank=True)
     collector = models.ManyToManyField(Person, verbose_name='Collector(s)', related_name='specimen_collectors',
         help_text='Select the specimen\'s collector(s)')
     method = models.CharField(max_length=50, choices=METHOD, null=True, blank=True,
@@ -212,7 +215,7 @@ class SpecimenRecord(models.Model):
         else:
             return ''
     
-    def collected_date(self):
+    def get_collected_date(self):
         if self.day:
             return f'{self.day}-{self.month[0:3]}-{self.year}'
         elif self.month:
@@ -220,7 +223,7 @@ class SpecimenRecord(models.Model):
         else:
             return f'{self.year}'
     
-    def full_date(self):
+    def get_full_date(self):
         if self.day:
             return f'{self.day} {self.month} {self.year}'
         elif self.month:
@@ -228,7 +231,7 @@ class SpecimenRecord(models.Model):
         else:
             return f'{self.year}'
     
-    def num_date(self):
+    def get_num_date(self):
         month = self.month
 
         if month:
@@ -281,6 +284,9 @@ class SpecimenRecord(models.Model):
         return f'{self.usi}'
     
     def save(self, *args, **kwargs):
+        self.collected_date = self.get_collected_date()
+        self.full_date = self.get_full_date()
+        self.num_date = self.get_num_date()
         self.temp_F = self.get_temp_F()
         self.temp_C = self.get_temp_C()
         super(SpecimenRecord, self).save(*args, **kwargs)
