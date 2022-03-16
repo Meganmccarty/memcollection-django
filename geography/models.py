@@ -76,7 +76,10 @@ class Locality(models.Model):
         verbose_name_plural = 'Localities'
 
     def __str__(self):
-        return self.name
+        if self.name:
+            return self.name
+        else:
+            return f'-- {self.range} {self.town}'
 
 class GPS(models.Model):
     locality = models.ForeignKey(Locality, on_delete=models.CASCADE,
