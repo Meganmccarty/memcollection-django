@@ -1,5 +1,6 @@
 import datetime
 from django.db import models
+from django.core.serializers.json import DjangoJSONEncoder
 from ckeditor.fields import RichTextField
 from geography.models import *
 from taxonomy.models import *
@@ -49,6 +50,7 @@ class SpecimenRecord(models.Model):
         help_text='Select the specimen\'s species')
     subspecies = models.ForeignKey(Subspecies, on_delete=models.SET_NULL, null=True, blank=True,
         help_text='Select the specimen\'s subspecies')
+    subspecies_json = models.JSONField(default=dict, encoder=DjangoJSONEncoder)
     
     # Specimen details
     SEX = (
@@ -165,6 +167,22 @@ class SpecimenRecord(models.Model):
     class Meta:
         ordering = ['usi']
     
+    def convert_to_json(self, field):
+        if field is self.subspecies or self.species:
+            return {
+                "name": field,
+                "authority": field.authority,
+                "common_name": field.common_name,
+                "mona": field.mona,
+                "p3": field.p3
+            }
+        else:
+            return {
+                "name": field,
+                "authority": field.authority,
+                "common_name": field.common_name
+            }
+
     def taxon(self):
         if self.subspecies:
             return {
@@ -284,6 +302,7 @@ class SpecimenRecord(models.Model):
         return f'{self.usi}'
     
     def save(self, *args, **kwargs):
+        self.subspecies_json = self.convert_to_json(self.subspecies)
         self.collected_date = self.get_collected_date()
         self.full_date = self.get_full_date()
         self.num_date = self.get_num_date()
