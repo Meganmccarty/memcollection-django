@@ -10,6 +10,7 @@ class SpecimenRecordFilter(filters.FilterSet):
     species = filters.CharFilter(field_name='species__name', lookup_expr='icontains')
     subspecies = filters.CharFilter(field_name='subspecies__name', lookup_expr='icontains')
     taxon = filters.CharFilter(field_name='taxon_json__name', lookup_expr='icontains')
+    common_name = filters.CharFilter(field_name='taxon_json__common_name', lookup_expr='icontains')
     
     determiner_lastname = filters.CharFilter(field_name='determiner__last_name', lookup_expr='icontains')
     determiner_firstname = filters.CharFilter(field_name='determiner__first_name', lookup_expr='icontains')
