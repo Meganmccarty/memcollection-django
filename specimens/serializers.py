@@ -27,7 +27,7 @@ class SpecimenRecordSerializer(Serializer):
     species_json = Field(required=False, call=False)
     subspecies_json = Field(required=False, call=False)
 
-    taxon = Field(call=True)
+    taxon_json = Field(call=False)
     display_determiner = Field(call=True)
     determined_year = IntField(required=False)
     sex = StrField()
