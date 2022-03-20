@@ -57,6 +57,7 @@ class SpecimenRecord(models.Model):
     genus_json = models.JSONField(default=dict, encoder=DjangoJSONEncoder)
     species_json = models.JSONField(default=dict, encoder=DjangoJSONEncoder)
     subspecies_json = models.JSONField(default=dict, encoder=DjangoJSONEncoder)
+    taxon_json = models.JSONField(default=dict, encoder=DjangoJSONEncoder)
     
     # Specimen details
     SEX = (
@@ -176,6 +177,7 @@ class SpecimenRecord(models.Model):
     def convert_to_json(self):
         if self.order:
             self.order_json = {
+                "id": self.order.id,
                 "name": self.order.name,
                 "authority": self.order.authority,
                 "common_name": self.order.common_name
@@ -183,6 +185,7 @@ class SpecimenRecord(models.Model):
 
         if self.family:
             self.family_json = {
+                "id": self.family.id,
                 "name": self.family.name,
                 "authority": self.family.authority,
                 "common_name": self.family.common_name
@@ -190,6 +193,7 @@ class SpecimenRecord(models.Model):
         
         if self.subfamily:
             self.subfamily_json = {
+                "id": self.subfamily.id,
                 "name": self.subfamily.name,
                 "authority": self.subfamily.authority,
                 "common_name": self.subfamily.common_name
@@ -197,6 +201,7 @@ class SpecimenRecord(models.Model):
         
         if self.tribe:
             self.tribe_json = {
+                "id": self.tribe.id,
                 "name": self.tribe.name,
                 "authority": self.tribe.authority,
                 "common_name": self.tribe.common_name
@@ -204,6 +209,7 @@ class SpecimenRecord(models.Model):
         
         if self.genus:
             self.genus_json = {
+                "id": self.genus.id,
                 "name": self.genus.name,
                 "authority": self.genus.authority,
                 "common_name": self.genus.common_name
@@ -211,6 +217,7 @@ class SpecimenRecord(models.Model):
         
         if self.species:
             self.species_json = {
+                "id": self.species.id,
                 "name": self.species.name,
                 "authority": self.species.authority,
                 "common_name": self.species.common_name,
@@ -220,6 +227,7 @@ class SpecimenRecord(models.Model):
         
         if self.subspecies:
             self.subspecies_json = {
+                "id": self.subspecies.id,
                 "name": self.subspecies.name,
                 "authority": self.subspecies.authority,
                 "common_name": self.subspecies.common_name,
@@ -229,50 +237,57 @@ class SpecimenRecord(models.Model):
 
     def taxon(self):
         if self.subspecies:
-            return {
-                "name": f'{self.genus_json["name"]} {self.species_json["name"]} {self.subspecies_json["name"]}',
-                "authority": f'{self.subspecies_json["authority"]}',
-                "common_name": f'{self.subspecies_json["common_name"]}',
-                "mona": self.subspecies_json["mona"],
-                "p3": self.subspecies_json["p3"]
+            self.taxon_json = {
+                "id": self.subspecies.id,
+                "name": f'{self.genus.name} {self.species.name} {self.subspecies.name}',
+                "authority": self.subspecies.authority,
+                "common_name": self.subspecies.common_name,
+                "mona": self.subspecies.mona,
+                "p3": self.subspecies.p3
             }
         elif self.species:
-            return {
-                "name": f'{self.genus_json["name"]} {self.species_json["name"]}',
-                "authority": f'{self.species_json["authority"]}',
-                "common_name": f'{self.species_json["common_name"]}',
-                "mona": self.species_json["mona"],
-                "p3": self.species_json["p3"]
+            self.taxon_json = {
+                "id": self.species.id,
+                "name": f'{self.genus.name} {self.species.name}',
+                "authority": self.species.authority,
+                "common_name": self.species.common_name,
+                "mona": self.species.mona,
+                "p3": self.species.p3
             }
         elif self.genus:
-            return {
-                "name": f'{self.genus_json["name"]}',
-                "authority": f'{self.genus_json["authority"]}',
-                "common_name": f'{self.genus_json["common_name"]}'
+            self.taxon_json = {
+                "id": self.genus.id,
+                "name": self.genus.name,
+                "authority": self.genus.authority,
+                "common_name": self.genus.common_name
             }
         elif self.tribe:
-            return {
-                "name": f'{self.tribe_json["name"]}',
-                "authority": f'{self.tribe_json["authority"]}',
-                "common_name": f'{self.tribe_json["common_name"]}'
+            self.taxon_json = {
+                "id": self.tribe.id,
+                "name": self.tribe.name,
+                "authority": self.tribe.authority,
+                "common_name": self.tribe.common_name
             }
         elif self.subfamily:
-            return {
-                "name": f'{self.subfamily_json["name"]}',
-                "authority": f'{self.subfamily_json["authority"]}',
-                "common_name": f'{self.subfamily_json["common_name"]}'
+            self.taxon_json = {
+                "id": self.subfamily.id,
+                "name": self.subfamily.name,
+                "authority": self.subfamily.authority,
+                "common_name": self.subfamily.common_name
             }
         elif self.family:
-            return {
-                "name": f'{self.family_json["name"]}',
-                "authority": f'{self.family_json["authority"]}',
-                "common_name": f'{self.family_json["common_name"]}'
+            self.taxon_json = {
+                "id": self.family.id,
+                "name": self.family.name,
+                "authority": self.family.authority,
+                "common_name": self.family.common_name
             }
         elif self.order:
-            return {
-                "name": f'{self.order_json["name"]}',
-                "authority": f'{self.order_json["authority"]}',
-                "common_name": f'{self.order_json["common_name"]}'
+            self.taxon_json = {
+                "id": self.order.id,
+                "name": self.order.name,
+                "authority": self.order.authority,
+                "common_name": self.order.common_name
             }
         else:
             return ''
@@ -347,6 +362,7 @@ class SpecimenRecord(models.Model):
     
     def save(self, *args, **kwargs):
         self.convert_to_json()
+        self.taxon()
         self.collected_date = self.get_collected_date()
         self.full_date = self.get_full_date()
         self.num_date = self.get_num_date()
