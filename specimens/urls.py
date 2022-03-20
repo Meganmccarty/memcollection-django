@@ -9,6 +9,5 @@ router.register(r'specimen-records', SpecimenRecordViewSet)
 router.register(r'specimen-record-images', SpecimenRecordImageViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),
-    path('specimen-records', cache_page(60 * 15)(SpecimenRecordViewSet))
+    path('', include(router.urls))
 ]
