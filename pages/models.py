@@ -7,15 +7,15 @@ class SpeciesPage(models.Model):
     species = models.OneToOneField(Species, on_delete=models.SET_NULL, null=True,
         related_name='species_page', help_text='Select the species for this page')
     title = models.SlugField(default='', null=True, blank=True, max_length=100)
-    taxonomy = RichTextField(null=True, blank=True, help_text='Enter taxonomy details')
-    description = RichTextField(null=True, blank=True, help_text='Enter species description')
-    distribution = RichTextField(null=True, blank=True, help_text='Enter distribution details')
-    seasonality = RichTextField(null=True, blank=True, help_text='Enter seasonality details')
-    habitat = RichTextField(null=True, blank=True, help_text='Enter the species\' habitat')
-    food = RichTextField(null=True, blank=True, help_text='Enter info larval and adult food sources')
-    life_cycle = RichTextField(null=True, blank=True, help_text='Enter details about the life cycle')
+    taxonomy = RichTextField(default='', blank=True, help_text='Enter taxonomy details')
+    description = RichTextField(default='', blank=True, help_text='Enter species description')
+    distribution = RichTextField(default='', blank=True, help_text='Enter distribution details')
+    seasonality = RichTextField(default='', blank=True, help_text='Enter seasonality details')
+    habitat = RichTextField(default='', blank=True, help_text='Enter the species\' habitat')
+    food = RichTextField(default='', blank=True, help_text='Enter info larval and adult food sources')
+    life_cycle = RichTextField(default='', blank=True, help_text='Enter details about the life cycle')
     references = models.ManyToManyField('Reference', blank=True, related_name='species_pages',
-        help_text='Enter citations used to write the info in the preciding fields')
+        help_text='Enter citations used to write the info in the presiding fields')
 
     class Meta:
         ordering = ['species']
@@ -57,33 +57,6 @@ class SpeciesPage(models.Model):
             "common_name": f'{self.species.genus.tribe.subfamily.family.order.common_name}',
             "authority": f'{self.species.genus.tribe.subfamily.family.order.authority}'
         }
-    
-    def get_not_none_field(self, field):
-        if field is None:
-            return ''
-        else:
-            return field
-    
-    def get_taxonomy(self):
-        return self.get_not_none_field(self.taxonomy)
-    
-    def get_description(self):
-        return self.get_not_none_field(self.description)
-    
-    def get_distribution(self):
-        return self.get_not_none_field(self.distribution)
-    
-    def get_seasonality(self):
-        return self.get_not_none_field(self.seasonality)
-    
-    def get_habitat(self):
-        return self.get_not_none_field(self.habitat)
-    
-    def get_food(self):
-        return self.get_not_none_field(self.food)
-    
-    def get_life_cycle(self):
-        return self.get_not_none_field(self.life_cycle)
     
     def display_refs(self):
         return ', '.join([str(references.title) for references in self.references.all()])
