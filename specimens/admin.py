@@ -23,6 +23,10 @@ class SpecimenRecordAdmin(admin.ModelAdmin):
         'labels_printed', 'labeled', 'photographed', 'identified'
     )
 
+    list_filter = ('labels_printed', 'labeled', 'photographed', 'identified')
+
+    search_fields = ('usi',)
+
     fieldsets = (
         ('Specimen Details', {
             'fields': [
