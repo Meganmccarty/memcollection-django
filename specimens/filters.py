@@ -2,13 +2,13 @@ from django_filters import rest_framework as filters
 from specimens.models import SpecimenRecord, SpecimenRecordImage
 
 class SpecimenRecordFilter(filters.FilterSet):
-    order = filters.CharFilter(field_name='order__name', lookup_expr='icontains')
-    family = filters.CharFilter(field_name='family__name', lookup_expr='icontains')
-    subfamily = filters.CharFilter(field_name='subfamily__name', lookup_expr='icontains')
-    tribe = filters.CharFilter(field_name='tribe__name', lookup_expr='icontains')
-    genus = filters.CharFilter(field_name='genus__name', lookup_expr='icontains')
-    species = filters.CharFilter(field_name='species__name', lookup_expr='icontains')
-    subspecies = filters.CharFilter(field_name='subspecies__name', lookup_expr='icontains')
+    order = filters.CharFilter(field_name='order_json__name', lookup_expr='icontains')
+    family = filters.CharFilter(field_name='family_json__name', lookup_expr='icontains')
+    subfamily = filters.CharFilter(field_name='subfamily_json__name', lookup_expr='icontains')
+    tribe = filters.CharFilter(field_name='tribe_json__name', lookup_expr='icontains')
+    genus = filters.CharFilter(field_name='genus_json__name', lookup_expr='icontains')
+    species = filters.CharFilter(field_name='species_json__name', lookup_expr='icontains')
+    subspecies = filters.CharFilter(field_name='subspecies_json__name', lookup_expr='icontains')
     taxon = filters.CharFilter(field_name='taxon_json__name', lookup_expr='icontains')
     common_name = filters.CharFilter(field_name='taxon_json__common_name', lookup_expr='icontains')
     
@@ -28,6 +28,7 @@ class SpecimenRecordFilter(filters.FilterSet):
     gps_long = filters.CharFilter(field_name='gps__longitude', lookup_expr='icontains')
     elevation = filters.CharFilter(field_name='gps__elevation', lookup_expr='icontains')
 
+    full_date = filters.CharFilter(field_name='full_date', lookup_expr='icontains')
     method = filters.CharFilter(field_name='method', lookup_expr='icontains')
     weather = filters.CharFilter(field_name='weather', lookup_expr='icontains')
     temperature = filters.CharFilter(field_name='temperature', lookup_expr='icontains')
