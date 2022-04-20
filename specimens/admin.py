@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 from specimens.models import *
 
 @admin.register(Person)
@@ -8,8 +10,19 @@ class PersonAdmin(admin.ModelAdmin):
 
 @admin.register(SpecimenRecord)
 class SpecimenRecordAdmin(admin.ModelAdmin):
-    list_display = ('usi', 'order', 'family', 'genus', 'species', 'sex', 'stage', 'preparation', 'method', 'collecting_trip', 'country', 'state', 'county',
-        'locality', 'collected_date', 'display_collectors')
+    list_display = (
+        'usi', 'order', 'family', 'subfamily', 'tribe', 'genus', 'species', 'subspecies',
+        'determiner', 'determined_year', 'sex', 'stage', 'preparer', 'preparation', 'preparation_date',
+        'labels_printed', 'labeled', 'photographed', 'identified',
+        'collecting_trip', 'country', 'state', 'county', 'locality', 'gps', 'collected_date',
+        'display_collectors', 'method', 'weather', 'temp_F', 'time_of_day', 'get_habitat', 'notes'
+    )
+    
+    list_editable = (
+        'determined_year', 'sex', 'stage', 'preparation', 'preparation_date',
+        'labels_printed', 'labeled', 'photographed', 'identified'
+    )
+
     fieldsets = (
         ('Specimen Details', {
             'fields': [
@@ -25,6 +38,12 @@ class SpecimenRecordAdmin(admin.ModelAdmin):
             ]
         }),
     )
+
+    @admin.display(description='Habitat')
+    def get_habitat(self, obj):
+        return format_html('{}',
+            mark_safe(obj.habitat)
+        )
 
     def get_queryset(self, request):
         qs = super(SpecimenRecordAdmin, self).get_queryset(request)
