@@ -86,13 +86,13 @@ class SpecimenRecord(models.Model):
     determiner = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='specimen_determiners',
         null=True, blank=True, help_text='Select the person who determined the specimen')
     determined_year = models.IntegerField(null=True, blank=True, help_text='Enter the year the determination was made')
-    sex = models.CharField(max_length=10, null=True, choices=SEX, default='unknown',
+    sex = models.CharField(max_length=10, choices=SEX, default='unknown',
         help_text='Select the specimen\'s sex')
-    stage = models.CharField(max_length=10, null=True, choices=STAGE, default='adult',
+    stage = models.CharField(max_length=10, choices=STAGE, default='adult',
         help_text='Select the specimen\'s stage')
     preparer = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='specimen_preparers',
         null=True, help_text='Select the person who prepared the specimen')
-    preparation = models.CharField(null=True, max_length=15, choices=PREPARATION_TYPE, default='spread',
+    preparation = models.CharField(max_length=15, choices=PREPARATION_TYPE, default='spread',
         help_text='Select the specimen\'s preparation type')
     preparation_date = models.DateField(null=True, blank=True, help_text='Enter the preparation date')
     labels_printed = models.BooleanField(null=True, help_text='Are labels printed for the specimen?')
@@ -148,7 +148,7 @@ class SpecimenRecord(models.Model):
 
     day = models.IntegerField(null=True, blank=True,
         help_text='Enter the day the specimen was collected, if known')
-    month = models.CharField(max_length=10, choices=MONTH, null=True, blank=True,
+    month = models.CharField(max_length=10, choices=MONTH, default='', blank=True,
         help_text='Select the month the specimen was collected, if known')
     year = models.IntegerField(null=True, blank=True,
         help_text='Enter the year the specimen was collected, if known')
@@ -157,138 +157,89 @@ class SpecimenRecord(models.Model):
     num_date = models.CharField(max_length=30, blank=True)
     collector = models.ManyToManyField(Person, verbose_name='Collector(s)', related_name='specimen_collectors',
         help_text='Select the specimen\'s collector(s)')
-    method = models.CharField(max_length=50, choices=METHOD, null=True, blank=True,
+    method = models.CharField(max_length=50, choices=METHOD, default='', blank=True,
         help_text='Select the method used to collected the specimen')
-    weather = models.CharField(max_length=100, null=True, blank=True,
+    weather = models.CharField(max_length=100, default='', blank=True,
         help_text='Enter the weather conditions during the specimen\'s collection')
     temperature = models.DecimalField(max_digits=4, decimal_places=1, null=True, blank=True,
         help_text='Enter the temperature (F) during the specimen\'s collection if outdoors')
     temp_F = models.CharField(default='', max_length=10, blank=True)
     temp_C = models.CharField(default='', max_length=10, blank=True)
-    time_of_day = models.CharField(max_length=50, null=True, blank=True,
+    time_of_day = models.CharField(max_length=50, default='', blank=True,
         help_text='Enter the approximate time of the specimen\'s collection')
-    habitat = RichTextField(null=True, blank=True,
+    habitat = RichTextField(default='', blank=True,
         help_text='Enter habitat details where the specimen was collected')
-    notes = RichTextField(null=True, blank=True, help_text='Enter any other notes about the specimen')
+    notes = RichTextField(default='', blank=True, help_text='Enter any other notes about the specimen')
 
     class Meta:
         ordering = ['usi']
     
+    def higher_taxon_obj(self, field):
+        obj = {
+            "id": field.id,
+            "name": field.name,
+            "authority": field.authority,
+            "common_name": field.common_name
+        }
+        return obj
+    
+    def lower_taxon_obj(self, field):
+        obj = {
+            "id": field.id,
+            "name": field.name,
+            "authority": field.authority,
+            "common_name": field.common_name,
+            "mona": field.mona,
+            "p3": field.p3
+        }
+        return obj
+
     def convert_to_json(self):
         if self.order:
-            self.order_json = {
-                "id": self.order.id,
-                "name": self.order.name,
-                "authority": self.order.authority,
-                "common_name": self.order.common_name
-            }
+            self.order_json = self.higher_taxon_obj(self.order)
 
         if self.family:
-            self.family_json = {
-                "id": self.family.id,
-                "name": self.family.name,
-                "authority": self.family.authority,
-                "common_name": self.family.common_name
-            }
+            self.family_json = self.higher_taxon_obj(self.family)
         
         if self.subfamily:
-            self.subfamily_json = {
-                "id": self.subfamily.id,
-                "name": self.subfamily.name,
-                "authority": self.subfamily.authority,
-                "common_name": self.subfamily.common_name
-            }
+            self.subfamily_json = self.higher_taxon_obj(self.subfamily)
         
         if self.tribe:
-            self.tribe_json = {
-                "id": self.tribe.id,
-                "name": self.tribe.name,
-                "authority": self.tribe.authority,
-                "common_name": self.tribe.common_name
-            }
+            self.tribe_json = self.higher_taxon_obj(self.tribe)
         
         if self.genus:
-            self.genus_json = {
-                "id": self.genus.id,
-                "name": self.genus.name,
-                "authority": self.genus.authority,
-                "common_name": self.genus.common_name
-            }
+            self.genus_json = self.higher_taxon_obj(self.genus)
         
         if self.species:
-            self.species_json = {
-                "id": self.species.id,
-                "name": self.species.name,
-                "authority": self.species.authority,
-                "common_name": self.species.common_name,
-                "mona": self.species.mona,
-                "p3": self.species.p3
-            }
+            self.species_json = self.lower_taxon_obj(self.species)
         
         if self.subspecies:
-            self.subspecies_json = {
-                "id": self.subspecies.id,
-                "name": self.subspecies.name,
-                "authority": self.subspecies.authority,
-                "common_name": self.subspecies.common_name,
-                "mona": self.subspecies.mona,
-                "p3": self.subspecies.p3
-            }
+            self.subspecies_json = self.lower_taxon_obj(self.subspecies)
 
     def taxon(self):
         if self.subspecies:
-            self.taxon_json = {
-                "id": self.subspecies.id,
-                "name": f'{self.genus.name} {self.species.name} {self.subspecies.name}',
-                "authority": self.subspecies.authority,
-                "common_name": self.subspecies.common_name,
-                "mona": self.subspecies.mona,
-                "p3": self.subspecies.p3
-            }
+            self.taxon_json = self.lower_taxon_obj(self.subspecies)
+            self.taxon_json["name"] = f'{self.genus.name} {self.species.name} {self.subspecies.name}'
+                
         elif self.species:
-            self.taxon_json = {
-                "id": self.species.id,
-                "name": f'{self.genus.name} {self.species.name}',
-                "authority": self.species.authority,
-                "common_name": self.species.common_name,
-                "mona": self.species.mona,
-                "p3": self.species.p3
-            }
+            self.taxon_json = self.lower_taxon_obj(self.species)
+            self.taxon_json["name"] = f'{self.genus.name} {self.species.name}'
+               
         elif self.genus:
-            self.taxon_json = {
-                "id": self.genus.id,
-                "name": self.genus.name,
-                "authority": self.genus.authority,
-                "common_name": self.genus.common_name
-            }
+            self.taxon_json = self.higher_taxon_obj(self.genus)
+
         elif self.tribe:
-            self.taxon_json = {
-                "id": self.tribe.id,
-                "name": self.tribe.name,
-                "authority": self.tribe.authority,
-                "common_name": self.tribe.common_name
-            }
+            self.taxon_json = self.higher_taxon_obj(self.tribe)
+
         elif self.subfamily:
-            self.taxon_json = {
-                "id": self.subfamily.id,
-                "name": self.subfamily.name,
-                "authority": self.subfamily.authority,
-                "common_name": self.subfamily.common_name
-            }
+            self.taxon_json = self.higher_taxon_obj(self.subfamily)
+        
         elif self.family:
-            self.taxon_json = {
-                "id": self.family.id,
-                "name": self.family.name,
-                "authority": self.family.authority,
-                "common_name": self.family.common_name
-            }
+            self.taxon_json = self.higher_taxon_obj(self.family)
+
         elif self.order:
-            self.taxon_json = {
-                "id": self.order.id,
-                "name": self.order.name,
-                "authority": self.order.authority,
-                "common_name": self.order.common_name
-            }
+            self.taxon_json = self.higher_taxon_obj(self.order)
+            
         else:
             return ''
     
