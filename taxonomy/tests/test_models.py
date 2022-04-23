@@ -46,7 +46,7 @@ class TestSubfamilyModel(TestCase):
         subfamily_papilioninae = factories.SubfamilyFactory()
         self.assertEqual(subfamily_papilioninae.__str__(), 'Papilioninae')
     
-    def test_subfamily_belongs_to_order(self):
+    def test_subfamily_belongs_to_family(self):
         subfamily_papilioninae = factories.SubfamilyFactory()
         self.assertEqual(subfamily_papilioninae.family.name, 'Papilionidae')
 
