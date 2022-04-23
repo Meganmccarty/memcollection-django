@@ -43,3 +43,18 @@ class TestCountyModel(TestCase):
         self.assertEqual(borough.render_county_abbr(), 'Fairbanks N. Star Boro.')
         self.assertEqual(area.render_county_abbr(), 'Yukon-Koyukuk Census Area')
         self.assertEqual(parish.render_county_abbr(), 'Allen Par.')
+
+class TestLocalityModel(TestCase):
+    """Tests for Locality Model"""
+
+    def test_locality_under_country_with_name_only(self):
+        locality = factories.LocalityUnderCountry(name='Carolina Biological Supply Company', range='', town='')
+        self.assertEqual(locality.__str__(), 'Carolina Biological Supply Company')
+    
+    def test_locality_under_country_with_town_only(self):
+        locality = factories.LocalityUnderCountry(name='', range='', town='Mexico City')
+        self.assertEqual(locality.__str__(), '--,  Mexico City')
+    
+    def test_locality_under_country_with_range_and_town(self):
+        locality = factories.LocalityUnderCountry(name='', range='2 km NW', town='Gainesville')
+        self.assertEqual(locality.__str__(), '--, 2 km NW Gainesville')
