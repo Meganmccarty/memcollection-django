@@ -8,3 +8,11 @@ class CountryFactory(DjangoModelFactory):
     
     name = 'United States of America'
     abbr = 'USA'
+
+class StateFactory(DjangoModelFactory):
+    class Meta:
+        model = State
+    
+    country = SubFactory(CountryFactory)
+    name = 'Indiana'
+    abbr = 'IN'
