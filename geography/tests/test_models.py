@@ -64,3 +64,27 @@ class TestLocalityModel(TestCase):
     def test_locality_under_country_with_range_and_town(self):
         locality = factories.LocalityUnderCountryFactory(name='', range='2 km NW', town='Gainesville')
         self.assertEqual(locality.__str__(), '--, 2 km NW Gainesville')
+    
+    def test_locality_under_state_with_name_only(self):
+        locality = factories.LocalityUnderStateFactory(name='Rosemount Park', range='', town='')
+        self.assertEqual(locality.__str__(), 'Rosemount Park')
+    
+    def test_locality_under_state_with_town_only(self):
+        locality = factories.LocalityUnderStateFactory(name='', range='', town='Continential')
+        self.assertEqual(locality.__str__(), '--,  Continential')
+    
+    def test_locality_under_state_with_range_and_town(self):
+        locality = factories.LocalityUnderStateFactory(name='', range='10 km N', town='Continential')
+        self.assertEqual(locality.__str__(), '--, 10 km N Continential')
+    
+    def test_locality_under_county_with_name_only(self):
+        locality = factories.LocalityUnderCountyFactory(name='Noxubee National Wildlife Refuge', range='', town='')
+        self.assertEqual(locality.__str__(), 'Noxubee National Wildlife Refuge')
+    
+    def test_locality_under_county_with_town_only(self):
+        locality = factories.LocalityUnderCountyFactory(name='', range='', town='Continentially')
+        self.assertEqual(locality.__str__(), '--,  Continentially')
+    
+    def test_locality_under_county_with_range_and_town(self):
+        locality = factories.LocalityUnderCountyFactory(name='', range='10 km W', town='Patriot')
+        self.assertEqual(locality.__str__(), '--, 10 km W Patriot')
