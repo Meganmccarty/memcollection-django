@@ -31,17 +31,23 @@ class TestCountyModel(TestCase):
         county_switzerland = factories.CountyFactory()
         self.assertEqual(county_switzerland.state.name, 'Indiana')
     
-    def test_render_county_abbr(self):
+    def test_render_county_abbr_for_county(self):
         county = factories.CountyFactory()
-        alaska = factories.StateFactory(name='Alaska')
-        louisiana = factories.StateFactory(name='Louisiana')
-        borough = factories.CountyFactory(name='Fairbanks N. Star', state=alaska)
-        area = factories.CountyFactory(name='Yukon-Koyukuk Census Area', state=alaska)
-        parish = factories.CountyFactory(name='Allen', state=louisiana)
-
         self.assertEqual(county.render_county_abbr(), 'Switzerland Co.')
+    
+    def test_render_county_abbr_for_borough(self):
+        alaska = factories.StateFactory(name='Alaska')
+        borough = factories.CountyFactory(name='Fairbanks N. Star', state=alaska)
         self.assertEqual(borough.render_county_abbr(), 'Fairbanks N. Star Boro.')
+    
+    def test_render_county_abbr_for_area(self):
+        alaska = factories.StateFactory(name='Alaska')
+        area = factories.CountyFactory(name='Yukon-Koyukuk Census Area', state=alaska)
         self.assertEqual(area.render_county_abbr(), 'Yukon-Koyukuk Census Area')
+    
+    def test_render_county_abbr_for_parish(self):
+        louisiana = factories.StateFactory(name='Louisiana')
+        parish = factories.CountyFactory(name='Allen', state=louisiana)
         self.assertEqual(parish.render_county_abbr(), 'Allen Par.')
 
 class TestLocalityModel(TestCase):
