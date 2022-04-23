@@ -3,7 +3,7 @@ from taxonomy import factories
 from taxonomy.models import TaxonomyBaseInfo, Order, Family, Subfamily, Tribe, Genus, Species, Subspecies
 
 class TestOrderModel(TestCase):
-    "Tests for Order Model"
+    """Tests for Order Model"""
 
     def test_order_subclasses_from_taxonomybase(self):
         self.assertTrue(issubclass(Order, TaxonomyBaseInfo))
@@ -13,7 +13,7 @@ class TestOrderModel(TestCase):
         self.assertEqual(order_lepidoptera.__str__(), 'Lepidoptera')
 
 class TestFamilyModel(TestCase):
-    "Tests for Family Model"
+    """Tests for Family Model"""
 
     def test_family_subclasses_from_taxonomybase(self):
         self.assertTrue(issubclass(Family, TaxonomyBaseInfo))
@@ -37,7 +37,7 @@ class TestFamilyModel(TestCase):
         self.assertIn(f'{family_papilionidae.image}', family_papilionidae.get_image_url())
 
 class TestSubfamilyModel(TestCase):
-    "Tests for Subfamily Model"
+    """Tests for Subfamily Model"""
 
     def test_subfamily_subclasses_from_taxonomybase(self):
         self.assertTrue(issubclass(Subfamily, TaxonomyBaseInfo))
@@ -51,7 +51,7 @@ class TestSubfamilyModel(TestCase):
         self.assertEqual(subfamily_papilioninae.family.name, 'Papilionidae')
 
 class TestTribeModel(TestCase):
-    "Tests for Tribe Model"
+    """Tests for Tribe Model"""
 
     def test_tribe_subclasses_from_taxonomybase(self):
         self.assertTrue(issubclass(Tribe, TaxonomyBaseInfo))
@@ -65,7 +65,7 @@ class TestTribeModel(TestCase):
         self.assertEqual(tribe_papilionini.subfamily.name, 'Papilioninae')
 
 class TestGenusModel(TestCase):
-    "Tests for Genus Model"
+    """Tests for Genus Model"""
 
     def test_genus_subclasses_from_taxonomybase(self):
         self.assertTrue(issubclass(Genus, TaxonomyBaseInfo))
@@ -79,7 +79,7 @@ class TestGenusModel(TestCase):
         self.assertEqual(genus_papilio.tribe.name, 'Papilionini')
 
 class TestSpeciesModel(TestCase):
-    "Tests for Species Model"
+    """Tests for Species Model"""
 
     def test_species_subclasses_from_taxonomybase(self):
         self.assertTrue(issubclass(Species, TaxonomyBaseInfo))
@@ -97,7 +97,7 @@ class TestSpeciesModel(TestCase):
         self.assertEqual(species_machaon.genus.name, 'Papilio')
 
 class TestSubspeciesModel(TestCase):
-    "Tests for Subspecies Model"
+    """Tests for Subspecies Model"""
 
     def test_subspecies_subclasses_from_taxonomybase(self):
         self.assertTrue(issubclass(Subspecies, TaxonomyBaseInfo))
