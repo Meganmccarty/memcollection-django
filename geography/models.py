@@ -79,7 +79,7 @@ class Locality(models.Model):
         if self.name:
             return self.name
         else:
-            return f'-- {self.range} {self.town}'
+            return f'--, {self.range} {self.town}'
 
 class GPS(models.Model):
     locality = models.ForeignKey(Locality, on_delete=models.CASCADE,
