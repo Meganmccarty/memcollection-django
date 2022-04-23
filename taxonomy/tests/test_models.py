@@ -77,3 +77,21 @@ class TestGenusModel(TestCase):
     def test_genus_belongs_to_tribe(self):
         genus_papilio = factories.GenusFactory()
         self.assertEqual(genus_papilio.tribe.name, 'Papilionini')
+
+class TestSpeciesModel(TestCase):
+    "Tests for Species Model"
+
+    def test_species_subclasses_from_taxonomybase(self):
+        self.assertTrue(issubclass(Species, TaxonomyBaseInfo))
+    
+    def test_species_str_equals_name(self):
+        species_machaon = factories.SpeciesFactory()
+        self.assertEqual(species_machaon.__str__(), 'machaon')
+    
+    def test_get_binomial(self):
+        species_machaon = factories.SpeciesFactory()
+        self.assertEqual(species_machaon.get_binomial(), 'Papilio machaon')    
+    
+    def test_species_belongs_to_genus(self):
+        species_machaon = factories.SpeciesFactory()
+        self.assertEqual(species_machaon.genus.name, 'Papilio')
