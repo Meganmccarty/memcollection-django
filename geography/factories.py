@@ -16,3 +16,10 @@ class StateFactory(DjangoModelFactory):
     country = SubFactory(CountryFactory)
     name = 'Indiana'
     abbr = 'IN'
+
+class CountyFactory(DjangoModelFactory):
+    class Meta:
+        model = County
+    
+    state = SubFactory(StateFactory)
+    name = 'Switzerland'
