@@ -1,5 +1,7 @@
-from factory import SubFactory
+from ast import Sub
+from factory import SubFactory, SelfAttribute, LazyAttribute
 from factory.django import DjangoModelFactory
+from django.contrib.contenttypes.models import ContentType
 from geography.models import Country, State, County, Locality, GPS, CollectingTrip
 
 class CountryFactory(DjangoModelFactory):
@@ -23,3 +25,36 @@ class CountyFactory(DjangoModelFactory):
     
     state = SubFactory(StateFactory)
     name = 'Switzerland'
+
+class BaseLocalityFactory(DjangoModelFactory):
+    class Meta:
+        abstract = True
+        exclude = ['content_object']
+
+    object_id = SelfAttribute('content_object.id')
+    content_type = LazyAttribute(
+        lambda o: ContentType.objects.get_for_model(o.content_object)
+    )
+
+class LocalityUnderCountyFactory(BaseLocalityFactory):
+    class Meta:
+        model = Locality
+    
+    content_object = SubFactory(CountyFactory)
+    name = 'Boone Robinson Rd'
+    range = '4 km NW'
+    town = 'Patriot'
+
+class LocalityUnderStateFactory(BaseLocalityFactory):
+    class Meta:
+        model = Locality
+    
+    content_object = SubFactory(StateFactory)
+    name = 'Big Oaks National Wildlife Refuge'
+
+class LocalityUnderCountry(BaseLocalityFactory):
+    class Meta:
+        model = Locality
+    
+    content_object = SubFactory(CountryFactory)
+    name = 'Carolina Biological Supply Company'
