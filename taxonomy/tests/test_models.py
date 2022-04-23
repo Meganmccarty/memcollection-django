@@ -63,3 +63,17 @@ class TestTribeModel(TestCase):
     def test_tribe_belongs_to_subfamily(self):
         tribe_papilionini = factories.TribeFactory()
         self.assertEqual(tribe_papilionini.subfamily.name, 'Papilioninae')
+
+class TestGenusModel(TestCase):
+    "Tests for Genus Model"
+
+    def test_genus_subclasses_from_taxonomybase(self):
+        self.assertTrue(issubclass(Genus, TaxonomyBaseInfo))
+    
+    def test_genus_str_equals_name(self):
+        genus_papilio = factories.GenusFactory()
+        self.assertEqual(genus_papilio.__str__(), 'Papilio')
+    
+    def test_genus_belongs_to_tribe(self):
+        genus_papilio = factories.GenusFactory()
+        self.assertEqual(genus_papilio.tribe.name, 'Papilionini')
