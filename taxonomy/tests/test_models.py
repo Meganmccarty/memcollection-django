@@ -95,3 +95,21 @@ class TestSpeciesModel(TestCase):
     def test_species_belongs_to_genus(self):
         species_machaon = factories.SpeciesFactory()
         self.assertEqual(species_machaon.genus.name, 'Papilio')
+
+class TestSubspeciesModel(TestCase):
+    "Tests for Subspecies Model"
+
+    def test_subspecies_subclasses_from_taxonomybase(self):
+        self.assertTrue(issubclass(Subspecies, TaxonomyBaseInfo))
+    
+    def test_subspecies_str_equals_name(self):
+        subspecies_bairdii = factories.SubspeciesFactory()
+        self.assertEqual(subspecies_bairdii.__str__(), 'bairdii')
+    
+    def test_get_trinomial(self):
+        subspecies_bairdii = factories.SubspeciesFactory()
+        self.assertEqual(subspecies_bairdii.get_trinomial(), 'Papilio machaon bairdii')    
+    
+    def test_subspecies_belongs_to_species(self):
+        subspecies_bairdii = factories.SubspeciesFactory()
+        self.assertEqual(subspecies_bairdii.species.name, 'machaon')
