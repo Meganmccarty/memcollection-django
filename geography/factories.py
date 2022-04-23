@@ -52,7 +52,7 @@ class LocalityUnderStateFactory(BaseLocalityFactory):
     content_object = SubFactory(StateFactory)
     name = 'Big Oaks National Wildlife Refuge'
 
-class LocalityUnderCountry(BaseLocalityFactory):
+class LocalityUnderCountryFactory(BaseLocalityFactory):
     class Meta:
         model = Locality
     
