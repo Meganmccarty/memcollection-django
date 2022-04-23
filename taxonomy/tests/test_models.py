@@ -35,3 +35,17 @@ class TestFamilyModel(TestCase):
             image = 'butterfly.jpg',
         )
         self.assertIn(f'{family_papilionidae.image}', family_papilionidae.get_image_url())
+
+class TestSubfamilyModel(TestCase):
+    "Tests for Subfamily Model"
+
+    def test_subfamily_subclasses_from_taxonomybase(self):
+        self.assertTrue(issubclass(Subfamily, TaxonomyBaseInfo))
+    
+    def test_subfamily_str_equals_name(self):
+        subfamily_papilioninae = factories.SubfamilyFactory()
+        self.assertEqual(subfamily_papilioninae.__str__(), 'Papilioninae')
+    
+    def test_subfamily_belongs_to_order(self):
+        subfamily_papilioninae = factories.SubfamilyFactory()
+        self.assertEqual(subfamily_papilioninae.family.name, 'Papilionidae')
