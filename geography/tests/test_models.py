@@ -108,3 +108,17 @@ class TestGPSModel(TestCase):
     def test_gps_str_equals_norm_coors(self):
         gps = factories.GPSFactory()
         self.assertEqual(gps.__str__(), '38.99334 -109.123456')
+
+class TestCollectingTripModel(TestCase):
+    """Tests for CollectingTrip Model"""
+
+    def test_collectingtrip_str_equals_name(self):
+        trip = factories.CollectingTripFactory()
+        self.assertEqual(trip.__str__(), 'Texas Trip')
+    
+    def test_collectingtrip_states_str(self):
+        texas = factories.StateFactory(name='Texas')
+        louisiana = factories.StateFactory(name='Louisiana')
+        oklahoma = factories.StateFactory(name='Oklahoma')
+        trip = factories.CollectingTripFactory(states=(texas, louisiana, oklahoma))
+        self.assertEqual(trip.states_collected(), 'Louisiana, Oklahoma, Texas')
