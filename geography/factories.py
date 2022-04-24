@@ -1,5 +1,7 @@
+import datetime
+
 from decimal import Decimal
-from factory import SubFactory, SelfAttribute, LazyAttribute
+from factory import SubFactory, SelfAttribute, LazyAttribute, post_generation
 from factory.django import DjangoModelFactory
 from django.contrib.contenttypes.models import ContentType
 from geography.models import Country, State, County, Locality, GPS, CollectingTrip
@@ -67,3 +69,21 @@ class GPSFactory(DjangoModelFactory):
     latitude = Decimal('38.993340')
     longitude = Decimal('-109.1234560')
     elevation = 1500
+
+class CollectingTripFactory(DjangoModelFactory):
+    class Meta:
+        model = CollectingTrip
+    
+    name = 'Texas Trip'
+    start_date = datetime.date(2001, 4, 17)
+    end_date = datetime.date(2001, 4, 23)
+    notes = 'We visited lots of places and caught lots of things!'
+
+    @post_generation
+    def states(self, create, extracted, **kwargs):
+        if not create:
+            return
+        
+        if extracted:
+            for state in extracted:
+                self.states.add(state)
