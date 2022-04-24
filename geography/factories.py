@@ -1,4 +1,4 @@
-from ast import Sub
+from decimal import Decimal
 from factory import SubFactory, SelfAttribute, LazyAttribute
 from factory.django import DjangoModelFactory
 from django.contrib.contenttypes.models import ContentType
@@ -58,3 +58,12 @@ class LocalityUnderCountryFactory(BaseLocalityFactory):
     
     content_object = SubFactory(CountryFactory)
     name = 'Carolina Biological Supply Company'
+
+class GPSFactory(DjangoModelFactory):
+    class Meta:
+        model = GPS
+    
+    locality = SubFactory(LocalityUnderCountyFactory)
+    latitude = Decimal('38.993340')
+    longitude = Decimal('-109.1234560')
+    elevation = 1500
