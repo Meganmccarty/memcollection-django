@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.test import TestCase
 from geography import factories
 from geography.models import Country, State, County, Locality, GPS, CollectingTrip
@@ -88,3 +89,22 @@ class TestLocalityModel(TestCase):
     def test_locality_under_county_with_range_and_town(self):
         locality = factories.LocalityUnderCountyFactory(name='', range='10 km W', town='Patriot')
         self.assertEqual(locality.__str__(), '--, 10 km W Patriot')
+
+class TestGPSModel(TestCase):
+    """Tests for GPS Model"""
+
+    def test_normalize_latitude(self):
+        gps = factories.GPSFactory()
+        self.assertEqual(gps.normalize_latitude(), Decimal('38.99334'))
+    
+    def test_normalize_longitude(self):
+        gps = factories.GPSFactory()
+        self.assertEqual(gps.normalize_longitude(), Decimal('-109.123456'))
+    
+    def test_add_m_to_elevation(self):
+        gps = factories.GPSFactory()
+        self.assertEqual(gps.elevation_and_meters(), '1500m')
+    
+    def test_gps_str_equals_norm_coors(self):
+        gps = factories.GPSFactory()
+        self.assertEqual(gps.__str__(), '38.99334 -109.123456')
