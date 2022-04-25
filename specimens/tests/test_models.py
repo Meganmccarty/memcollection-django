@@ -5,47 +5,34 @@ from geography.models import CollectingTrip, Country, State, County, Locality, G
 from specimens.models import Person, SpecimenRecord, SpecimenRecordImage
 from taxonomy.models import Order, Family, Subfamily, Tribe, Genus, Species, Subspecies
 
+from specimens import factories
+
 class PersonTestCase(TestCase):
-    def setUp(self):
-        Person.objects.create(first_name="Joe", middle_initial="M", last_name="Smith", suffix="Jr.")
-        Person.objects.create(first_name="Jane", middle_initial="A", last_name="Doe")
-        Person.objects.create(first_name="Tim", last_name="Johnson")
-    
+    """Tests for Person Model"""
+
     def test_get_middle_initial(self):
-        joe = Person.objects.get(first_name="Joe")
-        jane = Person.objects.get(first_name="Jane")
-        tim = Person.objects.get(first_name="Tim")
-
-        self.assertEqual(joe.get_middle_initial(), " M.")
-        self.assertEqual(jane.get_middle_initial(), " A.")
-        self.assertEqual(tim.get_middle_initial(), "")
-
-    def test_get_suffix(self):
-        joe = Person.objects.get(first_name="Joe")
-        jane = Person.objects.get(first_name="Jane")
-        tim = Person.objects.get(first_name="Tim")
-
-        self.assertEqual(joe.get_suffix(), ", Jr.")
-        self.assertEqual(jane.get_suffix(), "")
-        self.assertEqual(tim.get_suffix(), "")
+        megan = factories.PersonFactory()
+        doe = factories.PersonFactory(first_name='John', middle_initial='', last_name='Doe')
+        self.assertEqual(megan.get_middle_initial(), ' E.')
+        self.assertEqual(doe.get_middle_initial(), '')
     
-    def test_colletor_name(self):
-        joe = Person.objects.get(first_name="Joe")
-        jane = Person.objects.get(first_name="Jane")
-        tim = Person.objects.get(first_name="Tim")
-
-        self.assertEqual(joe.collector_name(), "J. Smith, Jr.")
-        self.assertEqual(jane.collector_name(), "J. Doe")
-        self.assertEqual(tim.collector_name(), "T. Johnson")
-
-    def test_string(self):
-        joe = Person.objects.get(first_name="Joe")
-        jane = Person.objects.get(first_name="Jane")
-        tim = Person.objects.get(first_name="Tim")
-
-        self.assertEqual(joe.__str__(), "Joe M. Smith, Jr.")
-        self.assertEqual(jane.__str__(), "Jane A. Doe")
-        self.assertEqual(tim.__str__(), "Tim Johnson")
+    def test_get_suffix(self):
+        megan = factories.PersonFactory()
+        doe = factories.PersonFactory(first_name='John', middle_initial='', last_name='Doe', suffix='Jr.')
+        self.assertEqual(megan.get_suffix(), '')
+        self.assertEqual(doe.get_suffix(), ' Jr.')
+    
+    def test_collector_name(self):
+        megan = factories.PersonFactory()
+        doe = factories.PersonFactory(first_name='John', middle_initial='', last_name='Doe', suffix='Jr.')
+        self.assertEqual(megan.collector_name(), 'M. McCarty')
+        self.assertEqual(doe.collector_name(), 'J. Doe Jr.')
+    
+    def test_person_str_equals_full_name(self):
+        megan = factories.PersonFactory()
+        doe = factories.PersonFactory(first_name='John', middle_initial='', last_name='Doe', suffix='Jr.')
+        self.assertEqual(megan.__str__(), 'Megan E. McCarty')
+        self.assertEqual(doe.__str__(), 'John Doe Jr.')
 
 class SpecimenRecordTestCase(TestCase):
     def setUp(self):
