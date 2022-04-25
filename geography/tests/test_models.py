@@ -1,7 +1,6 @@
 from decimal import Decimal
 from django.test import TestCase
 from geography import factories
-from geography.models import Country, State, County, Locality, GPS, CollectingTrip
 
 class TestCountryModel(TestCase):
     """Tests for Country Model"""
