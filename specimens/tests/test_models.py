@@ -1,3 +1,4 @@
+from contextlib import nullcontext
 from django.db.models.query_utils import subclasses
 from django.test import TestCase
 from django.contrib.contenttypes.models import ContentType
@@ -36,6 +37,31 @@ class PersonTestCase(TestCase):
 
 class SpecimenRecordTestCase(TestCase):
     """Tests for SpecimenRecord Model"""
+    
+    def test_convert_to_json(self):
+        specimen_species = SpecimenRecordFactory(subspecies=None)
+        specimen_genus = SpecimenRecordFactory(species=None, subspecies=None)
+
+        self.assertEqual(
+            specimen_species.convert_to_json(),
+            {
+                'id': specimen_species.species.id,
+                'name': 'machaon',
+                'authority': 'Linnaeus, 1758',
+                'common_name': 'Old World Swallowtail',
+                'mona': 4166.00,
+                'p3': 770298.00 
+            }
+        )
+        self.assertEqual(
+            specimen_genus.convert_to_json(),
+            {
+                'id': specimen_genus.genus.id,
+                'name': 'Papilio',
+                'authority': 'Linnaeus, 1758',
+                'common_name': ''
+            }
+        )
 
     def test_generating_lowest_taxon_level(self):
         specimen_subspecies = SpecimenRecordFactory()
