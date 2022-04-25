@@ -220,25 +220,32 @@ class SpecimenRecord(models.Model):
         if self.subspecies:
             self.taxon_json = self.lower_taxon_obj(self.subspecies)
             self.taxon_json["name"] = f'{self.genus.name} {self.species.name} {self.subspecies.name}'
+            return self.taxon_json
                 
         elif self.species:
             self.taxon_json = self.lower_taxon_obj(self.species)
             self.taxon_json["name"] = f'{self.genus.name} {self.species.name}'
+            return self.taxon_json
                
         elif self.genus:
             self.taxon_json = self.higher_taxon_obj(self.genus)
+            return self.taxon_json
 
         elif self.tribe:
             self.taxon_json = self.higher_taxon_obj(self.tribe)
+            return self.taxon_json
 
         elif self.subfamily:
             self.taxon_json = self.higher_taxon_obj(self.subfamily)
+            return self.taxon_json
         
         elif self.family:
             self.taxon_json = self.higher_taxon_obj(self.family)
+            return self.taxon_json
 
         elif self.order:
             self.taxon_json = self.higher_taxon_obj(self.order)
+            return self.taxon_json
             
         else:
             return ''
