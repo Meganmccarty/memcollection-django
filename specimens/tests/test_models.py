@@ -5,32 +5,32 @@ from geography.models import CollectingTrip, Country, State, County, Locality, G
 from specimens.models import Person, SpecimenRecord, SpecimenRecordImage
 from taxonomy.models import Order, Family, Subfamily, Tribe, Genus, Species, Subspecies
 
-from specimens import factories
+from specimens.factories import PersonFactory
 
 class PersonTestCase(TestCase):
     """Tests for Person Model"""
 
     def test_get_middle_initial(self):
-        megan = factories.PersonFactory()
-        doe = factories.PersonFactory(first_name='John', middle_initial='', last_name='Doe')
+        megan = PersonFactory()
+        doe = PersonFactory(first_name='John', middle_initial='', last_name='Doe')
         self.assertEqual(megan.get_middle_initial(), ' E.')
         self.assertEqual(doe.get_middle_initial(), '')
     
     def test_get_suffix(self):
-        megan = factories.PersonFactory()
-        doe = factories.PersonFactory(first_name='John', middle_initial='', last_name='Doe', suffix='Jr.')
+        megan = PersonFactory()
+        doe = PersonFactory(first_name='John', middle_initial='', last_name='Doe', suffix='Jr.')
         self.assertEqual(megan.get_suffix(), '')
         self.assertEqual(doe.get_suffix(), ' Jr.')
     
     def test_collector_name(self):
-        megan = factories.PersonFactory()
-        doe = factories.PersonFactory(first_name='John', middle_initial='', last_name='Doe', suffix='Jr.')
+        megan = PersonFactory()
+        doe = PersonFactory(first_name='John', middle_initial='', last_name='Doe', suffix='Jr.')
         self.assertEqual(megan.collector_name(), 'M. McCarty')
         self.assertEqual(doe.collector_name(), 'J. Doe Jr.')
     
     def test_person_str_equals_full_name(self):
-        megan = factories.PersonFactory()
-        doe = factories.PersonFactory(first_name='John', middle_initial='', last_name='Doe', suffix='Jr.')
+        megan = PersonFactory()
+        doe = PersonFactory(first_name='John', middle_initial='', last_name='Doe', suffix='Jr.')
         self.assertEqual(megan.__str__(), 'Megan E. McCarty')
         self.assertEqual(doe.__str__(), 'John Doe Jr.')
 
