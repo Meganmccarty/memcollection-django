@@ -21,7 +21,7 @@ class Person(models.Model):
         return f' {self.middle_initial}.' if self.middle_initial else ''
     
     def get_suffix(self):
-        return f', {self.suffix}' if self.suffix else ''
+        return f' {self.suffix}' if self.suffix else ''
 
     def collector_name(self):
         first_initial = self.first_name[0]
