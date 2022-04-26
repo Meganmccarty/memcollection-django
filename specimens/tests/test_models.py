@@ -99,7 +99,35 @@ class SpecimenRecordTestCase(TestCase):
                 'authority': 'Linnaeus, 1758'
             }
         )
+    
+    def test_get_collected_date(self):
+        specimen_year = SpecimenRecordFactory(year=2004)
+        specimen_year_month = SpecimenRecordFactory(year=2000, month='January')
+        specimen_year_month_day = SpecimenRecordFactory(year=2001, month='February', day=15)
 
+        self.assertEqual(specimen_year.get_collected_date(), '2004')
+        self.assertEqual(specimen_year_month.get_collected_date(), 'January 2000')
+        self.assertEqual(specimen_year_month_day.get_collected_date(), '15-Feb-2001')
+    
+    def test_get_full_date(self):
+        specimen_year = SpecimenRecordFactory(year=2004)
+        specimen_year_month = SpecimenRecordFactory(year=2000, month='January')
+        specimen_year_month_day = SpecimenRecordFactory(year=2001, month='February', day=15)
+
+        self.assertEqual(specimen_year.get_full_date(), '2004')
+        self.assertEqual(specimen_year_month.get_full_date(), 'January 2000')
+        self.assertEqual(specimen_year_month_day.get_full_date(), '15 February 2001')
+    
+    def test_get_num_date(self):
+        specimen_year = SpecimenRecordFactory(year=2004)
+        specimen_year_month = SpecimenRecordFactory(year=2000, month='January')
+        specimen_year_month_day_15 = SpecimenRecordFactory(year=2001, month='February', day=15)
+        specimen_year_month_day_1 = SpecimenRecordFactory(year=2001, month='October', day=1)
+
+        self.assertEqual(specimen_year.get_num_date(), '2004')
+        self.assertEqual(specimen_year_month.get_num_date(), '2000-01')
+        self.assertEqual(specimen_year_month_day_15.get_num_date(), '2001-02-15')
+        self.assertEqual(specimen_year_month_day_1.get_num_date(), '2001-10-01')
 
     # def setUp(self):
     #     joe = Person.objects.create(first_name="Joe", middle_initial="M", last_name="Smith", suffix="Jr.")
@@ -162,35 +190,6 @@ class SpecimenRecordTestCase(TestCase):
     #         state=indiana, county=switzerland, locality=boone_robinson, day=24, month="November", year=2018, method="net"
     #     )
     #     specimen4.collector.set([joe])
-    
-    # def test_collected_date(self):
-    #     specimen1 = SpecimenRecord.objects.get(usi="MEM-Test-01")
-    #     specimen2 = SpecimenRecord.objects.get(usi="MEM-Test-02")
-    #     specimen3 = SpecimenRecord.objects.get(usi="MEM-Test-03")
-
-    #     self.assertEqual(specimen1.collected_date(), "2-Jul-2015")
-    #     self.assertEqual(specimen2.collected_date(), "June 2017")
-    #     self.assertEqual(specimen3.collected_date(), "2020")
-    
-    # def test_full_date(self):
-    #     specimen1 = SpecimenRecord.objects.get(usi="MEM-Test-01")
-    #     specimen2 = SpecimenRecord.objects.get(usi="MEM-Test-02")
-    #     specimen3 = SpecimenRecord.objects.get(usi="MEM-Test-03")
-
-    #     self.assertEqual(specimen1.full_date(), "2 July 2015")
-    #     self.assertEqual(specimen2.full_date(), "June 2017")
-    #     self.assertEqual(specimen3.full_date(), "2020")
-    
-    # def test_num_date(self):
-    #     specimen1 = SpecimenRecord.objects.get(usi="MEM-Test-01")
-    #     specimen2 = SpecimenRecord.objects.get(usi="MEM-Test-02")
-    #     specimen3 = SpecimenRecord.objects.get(usi="MEM-Test-03")
-    #     specimen4 = SpecimenRecord.objects.get(usi="MEM-Test-04")
-
-    #     self.assertEqual(specimen1.num_date(), "2015-07-02")
-    #     self.assertEqual(specimen2.num_date(), "2017-06")
-    #     self.assertEqual(specimen3.num_date(), "2020")
-    #     self.assertEqual(specimen4.num_date(), "2018-11-24")
     
     # def test_display_collectors(self):
     #     specimen1 = SpecimenRecord.objects.get(usi="MEM-Test-01")
