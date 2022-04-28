@@ -1,4 +1,4 @@
-from factory import SubFactory
+from factory import SubFactory, post_generation
 from factory.django import DjangoModelFactory
 from geography.factories import (
     CountryFactory,
@@ -43,3 +43,12 @@ class SpecimenRecordFactory(DjangoModelFactory):
 
     preparer = SubFactory(PersonFactory)
     determiner = SubFactory(PersonFactory)
+
+    @post_generation
+    def collector(self, create, extracted, **kwargs):
+        if not create:
+            return
+        
+        if extracted:
+            for person in extracted:
+                self.collector.add(person)
