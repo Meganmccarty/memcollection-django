@@ -134,7 +134,15 @@ class SpecimenRecordTestCase(TestCase):
         self.assertEqual(specimen_year_month.get_num_date(), '2000-01')
         self.assertEqual(specimen_year_month_day_15.get_num_date(), '2001-02-15')
         self.assertEqual(specimen_year_month_day_1.get_num_date(), '2001-10-01')
+    
+    def test_display_preparer(self):
+        specimen_preparer = SpecimenRecordFactory()
+        self.assertEqual(specimen_preparer.display_preparer(), 'Megan McCarty')
 
+    def test_display_determiner(self):
+        specimen_determiner= SpecimenRecordFactory()
+        self.assertEqual(specimen_determiner.display_determiner(), 'Megan McCarty')
+    
     # def setUp(self):
     #     joe = Person.objects.create(first_name="Joe", middle_initial="M", last_name="Smith", suffix="Jr.")
     #     jane = Person.objects.create(first_name="Jane", middle_initial="A", last_name="Doe")
@@ -205,20 +213,6 @@ class SpecimenRecordTestCase(TestCase):
     #     self.assertEqual(specimen1.display_collectors(), "J. Doe, T. Johnson, J. Smith, Jr.")
     #     self.assertEqual(specimen2.display_collectors(), "J. Doe")
     #     self.assertEqual(specimen3.display_collectors(), "T. Johnson, J. Smith, Jr.")
-
-    # def test_display_preparer(self):
-    #     specimen1 = SpecimenRecord.objects.get(usi="MEM-Test-01")
-    #     specimen4 = SpecimenRecord.objects.get(usi="MEM-Test-04")
-
-    #     self.assertEqual(specimen1.display_preparer(), "Joe Smith, Jr.")
-    #     self.assertEqual(specimen4.display_preparer(), "")
-    
-    # def test_display_determiner(self):
-    #     specimen3 = SpecimenRecord.objects.get(usi="MEM-Test-03")
-    #     specimen4 = SpecimenRecord.objects.get(usi="MEM-Test-04")
-
-    #     self.assertEqual(specimen3.display_determiner(), "Tim Johnson")
-    #     self.assertEqual(specimen4.display_determiner(), "")
     
     # def test_temp_F(self):
     #     specimen1 = SpecimenRecord.objects.get(usi="MEM-Test-01")
