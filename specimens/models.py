@@ -26,6 +26,9 @@ class Person(models.Model):
     def collector_name(self):
         first_initial = self.first_name[0]
         return f'{first_initial}. {self.last_name}{self.get_suffix()}'
+    
+    def get_name(self):
+        return f'{self.first_name} {self.last_name}{self.get_suffix()}'
 
     def __str__(self):
         return f'{self.first_name}{self.get_middle_initial()} {self.last_name}{self.get_suffix()}'
@@ -298,13 +301,13 @@ class SpecimenRecord(models.Model):
     
     def display_preparer(self):
         if self.preparer:
-            return f'{self.preparer.first_name} {self.preparer.last_name}{self.preparer.get_suffix()}'
+            return f'{self.preparer.get_name()}'
         else:
             return ''
     
     def display_determiner(self):
         if self.determiner:
-            return f'{self.determiner.first_name} {self.determiner.last_name}{self.determiner.get_suffix()}'
+            return f'{self.determiner.get_name()}'
         else:
             return ''
 
