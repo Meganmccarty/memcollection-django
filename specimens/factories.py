@@ -40,3 +40,6 @@ class SpecimenRecordFactory(DjangoModelFactory):
     genus = SubFactory(GenusFactory)
     species = SubFactory(SpeciesFactory)
     subspecies = SubFactory(SubspeciesFactory)
+
+    preparer = SubFactory(PersonFactory)
+    determiner = SubFactory(PersonFactory)
