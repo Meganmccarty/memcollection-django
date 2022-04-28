@@ -23,6 +23,12 @@ class PersonTestCase(TestCase):
         self.assertEqual(megan.get_suffix(), '')
         self.assertEqual(doe.get_suffix(), ' Jr.')
     
+    def test_get_name(self):
+        megan = PersonFactory()
+        doe = PersonFactory(first_name='John', middle_initial='', last_name='Doe', suffix='Jr.')
+        self.assertEqual(megan.get_name(), 'Megan McCarty')
+        self.assertEqual(doe.get_name(), 'John Doe Jr.')
+    
     def test_collector_name(self):
         megan = PersonFactory()
         doe = PersonFactory(first_name='John', middle_initial='', last_name='Doe', suffix='Jr.')
