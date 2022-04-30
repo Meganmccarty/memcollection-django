@@ -1,3 +1,5 @@
+import datetime
+
 from factory import SubFactory, post_generation
 from factory.django import DjangoModelFactory
 from geography.factories import (
@@ -52,3 +54,10 @@ class SpecimenRecordFactory(DjangoModelFactory):
         if extracted:
             for person in extracted:
                 self.collector.add(person)
+
+class SpecimenRecordImageFactory(DjangoModelFactory):
+    class Meta:
+        model = SpecimenRecordImage
+    
+    usi = SubFactory(SpecimenRecordFactory)
+    date = datetime.date(2001, 6, 15)
