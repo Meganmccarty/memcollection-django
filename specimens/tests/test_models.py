@@ -6,7 +6,7 @@ from geography.models import CollectingTrip, Country, State, County, Locality, G
 from specimens.models import Person, SpecimenRecord, SpecimenRecordImage
 from taxonomy.models import Order, Family, Subfamily, Tribe, Genus, Species, Subspecies
 
-from specimens.factories import PersonFactory, SpecimenRecordFactory
+from specimens.factories import PersonFactory, SpecimenRecordFactory, SpecimenRecordImageFactory
 
 class PersonTestCase(TestCase):
     """Tests for Person Model"""
@@ -164,5 +164,18 @@ class SpecimenRecordTestCase(TestCase):
         self.assertEqual(specimen.get_temp_C(), '25.6°C')
     
     def test_str_equals_usi(self):
-        specimen = SpecimenRecordFactory(usi='MEM-110000')
-        self.assertEqual(specimen.__str__(), 'MEM-110000')
+        specimen = SpecimenRecordFactory()
+        self.assertEqual(specimen.__str__(), 'MEM-100000')
+
+class SpecimenRecordImageTestCase(TestCase):
+    """Tests for SpecimenRecordImage Model"""
+
+    def test_specimen_record_image_url(self):
+        specimen_image = SpecimenRecordImageFactory(
+            image = 'butterfly.jpg',
+        )
+        self.assertIn(f'{specimen_image.image}', specimen_image.get_image_url())
+    
+    def test_specimen_record_image_str_equals_usi(self):
+        specimen = SpecimenRecordImageFactory()
+        self.assertEqual(specimen.__str__(), 'MEM-100000')
