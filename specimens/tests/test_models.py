@@ -1,11 +1,4 @@
-from contextlib import nullcontext
-from django.db.models.query_utils import subclasses
 from django.test import TestCase
-from django.contrib.contenttypes.models import ContentType
-from geography.models import CollectingTrip, Country, State, County, Locality, GPS
-from specimens.models import Person, SpecimenRecord, SpecimenRecordImage
-from taxonomy.models import Order, Family, Subfamily, Tribe, Genus, Species, Subspecies
-
 from specimens.factories import PersonFactory, SpecimenRecordFactory, SpecimenRecordImageFactory
 
 class PersonTestCase(TestCase):

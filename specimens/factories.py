@@ -2,14 +2,6 @@ import datetime
 
 from factory import SubFactory, post_generation
 from factory.django import DjangoModelFactory
-from geography.factories import (
-    CountryFactory,
-    StateFactory,
-    CountyFactory,
-    LocalityUnderCountyFactory,
-    GPSFactory,
-    CollectingTripFactory
-)
 from taxonomy.factories import (
     OrderFactory,
     FamilyFactory,
