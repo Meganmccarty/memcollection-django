@@ -155,6 +155,14 @@ class SpecimenRecordTestCase(TestCase):
         self.assertEqual(specimen2.display_collectors(), 'M. McCarty, T. Smith')
         self.assertEqual(specimen3.display_collectors(), 'J. Doe Jr., M. McCarty, T. Smith')
     
+    def test_get_temp_F(self):
+        specimen = SpecimenRecordFactory(temperature=75)
+        self.assertEqual(specimen.get_temp_F(), '75°F')
+    
+    def test_get_temp_C(self):
+        specimen = SpecimenRecordFactory(temperature=78)
+        self.assertEqual(specimen.get_temp_C(), '25.6°C')
+    
     # def setUp(self):
     #     joe = Person.objects.create(first_name="Joe", middle_initial="M", last_name="Smith", suffix="Jr.")
     #     jane = Person.objects.create(first_name="Jane", middle_initial="A", last_name="Doe")
@@ -216,26 +224,6 @@ class SpecimenRecordTestCase(TestCase):
     #         state=indiana, county=switzerland, locality=boone_robinson, day=24, month="November", year=2018, method="net"
     #     )
     #     specimen4.collector.set([joe])
-    
-    # def test_temp_F(self):
-    #     specimen1 = SpecimenRecord.objects.get(usi="MEM-Test-01")
-    #     specimen2 = SpecimenRecord.objects.get(usi="MEM-Test-02")
-    #     specimen3 = SpecimenRecord.objects.get(usi="MEM-Test-03")
-    #     DEGREE_SIGN = u'\N{DEGREE SIGN}'
-
-    #     self.assertEqual(specimen1.temp_F(), f'85.0{DEGREE_SIGN}F')
-    #     self.assertEqual(specimen2.temp_F(), f'80.0{DEGREE_SIGN}F')
-    #     self.assertEqual(specimen3.temp_F(), "")
-    
-    # def test_temp_C(self):
-    #     specimen1 = SpecimenRecord.objects.get(usi="MEM-Test-01")
-    #     specimen2 = SpecimenRecord.objects.get(usi="MEM-Test-02")
-    #     specimen3 = SpecimenRecord.objects.get(usi="MEM-Test-03")
-    #     DEGREE_SIGN = u'\N{DEGREE SIGN}'
-
-    #     self.assertEqual(specimen1.temp_C(), f'29.4{DEGREE_SIGN}C')
-    #     self.assertEqual(specimen2.temp_C(), f'26.7{DEGREE_SIGN}C')
-    #     self.assertEqual(specimen3.temp_C(), "")
 
     # def test__str__(self):
     #     specimen1 = SpecimenRecord.objects.get(usi="MEM-Test-01")
