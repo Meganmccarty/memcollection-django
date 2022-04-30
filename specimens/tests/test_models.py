@@ -143,6 +143,18 @@ class SpecimenRecordTestCase(TestCase):
         specimen_determiner= SpecimenRecordFactory()
         self.assertEqual(specimen_determiner.display_determiner(), 'Megan McCarty')
     
+    def test_display_collectors(self):
+        megan = PersonFactory()
+        doe = PersonFactory(first_name='John', middle_initial='', last_name='Doe', suffix='Jr.')
+        smith = PersonFactory(first_name='Tim', middle_initial='', last_name='Smith')
+        specimen1 = SpecimenRecordFactory(collector=(megan, ))
+        specimen2 = SpecimenRecordFactory(collector=(megan, smith))
+        specimen3 = SpecimenRecordFactory(collector=(megan, smith, doe))
+
+        self.assertEqual(specimen1.display_collectors(), 'M. McCarty')
+        self.assertEqual(specimen2.display_collectors(), 'M. McCarty, T. Smith')
+        self.assertEqual(specimen3.display_collectors(), 'J. Doe Jr., M. McCarty, T. Smith')
+    
     # def setUp(self):
     #     joe = Person.objects.create(first_name="Joe", middle_initial="M", last_name="Smith", suffix="Jr.")
     #     jane = Person.objects.create(first_name="Jane", middle_initial="A", last_name="Doe")
@@ -204,15 +216,6 @@ class SpecimenRecordTestCase(TestCase):
     #         state=indiana, county=switzerland, locality=boone_robinson, day=24, month="November", year=2018, method="net"
     #     )
     #     specimen4.collector.set([joe])
-    
-    # def test_display_collectors(self):
-    #     specimen1 = SpecimenRecord.objects.get(usi="MEM-Test-01")
-    #     specimen2 = SpecimenRecord.objects.get(usi="MEM-Test-02")
-    #     specimen3 = SpecimenRecord.objects.get(usi="MEM-Test-03")
-
-    #     self.assertEqual(specimen1.display_collectors(), "J. Doe, T. Johnson, J. Smith, Jr.")
-    #     self.assertEqual(specimen2.display_collectors(), "J. Doe")
-    #     self.assertEqual(specimen3.display_collectors(), "T. Johnson, J. Smith, Jr.")
     
     # def test_temp_F(self):
     #     specimen1 = SpecimenRecord.objects.get(usi="MEM-Test-01")
