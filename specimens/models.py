@@ -200,31 +200,31 @@ class SpecimenRecord(models.Model):
     def convert_to_json(self):
         if self.subspecies:
             self.subspecies_json = self.lower_taxon_obj(self.subspecies)
-            return self.subspecies_json
+            # return self.subspecies_json
         
         if self.species:
             self.species_json = self.lower_taxon_obj(self.species)
-            return self.species_json
+            # return self.species_json
 
         if self.genus:
             self.genus_json = self.higher_taxon_obj(self.genus)
-            return self.genus_json
+            # return self.genus_json
         
         if self.tribe:
             self.tribe_json = self.higher_taxon_obj(self.tribe)
-            return self.tribe_json
+            # return self.tribe_json
         
         if self.subfamily:
             self.subfamily_json = self.higher_taxon_obj(self.subfamily)
-            return self.subfamily_json
+            # return self.subfamily_json
         
         if self.family:
             self.family_json = self.higher_taxon_obj(self.family)
-            return self.family_json
+            # return self.family_json
         
         if self.order:
             self.order_json = self.higher_taxon_obj(self.order)
-            return self.order_json
+            # return self.order_json
 
     def taxon(self):
         if self.subspecies:
