@@ -20,7 +20,7 @@ class Family(TaxonomyBaseInfo):
     order = models.ForeignKey(Order, on_delete=models.CASCADE,
         related_name='families',
         help_text='Select the order to which this family belongs')
-    image = models.FileField(upload_to='insect-photos')
+    image = models.FileField(upload_to='insect-photos', blank=True)
     alt_text = models.TextField(blank=True, default='', help_text='Enter alternative text for the image')
     
     class Meta:
@@ -28,11 +28,7 @@ class Family(TaxonomyBaseInfo):
         verbose_name_plural = 'Families'
     
     def get_image_url(self):
-        if self.image:
-            image = self.image
-            return f'{image.url}'
-        else:
-            return ''
+        return f'{self.image.url}' if self.image else ''
 
     def __str__(self):
         return f'{self.name}'

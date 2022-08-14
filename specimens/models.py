@@ -21,11 +21,14 @@ class Person(models.Model):
         return f' {self.middle_initial}.' if self.middle_initial else ''
     
     def get_suffix(self):
-        return f', {self.suffix}' if self.suffix else ''
+        return f' {self.suffix}' if self.suffix else ''
 
     def collector_name(self):
         first_initial = self.first_name[0]
         return f'{first_initial}. {self.last_name}{self.get_suffix()}'
+    
+    def get_name(self):
+        return f'{self.first_name} {self.last_name}{self.get_suffix()}'
 
     def __str__(self):
         return f'{self.first_name}{self.get_middle_initial()} {self.last_name}{self.get_suffix()}'
@@ -194,51 +197,86 @@ class SpecimenRecord(models.Model):
         }
         return obj
 
-    def convert_to_json(self):
-        if self.order:
-            self.order_json = self.higher_taxon_obj(self.order)
+    # def convert_to_json(self):
+        # field_list = [self.subspecies, self.species, self.genus, self.tribe,
+        #               self.subfamily, self.family, self.order]
 
-        if self.family:
-            self.family_json = self.higher_taxon_obj(self.family)
+        # json_field_list = [self.subspecies_json, self.species_json, self.genus_json,
+        #                    self.tribe_json, self.subfamily_json, self.family_json,
+        #                    self.order_json]
+
+        # for i in range(0, 2):
+        #     try:
+        #         json_field_list[i] = self.lower_taxon_obj(field_list[i])
+        #         return json_field_list[i]
+        #     except:
+        #         print(f'The field is set to {field_list[i]}')
         
-        if self.subfamily:
-            self.subfamily_json = self.higher_taxon_obj(self.subfamily)
+        # for i in range(2, 7):
+        #     try:
+        #         json_field_list[i] = self.higher_taxon_obj(field_list[i])
+        #         return json_field_list[i]
+        #     except:
+        #         print(f'The field is set to {field_list[i]}')
+
+        # if self.subspecies:
+        #     self.subspecies_json = self.lower_taxon_obj(self.subspecies)
+        #     # return self.subspecies_json
         
-        if self.tribe:
-            self.tribe_json = self.higher_taxon_obj(self.tribe)
+        # if self.species:
+        #     self.species_json = self.lower_taxon_obj(self.species)
+        #     # return self.species_json
+
+        # if self.genus:
+        #     self.genus_json = self.higher_taxon_obj(self.genus)
+        #     # return self.genus_json
         
-        if self.genus:
-            self.genus_json = self.higher_taxon_obj(self.genus)
+        # if self.tribe:
+        #     self.tribe_json = self.higher_taxon_obj(self.tribe)
+        #     # return self.tribe_json
         
-        if self.species:
-            self.species_json = self.lower_taxon_obj(self.species)
+        # if self.subfamily:
+        #     self.subfamily_json = self.higher_taxon_obj(self.subfamily)
+        #     # return self.subfamily_json
         
-        if self.subspecies:
-            self.subspecies_json = self.lower_taxon_obj(self.subspecies)
+        # if self.family:
+        #     self.family_json = self.higher_taxon_obj(self.family)
+        #     # return self.family_json
+        
+        # if self.order:
+        #     self.order_json = self.higher_taxon_obj(self.order)
+        #     # return self.order_json
 
     def taxon(self):
         if self.subspecies:
             self.taxon_json = self.lower_taxon_obj(self.subspecies)
             self.taxon_json["name"] = f'{self.genus.name} {self.species.name} {self.subspecies.name}'
+            return self.taxon_json
                 
         elif self.species:
             self.taxon_json = self.lower_taxon_obj(self.species)
             self.taxon_json["name"] = f'{self.genus.name} {self.species.name}'
+            return self.taxon_json
                
         elif self.genus:
             self.taxon_json = self.higher_taxon_obj(self.genus)
+            return self.taxon_json
 
         elif self.tribe:
             self.taxon_json = self.higher_taxon_obj(self.tribe)
+            return self.taxon_json
 
         elif self.subfamily:
             self.taxon_json = self.higher_taxon_obj(self.subfamily)
+            return self.taxon_json
         
         elif self.family:
             self.taxon_json = self.higher_taxon_obj(self.family)
+            return self.taxon_json
 
         elif self.order:
             self.taxon_json = self.higher_taxon_obj(self.order)
+            return self.taxon_json
             
         else:
             return ''
@@ -284,13 +322,13 @@ class SpecimenRecord(models.Model):
     
     def display_preparer(self):
         if self.preparer:
-            return f'{self.preparer.first_name} {self.preparer.last_name}{self.preparer.get_suffix()}'
+            return f'{self.preparer.get_name()}'
         else:
             return ''
     
     def display_determiner(self):
         if self.determiner:
-            return f'{self.determiner.first_name} {self.determiner.last_name}{self.determiner.get_suffix()}'
+            return f'{self.determiner.get_name()}'
         else:
             return ''
 
@@ -312,7 +350,7 @@ class SpecimenRecord(models.Model):
         return f'{self.usi}'
     
     def save(self, *args, **kwargs):
-        self.convert_to_json()
+        # self.convert_to_json()
         self.taxon()
         self.collected_date = self.get_collected_date()
         self.full_date = self.get_full_date()
